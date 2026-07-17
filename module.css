@@ -1,1 +1,216 @@
+/* ==========================================================================
+   WHAT IF SIMULATOR - MODULE ARCHITECTURE MATRIX (module.css)
+   SPECIFICATION: APPLE RETINA HIGH-FIDELITY COMPONENT MATRIX ENGINE
+   PERFORMANCE SPECIFICATION: OFF-THREAD HARDWARE LAYER RENDERING PROTOCOL
+   ========================================================================== */
 
+/* --- 1. CORE PERFORMANCE GLOW SYSTEMS & SUB-PIXEL FILTERS --- */
+.shell-blur-active {
+    backdrop-filter: blur(40px) saturate(220%);
+    -webkit-backdrop-filter: blur(40px) saturate(220%);
+    animation: applicationBootEntrance 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.glass-bevel-neon-highlight {
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-bevel-neon-highlight::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, transparent 40%, rgba(var(--accent-glow-rgb), 0.2) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+/* Real-Time Ambient Light Injection */
+.ambient-glow-pod {
+    position: absolute;
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, rgba(var(--accent-glow-rgb), 0.22) 0%, transparent 75%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 1;
+    filter: blur(50px);
+    will-change: transform, opacity;
+    animation: ambientOrbPulse 8s infinite ease-in-out;
+}
+
+/* --- 2. VECTOR OVERRIDE STRUCTURAL MATRIX (SVG STATE ENGINE) --- */
+/* Target internal SVG nodes explicitly to dynamically morph the avatar face, body, and apparel styles */
+
+/* HAIRSTYLE 1: Classic Crown Style Archetype */
+svg[data-active-hair="classic"] #svg-element-hair-mesh {
+    d: path("M 130,200 Q 200,110 270,200 Q 285,160 260,130 Q 200,100 140,130 Q 115,160 130,200 Z") !important;
+    fill: #2d1a04 !important;
+    stroke: rgba(255, 255, 255, 0.05);
+    stroke-width: 1px;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* HAIRSTYLE 2: Cyberpunk Neon Fringe Shape Layout */
+svg[data-active-hair="neon-fringe"] #svg-element-hair-mesh {
+    d: path("M 120,180 Q 200,70 280,180 Q 295,220 255,210 Q 210,240 180,200 Q 150,240 135,200 Q 105,210 120,180 Z") !important;
+    fill: var(--accent-glow) !important;
+    filter: drop-shadow(0 0 12px rgba(var(--accent-glow-rgb), 0.6));
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* HAIRSTYLE 3: Matrix Locs Complex Geometry Splines */
+svg[data-active-hair="cyber-locs"] #svg-element-hair-mesh {
+    d: path("M 115,165 Q 200,55 285,165 L 305,300 L 290,305 L 275,185 Q 200,150 125,185 L 110,305 L 95,300 Z") !important;
+    fill: #14141f !important;
+    stroke: var(--accent-secondary);
+    stroke-width: 1.5px;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* HAIRSTYLE 4: Synthwave Pompadour Layout Wave */
+svg[data-active-hair="retro-wave"] #svg-element-hair-mesh {
+    d: path("M 115,170 Q 200,20 285,130 Q 310,185 265,185 Q 200,165 135,185 Q 95,185 115,170 Z") !important;
+    fill: var(--accent-secondary) !important;
+    filter: drop-shadow(0 0 15px rgba(var(--accent-secondary-rgb), 0.5));
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* HAIRSTYLE 5: Executive Slick Back Curve */
+svg[data-active-hair="slick-back"] #svg-element-hair-mesh {
+    d: path("M 135,160 Q 200,100 265,160 Q 275,220 260,230 Q 200,200 140,230 Q 125,220 135,160 Z") !important;
+    fill: #503d2e !important;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* HAIRSTYLE 6: Minimalist Clean Archetype (Hidden Layer Mesh) */
+svg[data-active-hair="bald"] #svg-element-hair-mesh {
+    opacity: 0 !important;
+    transform: scale(0.9) translateY(10px);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* APPAREL SUIT 1: Neo-Tokyo Casual Baseline */
+svg[data-active-outfit="minimalist"] #svg-element-outfit-base {
+    fill: #1e1e38 !important;
+    stroke: rgba(255, 255, 255, 0.1) !important;
+    stroke-width: 2px !important;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+svg[data-active-outfit="minimalist"] #svg-element-outfit-accent {
+    fill: var(--accent-secondary) !important;
+    opacity: 0.8;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* APPAREL SUIT 2: Titanium Exosuit Mechanical Overlays */
+svg[data-active-outfit="exosuit"] #svg-element-outfit-base {
+    fill: #34495e !important;
+    stroke: var(--accent-glow) !important;
+    stroke-width: 3px !important;
+    filter: drop-shadow(0 0 8px rgba(var(--accent-glow-rgb), 0.4));
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+svg[data-active-outfit="exosuit"] #svg-element-outfit-accent {
+    fill: #bdc3c7 !important;
+    opacity: 1;
+    transform: scaleY(1.2) translateY(-2px);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* APPAREL SUIT 3: Quantum Holo Cloak Field Matrix */
+svg[data-active-outfit="hologram-cloak"] #svg-element-outfit-base {
+    fill: rgba(var(--accent-glow-rgb), 0.08) !important;
+    stroke: var(--accent-glow) !important;
+    stroke-width: 1.5px !important;
+    stroke-dasharray: 6, 4;
+    animation: holoSuitGlitchPulse 3s infinite linear;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+svg[data-active-outfit="hologram-cloak"] #svg-element-outfit-accent {
+    fill: transparent !important;
+    stroke: var(--accent-secondary) !important;
+    stroke-width: 2px !important;
+}
+
+/* APPAREL SUIT 4: Dark Infiltration Shell Inversion */
+svg[data-active-outfit="stealth-mesh"] #svg-element-outfit-base {
+    fill: #05050a !important;
+    stroke: #22223b !important;
+    stroke-width: 2px !important;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+svg[data-active-outfit="stealth-mesh"] #svg-element-outfit-accent {
+    fill: #ff3333 !important;
+    opacity: 0.4;
+}
+
+/* --- 3. PREMIUM ADVANCED UTILITY INJECTIONS --- */
+.input-underline-laser-effect {
+    position: absolute;
+    bottom: 0; left: 0; width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-glow), var(--accent-secondary), transparent);
+    transform: scaleX(0);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: center;
+}
+
+.field-focus-glow:focus-within .input-underline-laser-effect {
+    transform: scaleX(1);
+}
+
+.token-engine-state {
+    background: rgba(var(--accent-glow-rgb), 0.12);
+    border: 1px solid rgba(var(--accent-glow-rgb), 0.3);
+    padding: 2px 10px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+    box-shadow: 0 0 12px rgba(var(--accent-glow-rgb), 0.2);
+    animation: stateDataFlicker 4s infinite linear;
+}
+
+.error-node-glass {
+    background: rgba(255, 59, 48, 0.08);
+    border: 1px solid rgba(255, 59, 48, 0.25);
+    border-radius: 16px;
+    padding: 24px;
+    color: #ff453a;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    box-shadow: 0 15px 35px rgba(255, 59, 48, 0.1);
+    animation: itemArrivalPop 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* --- 4. ENGINE CORE ANIMATION TIMING DRIVERS --- */
+@keyframes applicationBootEntrance {
+    0% { opacity: 0; filter: blur(20px) saturate(50%); transform: scale(1.02); }
+    100% { opacity: 1; filter: blur(0) saturate(100%); transform: scale(1); }
+}
+
+@keyframes ambientOrbPulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+    50% { transform: translate(-50%, -50%) scale(1.12); opacity: 0.95; }
+}
+
+@keyframes stateDataFlicker {
+    0%, 100% { opacity: 1; }
+    45% { opacity: 1; }
+    50% { opacity: 0.8; }
+    52% { opacity: 1; }
+    85% { opacity: 1; }
+    86% { opacity: 0.5; }
+    87% { opacity: 1; }
+}
+
+@keyframes holoSuitGlitchPulse {
+    0%, 100% { stroke-dashoffset: 0; opacity: 0.8; }
+    50% { stroke-dashoffset: 20; opacity: 1; filter: drop-shadow(0 0 4px var(--accent-glow)); }
+}

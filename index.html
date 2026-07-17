@@ -1,1 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What If | AI Dimension Simulator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="module.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
 
+    <div class="liquid-bg-container">
+        <div class="glow-orb orb-primary"></div>
+        <div class="glow-orb orb-secondary"></div>
+        <div class="glow-orb orb-tertiary"></div>
+    </div>
+
+    <div id="app-root" class="app-container">
+        
+        <header class="glass-header">
+            <div class="header-brand">
+                <span class="logo-text-glow">What If</span>
+                <span class="badge-beta">Simulation Engine v1.0</span>
+            </div>
+            
+            <div class="header-controls">
+                <button id="theme-toggle-btn" class="glass-action-btn" aria-label="Toggle Display Mode">
+                    <span class="mode-icon light-icon">☀️</span>
+                    <span class="mode-icon dark-icon">🌙</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="workspace-viewport">
+
+            <section id="stage-customizer" class="glass-card panel-active">
+                <div class="panel-header">
+                    <h2>Design Your Identity</h2>
+                    <p>Configure your digital avatar before entering the simulation matrix.</p>
+                </div>
+
+                <div class="customizer-workspace">
+                    <div class="avatar-preview-container">
+                        <div class="liquid-glass-avatar-frame">
+                            <div id="avatar-render-target" class="avatar-layers">
+                                <div class="avatar-layer skin-layer" data-color="default"></div>
+                                <div class="avatar-layer hair-layer" data-style="none"></div>
+                                <div class="avatar-layer outfit-layer" data-outfit="none"></div>
+                                <div class="avatar-layer reflection-overlay"></div>
+                            </div>
+                        </div>
+                        <div class="identity-badge">
+                            <span id="badge-display-name">Anonymous Traveler</span>
+                        </div>
+                    </div>
+
+                    <div class="customizer-controls">
+                        <div class="control-group">
+                            <label for="input-user-name" class="input-label">Identity Designation</label>
+                            <input type="text" id="input-user-name" class="glass-input" placeholder="Enter traveler name..." maxlength="25" autocomplete="off">
+                        </div>
+
+                        <div class="control-group">
+                            <span class="input-label">Melanin & Undertone</span>
+                            <div class="color-palette-grid">
+                                <button class="palette-swatch skin-swatch active" data-skin-val="#ffdbac" style="background: #ffdbac;"></button>
+                                <button class="palette-swatch skin-swatch" data-skin-val="#f1c27d" style="background: #f1c27d;"></button>
+                                <button class="palette-swatch skin-swatch" data-skin-val="#e0ac69" style="background: #e0ac69;"></button>
+                                <button class="palette-swatch skin-swatch" data-skin-val="#c68642" style="background: #c68642;"></button>
+                                <button class="palette-swatch skin-swatch" data-skin-val="#8d5524" style="background: #8d5524;"></button>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <span class="input-label">Hairstyle Synthesis</span>
+                            <div class="selection-chip-row">
+                                <button class="chip-option hair-option active" data-hair-id="classic">Classic</button>
+                                <button class="chip-option hair-option" data-hair-id="neon-fringe">Neon Fringe</button>
+                                <button class="chip-option hair-option" data-hair-id="cyber-locs">Cyber Locs</button>
+                                <button class="chip-option hair-option" data-hair-id="retro-wave">Retro Wave</button>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <span class="input-label">Equipment Layout</span>
+                            <div class="selection-chip-row">
+                                <button class="chip-option outfit-option active" data-outfit-id="minimalist">Minimalist</button>
+                                <button class="chip-option outfit-option" data-outfit-id="exosuit">Exosuit v4</button>
+                                <button class="chip-option outfit-option" data-outfit-id="hologram-cloak">Holo Cloak</button>
+                            </div>
+                        </div>
+
+                        <button id="btn-initialize-system" class="glass-submit-btn progressive-glow-trigger">
+                            <span>Initialize Quantum Core</span>
+                            <div class="btn-liquid-overlay"></div>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="stage-simulator" class="glass-card panel-hidden">
+                <div class="simulator-layout">
+                    
+                    <aside class="simulator-sidebar">
+                        <div class="profile-summary-glass">
+                            <div id="sidebar-avatar-mirror" class="avatar-mirror-frame"></div>
+                            <div class="profile-meta">
+                                <h3 id="sidebar-user-name">Traveler</h3>
+                                <span class="status-indicator-online">Core Synced</span>
+                            </div>
+                        </div>
+                        
+                        <div class="history-log-panel">
+                            <h4>Temporal Log Index</h4>
+                            <ul id="simulation-history-list" class="log-list">
+                                </ul>
+                        </div>
+                    </aside>
+
+                    <div class="simulator-main-engine">
+                        <div class="prompt-input-zone">
+                            <div class="input-glow-wrapper">
+                                <span class="prompt-prefix">WHAT IF</span>
+                                <input type="text" id="ai-simulator-input" class="glass-prompt-field" placeholder="dinosaurs never went extinct?">
+                                <button id="btn-fire-simulation" class="action-glow-btn" aria-label="Execute Query">
+                                    <span class="btn-arrow">⚡</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="simulation-output-canvas">
+                            <div id="simulation-loader" class="simulation-loader-state hidden">
+                                <div class="liquid-spinner"></div>
+                                <p class="loading-status-text">Recalibrating timeline vectors...</p>
+                            </div>
+
+                            <article id="simulation-result-display" class="simulation-result-article clear-state">
+                                <div class="placeholder-message">
+                                    <p>Enter an alternate inquiry above to rupture the primary timeline.</p>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="glass-footer">
+            <div class="footer-status-node">
+                <span class="status-node-dot active"></span>
+                <span class="status-node-label">AI Engine: Online</span>
+            </div>
+            <div class="footer-copyright">
+                <span>© 2026 What If Simulator. Matrix Architecture.</span>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

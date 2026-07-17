@@ -23,7 +23,7 @@ app.post('/api/simulate', async (req, res) => {
     // Check if the key is actually present in the environment
     if (!process.env.AI_API_KEY || process.env.AI_API_KEY === "your_actual_secret_api_key_here") {
         return res.json({ 
-            simulationResult: "[CONFIG FAULT] Your AI_API_KEY is missing or unconfigured in Render environment variables. Please check Step 2!" 
+            simulationResult: "[CONFIG FAULT] Your AI_API_KEY is missing or unconfigured in Render environment variables." 
         });
     }
 
@@ -38,9 +38,9 @@ app.post('/api/simulate', async (req, res) => {
             Prefix the output with "[Calculated Continuity Node]". Do not break character.
         `;
 
-        // Using the ultra-stable, high-speed flash model
+        // 🚀 UPGRADED TO GEN-3.5 ENGINE CAPSULE FOR LOCK-STEP STABILITY
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-3.5-flash',
             contents: engineeredPrompt,
         });
 
@@ -54,7 +54,6 @@ app.post('/api/simulate', async (req, res) => {
             aiOutputText = "[System Anomaly] Empty timeline data stream returned from cloud provider.";
         }
 
-        // Return status 200 explicitly so the frontend never drops into fallback code
         res.status(200).json({ simulationResult: aiOutputText });
 
     } catch (error) {

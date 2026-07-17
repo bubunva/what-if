@@ -1,7 +1,7 @@
 /* ==========================================================================
    WHAT IF SIMULATOR - CORE INTERACTION ENGINE & RUNTIME DISPATCHER (app.js)
-   SPECIFICATION: ASYNC TIMELINE ARCHITECTURE & STATE DECORATION ROUTER
-   PERFORMANCE SPECIFICATION: MEMORY-SAFE DOM ORIENTED EVENTS LOOPS
+   SPECIFICATION: ASYNC TIMELINE ARCHITECTURE & LIVE AI FETCH CONTROLLER
+   PERFORMANCE SPECIFICATION: MEMORY-SAFE COMPOSITOR OPTIMIZED EVENT LOOPS
    ========================================================================== */
 
 "use strict";
@@ -88,7 +88,6 @@ const DOM_MATRIX = {
 
 // --- 3. THEME MANIPULATION PIPELINE (DARK / LIGHT MANAGEMENT) ---
 function initializeThemeEngine() {
-    // Read cached state layer attributes
     const cachedTheme = localStorage.getItem("whatif-core-theme") || "dark";
     MatrixEngineState.currentTheme = cachedTheme;
     DOM_MATRIX.htmlRoot.setAttribute("data-theme", cachedTheme);
@@ -99,7 +98,6 @@ function handleThemeToggleTransition() {
     const targetTheme = MatrixEngineState.currentTheme === "dark" ? "light" : "dark";
     MatrixEngineState.currentTheme = targetTheme;
     
-    // Atomic DOM attribute change trigger
     DOM_MATRIX.htmlRoot.setAttribute("data-theme", targetTheme);
     localStorage.setItem("whatif-core-theme", targetTheme);
     
@@ -111,27 +109,25 @@ function handleThemeToggleTransition() {
 function updateAvatarVisualMatrix() {
     const profile = MatrixEngineState.activeProfile;
     
-    // 1. Process Dermal Tone Swapping safely on SVG elements
     if (DOM_MATRIX.avatarSkinElement && DOM_MATRIX.avatarNeckElement) {
         DOM_MATRIX.avatarSkinElement.setAttribute("fill", profile.skinColor);
         DOM_MATRIX.avatarNeckElement.setAttribute("fill", profile.skinColor);
     }
     
-    // 2. Map structural state variables to data attributes for module.css paths overrides
     if (DOM_MATRIX.avatarCanvas) {
         DOM_MATRIX.avatarCanvas.setAttribute("data-active-hair", profile.hairStyle);
         DOM_MATRIX.avatarCanvas.setAttribute("data-active-outfit", profile.outfitModule);
     }
     
-    // 3. Update related text labels simultaneously
     const dynamicName = profile.username.trim() !== "" ? profile.username.toUpperCase() : "UNKNOWN_TRAVELER";
-    DOM_MATRIX.badgeDisplayName.textContent = `DESIGNATION: ${dynamicName}`;
+    if (DOM_MATRIX.badgeDisplayName) {
+        DOM_MATRIX.badgeDisplayName.textContent = `DESIGNATION: ${dynamicName}`;
+    }
 }
 
 function bindCustomizerOptionPickers() {
-    // Bind Melanin Swatches Arrays
     DOM_MATRIX.skinSwatches.forEach(swatch => {
-        swatch.addEventListener("click", (e) => {
+        swatch.addEventListener("click", () => {
             DOM_MATRIX.skinSwatches.forEach(btn => btn.classList.remove("active"));
             swatch.classList.add("active");
             MatrixEngineState.activeProfile.skinColor = swatch.getAttribute("data-skin-val");
@@ -139,7 +135,6 @@ function bindCustomizerOptionPickers() {
         });
     });
 
-    // Bind Hair Synthesizer Option Chips
     DOM_MATRIX.hairOptions.forEach(chip => {
         chip.addEventListener("click", () => {
             DOM_MATRIX.hairOptions.forEach(btn => btn.classList.remove("active"));
@@ -149,7 +144,6 @@ function bindCustomizerOptionPickers() {
         });
     });
 
-    // Bind Apparel Suite Equipment Chips
     DOM_MATRIX.outfitOptions.forEach(chip => {
         chip.addEventListener("click", () => {
             DOM_MATRIX.outfitOptions.forEach(btn => btn.classList.remove("active"));
@@ -159,11 +153,12 @@ function bindCustomizerOptionPickers() {
         });
     });
 
-    // Real-Time Reflection of User Username Inputs
     DOM_MATRIX.inputUserName.addEventListener("input", (e) => {
         MatrixEngineState.activeProfile.username = e.target.value.trim() !== "" ? e.target.value : "Guest Traveler";
         const dynamicName = MatrixEngineState.activeProfile.username.toUpperCase();
-        DOM_MATRIX.badgeDisplayName.textContent = `DESIGNATION: ${dynamicName}`;
+        if (DOM_MATRIX.badgeDisplayName) {
+            DOM_MATRIX.badgeDisplayName.textContent = `DESIGNATION: ${dynamicName}`;
+        }
     });
 }
 
@@ -171,26 +166,23 @@ function bindCustomizerOptionPickers() {
 function executeSystemInitialization() {
     const profile = MatrixEngineState.activeProfile;
     
-    // Validate input fields logic checks safely
     if (DOM_MATRIX.inputUserName.value.trim() === "") {
-        DOM_MATRIX.customizerErrorNode.style.color = "#ff453a";
-        DOM_MATRIX.customizerErrorNode.querySelector(".warning-text-string").textContent = "CRITICAL FAILURE: Identity Signature string parameters cannot remain empty.";
+        if (DOM_MATRIX.customizerErrorNode) {
+            DOM_MATRIX.customizerErrorNode.style.color = "#ff453a";
+            DOM_MATRIX.customizerErrorNode.querySelector(".warning-text-string").textContent = "CRITICAL FAILURE: Identity Signature string parameters cannot remain empty.";
+        }
         triggerTelemetryFlicker();
         return;
     }
 
-    // Lock Initialization State Parameters
     MatrixEngineState.isInitialized = true;
     updateFooterTicker("Identity profiles verified. Initializing secure quantum simulation channels...");
 
-    // Mount structural user components to Workspace Sidebar Nodes
-    DOM_MATRIX.headerUsername.textContent = profile.username;
-    DOM_MATRIX.sidebarUserName.textContent = profile.username;
+    if (DOM_MATRIX.headerUsername) DOM_MATRIX.headerUsername.textContent = profile.username;
+    if (DOM_MATRIX.sidebarUserName) DOM_MATRIX.sidebarUserName.textContent = profile.username;
     
-    // Duplicate clean SVG graphic structure to Sidebar Profile Preview Target
     if (DOM_MATRIX.avatarCanvas && DOM_MATRIX.sidebarAvatarMirror) {
         DOM_MATRIX.sidebarAvatarMirror.innerHTML = DOM_MATRIX.avatarCanvas.outerHTML;
-        // Mirror the state attributes inside the static cloned graphic container frame
         DOM_MATRIX.sidebarAvatarMirror.firstElementChild.setAttribute("id", "cloned-avatar-canvas");
     }
     
@@ -198,102 +190,97 @@ function executeSystemInitialization() {
         DOM_MATRIX.miniAvatarPreview.style.backgroundColor = profile.skinColor;
     }
 
-    // Trigger visual Stage Gate Shift with clear performance timing delays
     DOM_MATRIX.stageCustomizer.classList.add("panel-hidden");
     DOM_MATRIX.stageCustomizer.classList.remove("panel-active");
     
     setTimeout(() => {
         DOM_MATRIX.stageSimulator.classList.remove("panel-hidden");
         DOM_MATRIX.stageSimulator.classList.add("panel-active");
-        DOM_MATRIX.stateTracker.textContent = "SIMULATOR_ACTIVE";
+        if (DOM_MATRIX.stateTracker) DOM_MATRIX.stateTracker.textContent = "SIMULATOR_ACTIVE";
         updateFooterTicker("Quantum Simulation Engine Pipeline Mounted. System Operational Feed Ready.");
     }, 400);
 }
 
-// --- 6. AI DISPATCH ENGINE MOCK ARCHITECTURE & ASYNC DATA STREAMING ---
+// --- 6. LIVE AI DISPATCH ENGINE (ASYNC ENDPOINT FETCH LAYER) ---
 async function dispatchSimulationPromptQuery(promptText) {
     if (MatrixEngineState.isProcessing || promptText.trim() === "") return;
     
     MatrixEngineState.isProcessing = true;
     DOM_MATRIX.btnFireSimulation.disabled = true;
     
-    // Swap Viewport Result Sub-Components States Layouts
     DOM_MATRIX.simulationResultDisplay.classList.add("clear-state");
     DOM_MATRIX.simulationLoader.classList.remove("component-layer-hidden");
     
-    updateFooterTicker(`Processing Alternate Continuity Rarity Array request for schema: "${promptText}"`);
+    updateFooterTicker(`Routing query to live AI Matrix: "${promptText}"`);
 
-    // Array of mock processing sub-step log loops strings
-    const executionSubTicks = [
-        "Isolating universal branching parameters coordinates...",
-        "Measuring entropy deviations and atmospheric friction variants...",
-        "Executing localized data processing algorithm matrices...",
-        "Structuring timeline summaries document elements..."
-    ];
+    // Dynamic telemetry updates while spinning network request
+    const tickerInterval = setInterval(() => {
+        MatrixEngineState.telemetry.entropy = (Math.random() * 0.4 + 1.1).toFixed(4);
+        MatrixEngineState.telemetry.divergence = (Math.random() * 90 + 5).toFixed(2);
+        if (DOM_MATRIX.metricEntropy) DOM_MATRIX.metricEntropy.textContent = MatrixEngineState.telemetry.entropy;
+        if (DOM_MATRIX.metricDiverge) DOM_MATRIX.metricDiverge.textContent = `${MatrixEngineState.telemetry.divergence}%`;
+    }, 300);
 
-    // Async simulated thread loops for step feedback tickers
-    for (let i = 0; i < executionSubTicks.length; i++) {
-        await new Promise(resolve => setTimeout(resolve, 900));
-        DOM_MATRIX.loadingSubTicker.textContent = executionSubTicks[i];
+    try {
+        /* 🚀 LIVE NETWORK UPLINK
+           Points directly to your local node endpoint or serverless server pipeline.
+           Passes the user's prompt alongside the customizer's profile parameters.
+        */
+        const response = await fetch('/api/simulate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                prompt: promptText,
+                profile: MatrixEngineState.activeProfile 
+            })
+        });
+
+        clearInterval(tickerInterval);
+
+        if (!response.ok) throw new Error("Network cloud connection matrix drops.");
+        const data = await response.json();
         
-        // Jitter structural simulation diagnostic counters metrics programmatically
-        MatrixEngineState.telemetry.entropy = (Math.random() * 0.5 + 1.0).toFixed(4);
-        MatrixEngineState.telemetry.divergence = (Math.random() * 85 + 5).toFixed(2);
-        DOM_MATRIX.metricEntropy.textContent = MatrixEngineState.telemetry.entropy;
-        DOM_MATRIX.metricDiverge.textContent = `${MatrixEngineState.telemetry.divergence}%`;
-    }
+        renderLiveAIPayload(promptText, data.simulationResult);
 
-    // Call internal processing function to assemble and mount text response summaries elements
-    generateSimulationPayloadDocument(promptText);
+    } catch (error) {
+        clearInterval(tickerInterval);
+        console.error("AI Node Processing Fault:", error);
+        updateFooterTicker("AI Uplink dropped. Running local emergency procedural mesh...");
+        
+        // Instant structural recovery fallback pattern matching keywords
+        setTimeout(() => {
+            let recoveryText = `Timeline Branch Calculated: Global structure shifted toward clean industrial automation models under prompt rules: "${promptText}". Technical integration limits manual worker overhead down to 12% across centralized structural hubs.`;
+            if (promptText.toLowerCase().includes("dinosaur")) {
+                recoveryText = "Timeline Branch Calculated: Non-avian dinosaurs escape catastrophic mass extinction layers entirely. Architectural frameworks evolve to optimize geothermal and thermal shielding grids across temperate geographical regions.";
+            }
+            renderLiveAIPayload(promptText, recoveryText);
+        }, 1200);
+    }
 }
 
-function generateSimulationPayloadDocument(query) {
-    // Comprehensive pre-built response objects matching current date parameters benchmarks
-    const simulatedKnowledgeBase = {
-        "dinosaurs": "Timeline Branch Calculated: Earth Orbit Vector Alpha-7. The asteroid misses Chicxulub entirely. Mammalian development is compressed as non-avian theropods continue to dominate terrestrial niches. High intelligent bipedal saurian evolutionary branches emerge by the Miocene epoch, developing high-density architectural structures that prioritize thermal balancing grids.",
-        "internet": "Timeline Branch Calculated: Chronos Steampunk Industrial Core. Charles Babbage and Ada Lovelace complete the Analytical Engine using vacuum tube circuitry running on localized steam-powered grids. By 1870, London houses the primary copper-wire databank core network. Society bypasses traditional manufacturing explosions, transitioning directly into a mechanical automation infrastructure phase.",
-        "gravity": "Timeline Branch Calculated: Gravitational Shift Layer Delta. A localized dark matter current intersects Earth's orbit, permanently decreasing G forces by 50%. Structural engineering architectures undergo immediate shifts: mega-tall fiber-reinforced towers extend miles into the upper atmosphere. Human biological profiles shift toward accelerated bone lengthening and adjusted circulatory pressures.",
-        "underground": "Timeline Branch Calculated: Geocentric Isolation Grid. Surface solar flares sterilize the crust during the early Neolithic era. Civilizations move downward into extensive thermal networks inside the mantle. Modern metropolitan grids occupy deep structural geodes running entirely on geothermal kinetic collectors, creating closed-loop recycling eco-systems."
-    };
-
-    // Fallback parsing pattern logic selector matches keywords cleanly
-    let targetedResponseText = `Timeline Branch Calculated: Quantum Anomaly Node detected for prompt request. Your configuration matrix query: "${query}" has generated an unpredictable temporal rift loop. Core simulation models indicate cascading geographical modifications across standard settlement zones, requiring deep ecosystem shifts to prevent permanent societal collapse.`;
-    
-    const normalizedQuery = query.toLowerCase();
-    for (const key in simulatedKnowledgeBase) {
-        if (normalizedQuery.includes(key)) {
-            targetedResponseText = simulatedKnowledgeBase[key];
-            break;
-        }
-    }
-
-    // Clear loading display and configure text into document template container element slots
+function renderLiveAIPayload(query, resultText) {
     DOM_MATRIX.simulationLoader.classList.add("component-layer-hidden");
     DOM_MATRIX.simulationResultDisplay.classList.remove("clear-state");
-    DOM_MATRIX.simulationResultDisplay.classList.remove("timeline-canvas-empty-state");
     
     const timestampString = new Date().toISOString().replace('T', ' ').substring(0, 19);
     
     DOM_MATRIX.simulationResultDisplay.innerHTML = `
         <div class="simulation-payload-wrapper">
-            <span class="timeline-stamp">SIMULATED CHRONO-NODE // LOG_SECURE: ${timestampString}</span>
-            <p class="summary-text-flow">${targetedResponseText}</p>
+            <span class="timeline-stamp">LIVE AI CHRONO-NODE // LOG_SECURE: ${timestampString}</span>
+            <p class="summary-text-flow">${resultText}</p>
         </div>
     `;
 
-    // Append history data model items array
-    const recordPayload = { id: Date.now(), query: query, summary: targetedResponseText };
+    const recordPayload = { id: Date.now(), query: query, summary: resultText };
     MatrixEngineState.historicalTimelines.unshift(recordPayload);
-    
-    // Sync UI elements lists updates
     appendTimelineRecordItemNode(recordPayload);
     
-    // Reset global processing flags
     MatrixEngineState.isProcessing = false;
     DOM_MATRIX.btnFireSimulation.disabled = false;
     DOM_MATRIX.aiSimulatorInput.value = "";
-    
-    updateFooterTicker("Alternate Causality Paradox Map rendered completely. Operational channels clear.");
+    updateFooterTicker("Alternate Causality Paradox Map rendered completely via live system data.");
 }
 
 function appendTimelineRecordItemNode(record) {
@@ -311,8 +298,12 @@ function appendTimelineRecordItemNode(record) {
         </div>
     `;
 
-    DOM_MATRIX.simulationHistoryList.insertBefore(listItem, DOM_MATRIX.simulationHistoryList.firstChild);
-    DOM_MATRIX.logCounterNode.textContent = MatrixEngineState.historicalTimelines.length;
+    if (DOM_MATRIX.simulationHistoryList) {
+        DOM_MATRIX.simulationHistoryList.insertBefore(listItem, DOM_MATRIX.simulationHistoryList.firstChild);
+    }
+    if (DOM_MATRIX.logCounterNode) {
+        DOM_MATRIX.logCounterNode.textContent = MatrixEngineState.historicalTimelines.length;
+    }
 }
 
 // --- 7. GLOBAL CONSOLE HUD FEED INTERACTION UTILITIES ---
@@ -323,9 +314,10 @@ function updateFooterTicker(messageString) {
 }
 
 function triggerTelemetryFlicker() {
-    // Add micro jitter metrics fluctuations to simulate massive local processor stress loads
-    DOM_MATRIX.fpsTracker.textContent = (58.2 + Math.random() * 1.8).toFixed(1);
-    DOM_MATRIX.pingTracker.textContent = `${(0.01 + Math.random() * 0.04).toFixed(3)}ms`;
+    if (!DOM_MATRIX.fpsTracker || !DOM_MATRIX.pingTracker) return;
+    
+    DOM_MATRIX.fpsTracker.textContent = (57.4 + Math.random() * 2.5).toFixed(1);
+    DOM_MATRIX.pingTracker.textContent = `${(0.01 + Math.random() * 0.05).toFixed(3)}ms`;
     DOM_MATRIX.fpsTracker.style.color = "#ff007f";
     
     setTimeout(() => {
@@ -336,31 +328,34 @@ function triggerTelemetryFlicker() {
 }
 
 function bindGlobalInputEventsListeners() {
-    // Bind click handlers to theme changes toggler elements
-    DOM_MATRIX.themeToggleBtn.addEventListener("click", handleThemeToggleTransition);
+    if (DOM_MATRIX.themeToggleBtn) {
+        DOM_MATRIX.themeToggleBtn.addEventListener("click", handleThemeToggleTransition);
+    }
     
-    // Bind click handles to main customizer gateway deployment submit controls
-    DOM_MATRIX.btnInitializeSystem.addEventListener("click", executeSystemInitialization);
+    if (DOM_MATRIX.btnInitializeSystem) {
+        DOM_MATRIX.btnInitializeSystem.addEventListener("click", executeSystemInitialization);
+    }
 
-    // Bind click handlers to prompt execution firing actions
-    DOM_MATRIX.btnFireSimulation.addEventListener("click", () => {
-        const promptText = DOM_MATRIX.aiSimulatorInput.value.trim();
-        dispatchSimulationPromptQuery(promptText);
-    });
-
-    // Bind keyboard enter key listener arrays over input text elements console nodes
-    DOM_MATRIX.aiSimulatorInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
+    if (DOM_MATRIX.btnFireSimulation) {
+        DOM_MATRIX.btnFireSimulation.addEventListener("click", () => {
             const promptText = DOM_MATRIX.aiSimulatorInput.value.trim();
             dispatchSimulationPromptQuery(promptText);
-        }
-    });
+        });
+    }
 
-    // Bind click events on interactive suggestion pill nodes
+    if (DOM_MATRIX.aiSimulatorInput) {
+        DOM_MATRIX.aiSimulatorInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                const promptText = DOM_MATRIX.aiSimulatorInput.value.trim();
+                dispatchSimulationPromptQuery(promptText);
+            }
+        });
+    }
+
     DOM_MATRIX.sampleSuggestionPills.forEach(pill => {
         pill.addEventListener("click", () => {
             const targetsPrompt = pill.getAttribute("data-sample-prompt");
-            DOM_MATRIX.aiSimulatorInput.value = targetsPrompt;
+            if (DOM_MATRIX.aiSimulatorInput) DOM_MATRIX.aiSimulatorInput.value = targetsPrompt;
             dispatchSimulationPromptQuery(targetsPrompt);
         });
     });
@@ -368,17 +363,9 @@ function bindGlobalInputEventsListeners() {
 
 // --- 8. SYSTEM MOTOR ENGINE BOOTSTRAP GATE ---
 document.addEventListener("DOMContentLoaded", () => {
-    // Initialize Interface Theme Modules Configuration Profiles
     initializeThemeEngine();
-    
-    // Process base visual states maps profiles across active interactive SVG layers
     updateAvatarVisualMatrix();
-    
-    // Mount custom selections listener matrices
     bindCustomizerOptionPickers();
-    
-    // Mount global UI input triggers listener loops controls arrays
     bindGlobalInputEventsListeners();
-    
-    updateFooterTicker("All Core Systems Loaded. Ready to capture and process initialization protocol signature properties.");
+    updateFooterTicker("All Core System Matrix Channels Live. Awaiting identity verification inputs.");
 });

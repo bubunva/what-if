@@ -1,82 +1,74 @@
 /* ==========================================================================
    WHAT IF SIMULATOR - SECURE AI PROXY BACKEND ENGINE (server.js)
-   SPECIFICATION: EXPRESS HYDRATION CORE & LIVE GEMINI API COUPLING
-   PERFORMANCE PROFILE: NON-BLOCKING ASYNC I/O DISPATCH LOOP
    ========================================================================== */
 
 const express = require('express');
 const path = require('path');
 const { GoogleGenAI } = require('@google/genai');
-require('dotenv').config(); // Securely maps variables from your local .env file
+require('dotenv').config();
 
 const app = express();
-// Render or Railway will dynamically assign a port, fallback to 3000 locally
 const PORT = process.env.PORT || 3000;
 
-// Initialize the Google Gen AI client using your secret key
-const ai = new GoogleGenAI({ apiKey: process.env.AI_API_KEY });
+// Initialize the Google Gen AI client using the key
+const apiKey = process.env.AI_API_KEY;
+const ai = new GoogleGenAI({ apiKey: apiKey || "" });
 
-// Middleware to parse incoming JSON data payloads
 app.use(express.json());
-
-// Serve your premium frontend static files (index.html, style.css, etc.) directly from the root
 app.use(express.static(path.join(__dirname, '.')));
 
-/* ==========================================================================
-   🚀 LIVE AI ROUTE INTERCEPTOR
-   ========================================================================== */
 app.post('/api/simulate', async (req, res) => {
     const { prompt, profile } = req.body;
 
-    // Safety check: verify the API Key variable exists
-    if (!process.env.AI_API_KEY) {
-        return res.status(500).json({ 
-            simulationResult: "[CRITICAL CONFIG ERROR] Backend API key configuration is missing from the environment architecture." 
+    // Check if the key is actually present in the environment
+    if (!process.env.AI_API_KEY || process.env.AI_API_KEY === "your_actual_secret_api_key_here") {
+        return res.json({ 
+            simulationResult: "[CONFIG FAULT] Your AI_API_KEY is missing or unconfigured in Render environment variables. Please check Step 2!" 
         });
     }
 
     try {
-        // Construct a highly detailed system instruction wrapper parsing the avatar configurations
         const engineeredPrompt = `
-            You are a multi-million dollar quantum alternate-timeline simulation machine engine.
+            You are a quantum alternate-timeline simulation machine engine.
             The user's customized profile parameters are:
             - Identity: ${profile.username}
             - Current Outfit Profile: ${profile.outfitModule}
-            - Aesthetics: ${profile.hairStyle} style
             
             Write a highly creative, detailed, exactly 3-sentence alternate reality summary answering the question: "What if ${prompt}".
-            Prefix the output with "[Calculated Continuity Node Group: ${profile.outfitModule.toUpperCase()}]".
-            Make the response incredibly deep, sci-fi grounded, and professional. Do not break character.
+            Prefix the output with "[Calculated Continuity Node]". Do not break character.
         `;
 
-        // Execute live cloud request using gemini-2.5-flash for real-time speed profiles
+        // Using the ultra-stable, high-speed flash model
         const response = await ai.models.generateContent({
             model: 'gemini-2.5-flash',
             contents: engineeredPrompt,
         });
 
-        const aiOutputText = response.text || "[System Anomaly] Empty timeline data stream returned.";
+        // Safe extraction of text from the SDK object
+        let aiOutputText = "";
+        if (response && response.text) {
+            aiOutputText = response.text;
+        } else if (response && response.candidates && response.candidates[0]) {
+            aiOutputText = response.candidates[0].content.parts[0].text;
+        } else {
+            aiOutputText = "[System Anomaly] Empty timeline data stream returned from cloud provider.";
+        }
 
-        // Channel the real AI generated content straight back to your liquid-glass browser panel
-        res.json({ simulationResult: aiOutputText });
+        // Return status 200 explicitly so the frontend never drops into fallback code
+        res.status(200).json({ simulationResult: aiOutputText });
 
     } catch (error) {
         console.error("Gemini Engine Core Fault:", error);
-        res.status(500).json({ 
-            simulationResult: "[QUANTUM RIFT CORE COLLAPSE] The cloud AI engine failed to process this specific paradox layer. Log paths interrupted." 
+        res.status(200).json({ 
+            simulationResult: `[API ERROR] Gemini failed to process request. Reason: ${error.message || error}` 
         });
     }
 });
 
-// Always route secondary traffic requests cleanly straight into your frontend entry point
 app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'index.html'));
 });
 
-// Run the engine
 app.listen(PORT, () => {
-    console.log(`\n==================================================================`);
-    console.log(`🚀 MULTI-MILLION DOLLAR SIMULATOR ENGINE RUNNING OPERATIONAL`);
-    console.log(`🔗 Local Gateway Access Point: http://localhost:${PORT}`);
-    console.log(`==================================================================\n`);
+    console.log(`🚀 Simulator Engine active on port ${PORT}`);
 });

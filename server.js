@@ -1,19 +1,17 @@
 /* ==========================================================================
-   WHAT IF SIMULATOR - OPENAI PROXY BACKEND ENGINE (server.js)
+   WHAT IF SIMULATOR - GROQ HIGH-SPEED ENGINE (server.js)
    ========================================================================== */
 
 const express = require('express');
 const path = require('path');
-const { OpenAI } = require('openai');
+const { Groq } = require('groq-sdk');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Initialize OpenAI using the key securely mapped by Render
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-});
+// Initialize Groq securely
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '.')));
@@ -21,17 +19,15 @@ app.use(express.static(path.join(__dirname, '.')));
 app.post('/api/simulate', async (req, res) => {
     const { prompt, profile } = req.body;
 
-    // Safety fallback check
-    if (!process.env.OPENAI_API_KEY) {
+    if (!process.env.GROQ_API_KEY) {
         return res.json({ 
-            simulationResult: "[CONFIG FAULT] Your OPENAI_API_KEY is missing from your Render environment variables." 
+            simulationResult: "[CONFIG FAULT] Your GROQ_API_KEY is missing from Render environment variables." 
         });
     }
 
     try {
-        // Execute a fast chat completion stream using gpt-4o-mini
-        const response = await openai.chat.completions.create({
-            model: 'gpt-4o-mini',
+        // Ping Groq's high-speed engine layer using Llama 3.1
+        const chatCompletion = await groq.chat.completions.create({
             messages: [
                 {
                     role: 'system',
@@ -45,19 +41,18 @@ app.post('/api/simulate', async (req, res) => {
                     content: `What if ${prompt}`
                 }
             ],
+            model: 'llama-3.1-8b-instant',
             max_tokens: 150,
             temperature: 0.8
         });
 
-        // Extract the generated text cleanly from OpenAI's data structure
-        const aiOutputText = response.choices[0].message.content.trim();
-        
+        const aiOutputText = chatCompletion.choices[0]?.message?.content?.trim() || "[System Anomaly] Empty timeline data.";
         res.status(200).json({ simulationResult: aiOutputText });
 
     } catch (error) {
-        console.error("OpenAI Core Pipeline Fault:", error);
+        console.error("Groq Core Pipeline Fault:", error);
         res.status(200).json({ 
-            simulationResult: `[API ERROR] OpenAI failed to process request. Reason: ${error.message}` 
+            simulationResult: `[API ERROR] Groq failed to process request. Reason: ${error.message}` 
         });
     }
 });
@@ -67,5 +62,5 @@ app.get('*', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`🚀 Simulator Engine active via OpenAI core on port ${PORT}`);
+    console.log(`🚀 Simulator Engine active via Groq hardware core on port ${PORT}`);
 });

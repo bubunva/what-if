@@ -1,1 +1,22 @@
-
+{
+  "name": "what-if-ai-simulator",
+  "version": "1.0.0",
+  "description": "High-fidelity liquid glass alternate-reality matrix tracking portal.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "ai",
+    "liquid-glass",
+    "simulator",
+    "express"
+  ],
+  "author": "Timeline Traveler",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}

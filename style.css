@@ -1473,3 +1473,18 @@ body {
     .header-telemetry-panel { display: none; }
     .app-container { padding: 0 20px; }
 }
+/* KILL RENDERING LAG ON RETINA RECTANGLES */
+.liquid-glass-mega-panel,
+.input-glow-wrapper-glass-component-shield,
+.identity-glass-tag {
+    /* Forces browser to paint the glass blur as a static texture layer instead of constantly recalculating sub-pixels */
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+}
+
+/* De-optimize orbs slightly during movement loops to drop processor overhead */
+.quantum-orb {
+    pointer-events: none;
+    mix-blend-mode: screen;
+    backface-visibility: hidden;
+}

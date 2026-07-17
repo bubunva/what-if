@@ -1,1 +1,481 @@
+/* ==========================================================================
+   WHAT IF SIMULATOR - CORE ARCHITECTURE STYLESHEET
+   DESIGN SYSTEM: APPLE LIQUID GLASS / HYPER-REFLECTIVE NEOMORPHISM
+   ========================================================================== */
 
+/* --- 1. DESIGN SYSTEM TOKENS & VARIABLE ARCHITECTURE --- */
+:root[data-theme="dark"] {
+    /* Core Typography & Performance Focus */
+    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    
+    /* Strict Color Palette Request: Dark Matrix #080071 */
+    --bg-base: #080071;
+    --bg-surface-raw: 8, 0, 113; /* RGB match for alpha transparencies */
+    --bg-gradient-prime: linear-gradient(135deg, #050046 0%, #080071 50%, #1100ab 100%);
+    
+    /* Liquid Glass Specs */
+    --glass-bg: rgba(8, 0, 113, 0.35);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --glass-highlight: rgba(255, 255, 255, 0.25);
+    --glass-shadow: rgba(0, 0, 0, 0.4);
+    
+    /* Core Accents & Glow Vectors */
+    --accent-glow: #00f0ff;
+    --accent-glow-rgb: 0, 240, 255;
+    --text-main: #ffffff;
+    --text-muted: #8fa0dd;
+    
+    /* Orb Manifestation Rules */
+    --orb-1-color: rgba(0, 240, 255, 0.3);
+    --orb-2-color: rgba(255, 0, 128, 0.25);
+    --orb-3-color: rgba(113, 0, 255, 0.35);
+}
+
+:root[data-theme="light"] {
+    /* Strict Color Palette Request: Pink & White Luxury Layout */
+    --bg-base: #fff5f8;
+    --bg-surface-raw: 255, 245, 248;
+    --bg-gradient-prime: linear-gradient(135deg, #ffffff 0%, #ffe3ec 50%, #ffd0e1 100%);
+    
+    /* Liquid Glass Specs (Light Variant) */
+    --glass-bg: rgba(255, 255, 255, 0.55);
+    --glass-border: rgba(255, 105, 180, 0.2);
+    --glass-highlight: rgba(255, 255, 255, 0.7);
+    --glass-shadow: rgba(255, 182, 193, 0.3);
+    
+    /* Core Accents & Glow Vectors */
+    --accent-glow: #ff4081;
+    --accent-glow-rgb: 255, 64, 129;
+    --text-main: #3a001c;
+    --text-muted: #8c5870;
+    
+    /* Orb Manifestation Rules */
+    --orb-1-color: rgba(255, 182, 193, 0.5);
+    --orb-2-color: rgba(186, 85, 211, 0.3);
+    --orb-3-color: rgba(255, 255, 255, 0.8);
+}
+
+/* --- 2. GLOBAL RESET & PERFORMANCE OPTIMIZATIONS --- */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    font-family: var(--font-primary);
+    background: var(--bg-base);
+    background: var(--bg-gradient-prime);
+    color: var(--text-main);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    transition: background 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --- 3. HARDWARE-ACCELERATED LIQUID ORB ENGINE --- */
+.liquid-bg-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    transform: translateZ(0); /* Force GPU Rendering Cache */
+}
+
+.glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(140px);
+    mix-blend-mode: screen;
+    will-change: transform;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+.orb-primary {
+    top: -10%;
+    left: -10%;
+    width: 55vw;
+    height: 55vw;
+    background: var(--orb-1-color);
+    animation: liquidFloatOne 25s infinite alternate;
+}
+
+.orb-secondary {
+    bottom: -15%;
+    right: -5%;
+    width: 60vw;
+    height: 60vw;
+    background: var(--orb-2-color);
+    animation: liquidFloatTwo 30s infinite alternate;
+}
+
+.orb-tertiary {
+    top: 40%;
+    left: 35%;
+    width: 40vw;
+    height: 40vw;
+    background: var(--orb-3-color);
+    animation: liquidFloatThree 20s infinite alternate;
+}
+
+/* --- 4. APP STRUCTURAL SHELL & APPLE GLASS ARCHITECTURE --- */
+.app-container {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    padding: 0 40px;
+}
+
+/* Apple Pro Glass Structural Card */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(35px) saturate(210%);
+    -webkit-backdrop-filter: blur(35px) saturate(210%);
+    border: 1px solid var(--glass-border);
+    border-radius: 28px;
+    box-shadow: 0 25px 50px -12px var(--glass-shadow);
+    padding: 40px;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+                opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+                box-shadow 0.4s ease;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.glass-card:hover {
+    box-shadow: 0 35px 65px -10px rgba(var(--accent-glow-rgb), 0.15), 
+                0 0 1px 1px var(--glass-highlight) inset;
+}
+
+/* --- 5. PREMIUM PREMIUM HEADER & TIMELINE ENGINE INTERFACES --- */
+.glass-header {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    margin-bottom: 30px;
+}
+
+.logo-text-glow {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    background: linear-gradient(135deg, #ffffff 0%, var(--accent-glow) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 40px rgba(var(--accent-glow-rgb), 0.4);
+}
+
+.badge-beta {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--glass-border);
+    margin-left: 12px;
+    vertical-align: middle;
+}
+
+/* Interactive System Controls */
+.glass-action-btn {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 4px 12px var(--glass-shadow);
+}
+
+.glass-action-btn:hover {
+    transform: scale(1.08) rotate(15deg);
+    border-color: var(--accent-glow);
+    box-shadow: 0 0 15px rgba(var(--accent-glow-rgb), 0.4);
+}
+
+/* --- 6. HIGH FIDELITY CHARACTER INTERFACE COMPONENT --- */
+.customizer-workspace {
+    display: grid;
+    grid-template-columns: 450px 1fr;
+    gap: 50px;
+    margin-top: 35px;
+}
+
+/* Liquid Mirror Frame */
+.liquid-glass-avatar-frame {
+    position: relative;
+    width: 100%;
+    height: 450px;
+    border-radius: 24px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.08) 100%);
+    border: 1px solid var(--glass-border);
+    box-shadow: inset 0 0 30px rgba(255,255,255,0.05);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-layers {
+    position: relative;
+    width: 80%;
+    height: 80%;
+}
+
+.avatar-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Curved High Gloss Highlight Overlay */
+.reflection-overlay {
+    background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 50%);
+    mix-blend-mode: overlay;
+    pointer-events: none;
+}
+
+/* Customizer Selections Architecture */
+.control-group {
+    margin-bottom: 28px;
+}
+
+.input-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+}
+
+.glass-input {
+    width: 100%;
+    padding: 18px 24px;
+    border-radius: 16px;
+    background: rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--glass-border);
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-family: var(--font-primary);
+    transition: all 0.3s ease;
+}
+
+.glass-input:focus {
+    outline: none;
+    border-color: var(--accent-glow);
+    box-shadow: 0 0 20px rgba(var(--accent-glow-rgb), 0.25);
+    background: rgba(0, 0, 0, 0.25);
+}
+
+/* Grid Layout Matrix Elements */
+.color-palette-grid {
+    display: flex;
+    gap: 14px;
+}
+
+.palette-swatch {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.palette-swatch:hover, .palette-swatch.active {
+    transform: scale(1.15);
+    border-color: var(--text-main);
+    box-shadow: 0 0 15px var(--accent-glow);
+}
+
+.selection-chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.chip-option {
+    padding: 12px 24px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    color: var(--text-main);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.chip-option:hover, .chip-option.active {
+    background: var(--text-main);
+    color: var(--bg-base);
+    border-color: var(--text-main);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Core Engine Fire Mechanism Button */
+.glass-submit-btn {
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    border-radius: 16px;
+    border: none;
+    background: linear-gradient(90deg, #ff007f, #7f00ff, #00f0ff);
+    background-size: 200% auto;
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(127, 0, 255, 0.35);
+    transition: all 0.4s ease;
+    animation: glowGradientMove 4s linear infinite;
+}
+
+.glass-submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 45px rgba(0, 240, 255, 0.5);
+}
+
+/* --- 7. QUANTUM AI INTERFACE SIMULATION MATRIX --- */
+.panel-hidden {
+    display: none !important;
+    opacity: 0;
+    transform: scale(0.96) translateY(20px);
+}
+
+.panel-active {
+    display: block;
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+.simulator-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 40px;
+}
+
+/* Prompt Box Glow Wrapper Layer */
+.input-glow-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 8px 16px;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.4);
+    transition: border 0.4s ease;
+}
+
+.input-glow-wrapper:focus-within {
+    border-color: var(--accent-glow);
+    box-shadow: 0 0 25px rgba(var(--accent-glow-rgb), 0.3), inset 0 2px 8px rgba(0,0,0,0.4);
+}
+
+.prompt-prefix {
+    font-weight: 700;
+    color: var(--accent-glow);
+    font-size: 1.1rem;
+    margin-right: 15px;
+    letter-spacing: 0.5px;
+}
+
+.glass-prompt-field {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 1.2rem;
+    padding: 14px 0;
+}
+
+.glass-prompt-field:focus {
+    outline: none;
+}
+
+/* Real-Time Fluid Engine Spinner */
+.liquid-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(var(--accent-glow-rgb), 0.1);
+    border-left-color: var(--accent-glow);
+    border-radius: 50%;
+    animation: fastSpin 0.9s linear infinite;
+    margin: 40px auto 20px auto;
+}
+
+/* --- 8. STATE HARDWARE KEYFRAME DEFINITIONS --- */
+@keyframes liquidFloatOne {
+    0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+    100% { transform: translate(8vw, 12vh) scale(1.15) rotate(120deg); }
+}
+
+@keyframes liquidFloatTwo {
+    0% { transform: translate(0, 0) scale(1.1) rotate(0deg); }
+    100% { transform: translate(-10vw, -8vh) scale(0.9) rotate(-180deg); }
+}
+
+@keyframes liquidFloatThree {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(5vw, -15vh) scale(1.3); }
+}
+
+@keyframes glowGradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes fastSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* --- 9. THEME TRANSITION OVERRIDES AND POLISH --- */
+:root[data-theme="light"] .glass-input {
+    background: rgba(255, 255, 255, 0.6);
+    color: #3a001c;
+}
+
+:root[data-theme="light"] .input-glow-wrapper {
+    background: rgba(255, 255, 255, 0.7);
+}
+
+:root[data-theme="light"] .glass-prompt-field {
+    color: #3a001c;
+}

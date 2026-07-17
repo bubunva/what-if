@@ -1,22 +1,14 @@
 {
-  "name": "what-if-ai-simulator",
+  "name": "what-if-simulator",
   "version": "1.0.0",
-  "description": "High-fidelity liquid glass alternate-reality matrix tracking portal.",
+  "description": "Multi-million dollar quantum causality engine",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node --watch server.js"
+    "start": "node server.js"
   },
-  "keywords": [
-    "ai",
-    "liquid-glass",
-    "simulator",
-    "express"
-  ],
-  "author": "Timeline Traveler",
-  "license": "MIT",
   "dependencies": {
-    "cors": "^2.8.5",
+    "@google/genai": "^0.1.1",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2"
   }
 }

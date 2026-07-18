@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantum Reality Simulation Framework v6.7 Persistent Edition</title>
+    <title>What If</title>
     <link rel="stylesheet" href="style.css">
     <style>
         /* ==========================================================================
@@ -313,7 +313,7 @@ promptInputField.addEventListener('input', function() {
 </head>
 <body>
 
-    <button class="theme-control-trigger" onclick="switchSystemTheme()">🌓 Toggle Universe Theme</button>
+    <button class="theme-control-trigger" onclick="switchSystemTheme()">🌓 Switch Theme</button>
 
     <div class="aurora-sky-matrix">
         <div class="aurora-plasma-cloud cloud-alpha"></div>
@@ -325,39 +325,39 @@ promptInputField.addEventListener('input', function() {
         <div class="glass-card portal-flex-aligner">
             <div class="avatar-display-section">
                 <canvas id="avatarCanvas" width="300" height="300"></canvas>
-                <div id="portalAvatarLabel" class="avatar-identity-signature">Traveler</div>
+                <div id="portalAvatarLabel" class="avatar-identity-signature">X</div>
             </div>
             
             <div style="flex: 1.2; display: flex; flex-direction: column; justify-content: space-between; min-height: 400px;">
                 <div>
-                    <h2 style="font-size: 28px; font-weight: 700; margin-bottom: 6px;">Quantum Profile Setup</h2>
+                    <h2 style="font-size: 28px; font-weight: 700; margin-bottom: 6px;">Profile Setup</h2>
                     <p style="font-size: 15px; color: var(--text-muted); margin-bottom: 25px;">Design your customized avatar construct prior to execution.</p>
                     
                     <div style="margin-bottom: 20px;">
-                        <label style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-muted);">Explorer Tag Name:</label>
-                        <input type="text" id="avatarNameField" class="premium-text-input" style="margin-top: 6px;" value="Traveler">
+                        <label style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-muted);">Welcome:</label>
+                        <input type="text" id="avatarNameField" class="premium-text-input" style="margin-top: 6px;" value="X">
                     </div>
 
                     <div style="margin-bottom: 20px;">
-                        <label style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-muted);">Hair Geometries:</label>
+                        <label style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-muted);">Hair:</label>
                         <div class="tile-selector-row" id="hair-grid-rack">
-                            <div class="custom-option-tile active" data-val="Neon Spikes">Neon Spikes</div>
-                            <div class="custom-option-tile" data-val="Cyber Pigtails">Cyber Pigtails</div>
-                            <div class="custom-option-tile" data-val="Quantum Waves">Quantum Waves</div>
+                            <div class="custom-option-tile active" data-val="Neon Spikes">Spikes</div>
+                            <div class="custom-option-tile" data-val="Cyber Pigtails">Pigtails</div>
+                            <div class="custom-option-tile" data-val="Quantum Waves">Waves</div>
                         </div>
                     </div>
 
                     <div style="margin-bottom: 20px;">
-                        <label style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-muted);">Ocular Highlight:</label>
+                        <label style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-muted);">Highlight:</label>
                         <div class="tile-selector-row" id="eye-grid-rack">
-                            <div class="custom-option-tile active" data-val="#00f0ff">Cyan Aura</div>
-                            <div class="custom-option-tile" data-val="#bd00ff">Magenta Arc</div>
-                            <div class="custom-option-tile" data-val="#39ff14">Bio Emerald</div>
+                            <div class="custom-option-tile active" data-val="#00f0ff">Cyan </div>
+                            <div class="custom-option-tile" data-val="#bd00ff">Magenta </div>
+                            <div class="custom-option-tile" data-val="#39ff14">Emerald</div>
                         </div>
                     </div>
                 </div>
 
-                <button class="action-submit-btn" onclick="executeSystemBootSequence()">Initialize Sandbox Node</button>
+                <button class="action-submit-btn" onclick="executeSystemBootSequence()">Start</button>
             </div>
         </div>
     </div>
@@ -366,10 +366,10 @@ promptInputField.addEventListener('input', function() {
         <div class="sidebar-panel">
             <div class="glass-card" style="display: flex; flex-direction: column; align-items: center; padding: 25px;">
                 <canvas id="sidebarCanvasClone" width="160" height="160" style="width: 160px; height: 160px; border-radius: 50%;"></canvas>
-                <div id="sidebarAvatarLabel" class="avatar-identity-signature" style="font-size: 14px; margin-top: 10px;">Traveler</div>
+                <div id="sidebarAvatarLabel" class="avatar-identity-signature" style="font-size: 14px; margin-top: 10px;">X</div>
             </div>
             <div class="glass-card" style="flex: 1; display: flex; flex-direction: column;">
-                <h3 style="margin-bottom: 15px; font-size: 16px; font-weight: 600;">Stored Temporal Anomalies</h3>
+                <h3 style="margin-bottom: 15px; font-size: 16px; font-weight: 600;">Stored Chats</h3>
                 <div style="flex: 1; overflow-y: auto;" id="timeline-stack-viewport"></div>
             </div>
         </div>

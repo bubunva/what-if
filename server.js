@@ -10,10 +10,14 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Initialize Groq AI Engine connection
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
+// Middleware parsing rules
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '.')));
+
+// ⚡ CRITICAL FIX FOR RENDER: Serve static asset files directly from root directory
+app.use(express.static(__dirname));
 
 // 🧠 ROUTE 1: PRIMARY KID-FRIENDLY SCIENTIFIC ANALYSIS ENGINE
 app.post('/api/simulate', async (req, res) => {
@@ -38,7 +42,7 @@ app.post('/api/simulate', async (req, res) => {
                 },
                 {
                     role: 'user',
-                    content: `What if ${prompt} (User details: Name is ${profile.username || 'Traveler'}, Hair Style is ${profile.hairStyle}, Clothing style is ${profile.apparelStyle})`
+                    content: `What if ${prompt} (User details: Name is ${profile.username || 'Traveler'}, Hair Style is ${profile.hairStyle}, Eye Color is ${profile.eyeColor})`
                 }
             ],
             model: 'llama-3.3-70b-versatile',
@@ -82,10 +86,12 @@ app.get('/api/shuffle', async (req, res) => {
     }
 });
 
+// ⚡ CRITICAL FIX FOR RENDER: Handle all fallback routing to explicitly deliver index.html
 app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// Initialize Framework Engine
 app.listen(PORT, () => {
     console.log(`🚀 Quantum Core operational on port ${PORT}`);
 });

@@ -376,17 +376,17 @@ promptInputField.addEventListener('input', function() {
 
         <div class="center-display-panel">
             <div class="glass-card" style="padding: 25px 40px;">
-                <h1 style="font-size: 26px; font-weight: 700; letter-spacing: -0.01em;" id="hud-welcome-banner">Quantum Physics Matrix</h1>
+                <h1 style="font-size: 26px; font-weight: 700; letter-spacing: -0.01em;" id="hud-welcome-banner">What If</h1>
             </div>
 
             <div class="glass-card input-console-bar" style="padding: 20px 35px;">
                 <button class="action-submit-btn" style="width: auto; background: #4f46e5; padding: 0 30px; height: 58px;" onclick="fetchAIShufflePrompt()">🎲 AI Shuffle</button>
-                <textarea id="sandboxPromptField" class="premium-text-input" placeholder="Inject target conditional concept reality prompt vector matrix here..." rows="1"></textarea>
-                <button class="action-submit-btn" style="width: auto; padding: 0 40px; height: 58px;" onclick="fireRealitySimulation()">Simulate Branch</button>
+                <textarea id="sandboxPromptField" class="premium-text-input" placeholder="Ask Any question" rows="1"></textarea>
+                <button class="action-submit-btn" style="width: auto; padding: 0 40px; height: 58px;" onclick="fireRealitySimulation()">Enter</button>
             </div>
 
             <div class="glass-card response-monitor-viewport" id="monitor-screen-text">
-                >> Simulation framework operational. Awaiting text instruction strings or shuffle vector variables...
+                >> Ask a Question :D
             </div>
         </div>
     </div>
@@ -574,7 +574,7 @@ promptInputField.addEventListener('input', function() {
             
             saveSystemProfileToStorage(); 
 
-            document.getElementById('hud-welcome-banner').innerText = `Quantum Universe Machine // Agent: ${characterProfile.username}`;
+            document.getElementById('hud-welcome-banner').innerText = `Welcome: ${characterProfile.username}`;
 
             const landingView = document.getElementById('gateway-portal-frame');
             landingView.style.opacity = '0';
@@ -608,7 +608,7 @@ promptInputField.addEventListener('input', function() {
 
             if (!promptValue) return alert("Please specify or shuffle a query structure statement first.");
 
-            displayMonitor.innerText = ">> Query vector registered. Calculating physical variables against local atmospheric realities...";
+            displayMonitor.innerText = ">> Thinking...";
 
             try {
                 const response = await fetch('/api/simulate', {

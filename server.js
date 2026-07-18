@@ -1,5 +1,5 @@
 /* ==========================================================================
-   WHAT IF SIMULATOR - ULTRA-DEFENSIVE GROQ CORE (server.js)
+   WHAT IF SIMULATOR - GROQ NATIVE PERFORMANCE ENGINE (server.js)
    ========================================================================== */
 
 const express = require('express');
@@ -10,7 +10,7 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Initialize the Groq hardware acceleration client securely
+// Initialize Groq using your secure environment token
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 app.use(express.json());
@@ -21,53 +21,40 @@ app.post('/api/simulate', async (req, res) => {
 
     if (!process.env.GROQ_API_KEY) {
         return res.json({ 
-            simulationResult: "[CONFIG FAULT] Your GROQ_API_KEY variable is not defined inside your Render dashboard settings." 
+            simulationResult: "[CONFIG FAULT] Your GROQ_API_KEY variable is missing from your Render dashboard settings." 
         });
     }
 
+    // Build the master query string
+    const engineeredInputText = `
+        You are a quantum alternate-timeline simulation machine engine. 
+        The user's profile parameters are: Identity is ${profile.username}, outfit profile is ${profile.outfitModule}.
+        Write a highly creative, detailed, exactly 3-sentence alternate reality summary answering the question. 
+        Prefix the output string with "[Calculated Continuity Node]". Do not break character.
+        
+        Question: What if ${prompt}
+    `;
+
     try {
-        // Ping Groq's high-speed generation pipeline using their fast open-weights workhorse
-        const chatCompletion = await groq.chat.completions.create({
-            messages: [
-                {
-                    role: 'system',
-                    content: `You are a quantum alternate-timeline simulation machine engine. 
-                    The user's parameters: Identity is ${profile.username}, outfit profile is ${profile.outfitModule}.
-                    Write a highly creative, detailed, exactly 3-sentence alternate reality summary answering the user's question. 
-                    Prefix the output string with "[Calculated Continuity Node]". Do not break character.`
-                },
-                {
-                    role: 'user',
-                    content: `What if ${prompt}`
-                }
-            ],
+        // Utilizing Groq's high-speed response creation architecture
+        const response = await groq.responses.create({
             model: 'openai/gpt-oss-20b',
-            max_tokens: 200,
-            temperature: 0.85
+            input: engineeredInputText
         });
 
-        // 🔍 ULTRA-DEFENSIVE TEXT EXTRACTION MATRIX
-        // This inspects every layer where Groq or OpenAI protocols store text content
-        let aiOutputText = "";
+        // Pull the text data cleanly from the official property lane
+        const aiOutputText = response.output_text ? response.output_text.trim() : null;
         
-        if (chatCompletion.choices?.[0]?.message?.content) {
-            aiOutputText = chatCompletion.choices[0].message.content.trim();
-        } else if (chatCompletion.choices?.[0]?.text) {
-            aiOutputText = chatCompletion.choices[0].text.trim();
-        } else if (chatCompletion.output_text) {
-            aiOutputText = chatCompletion.output_text.trim();
-        } else {
-            // Log the raw artifact block to your Render console so you can inspect it if needed
-            console.log("Raw API Packet Log:", JSON.stringify(chatCompletion));
-            throw new Error("The AI returned a successful link but text was stored in an unrecognizable structure.");
+        if (!aiOutputText) {
+            throw new Error("Data channel loaded, but output_text artifact returned missing.");
         }
 
         res.status(200).json({ simulationResult: aiOutputText });
 
     } catch (error) {
-        console.error("Groq System Loop Exception:", error);
+        console.error("Groq Processing Exception:", error);
         res.status(200).json({ 
-            simulationResult: `[API ENGINE EXCEPTION] Failed to capture timeline stream. Details: ${error.message}` 
+            simulationResult: `[ENGINE EXCEPTION] Connection dropped. Details: ${error.message}` 
         });
     }
 });
@@ -77,5 +64,5 @@ app.get('*', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`🚀 Simulator Engine live and fully operational.`);
+    console.log(`🚀 Simulator Engine online via native Groq pathways`);
 });

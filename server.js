@@ -1,5 +1,5 @@
 /* ==========================================================================
-   WHAT IF SIMULATOR - OFFICIAL GROQ SDK LAYER (server.js)
+   WHAT IF SIMULATOR - KID-FRIENDLY SCIENCE ENGINE (server.js)
    ========================================================================== */
 
 const express = require('express');
@@ -10,10 +10,7 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Initialize the official Groq client using your secure Render key
-const groq = new Groq({ 
-    apiKey: process.env.GROQ_API_KEY 
-});
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '.')));
@@ -28,32 +25,31 @@ app.post('/api/simulate', async (req, res) => {
     }
 
     try {
-        // Correct syntax using Groq's high-speed chat completion engine
         const chatCompletion = await groq.chat.completions.create({
             messages: [
                 {
                     role: 'system',
-                    content: `You are a quantum alternate-timeline simulation machine engine. 
-                    The user's customized parameters: Identity is ${profile.username}, outfit profile is ${profile.outfitModule}.
-                    Write a highly creative, detailed, exactly 3-sentence alternate reality summary answering the user's question. 
-                    Prefix the output string with "[Calculated Continuity Node]". Do not break character.`
+                    // 🌟 THE UPDATE: We command the AI to explain real science using simple, kid-friendly language!
+                    content: `You are a hyper-realistic scientific simulation engine for kids. 
+                    Answering the user's question, analyze exactly what would happen using the real laws of physics and science.
+                    Explain the changes and consequences using very simple, kid-friendly language, exciting tones, and easy-to-understand examples. Avoid overly complicated scientific jargon.
+                    Write a detailed, exactly 3-sentence summary. 
+                    Prefix the output string with "[Scientific Analysis Node]".`
                 },
                 {
                     role: 'user',
                     content: `What if ${prompt}`
                 }
             ],
-            // Running on Groq's rock-solid free-tier workhorse model
             model: 'llama-3.3-70b-versatile',
-            max_tokens: 200,
-            temperature: 0.8
+            max_tokens: 250,
+            temperature: 0.75 
         });
 
-        // Pull the text data cleanly from the official message properties array
         const aiOutputText = chatCompletion.choices[0]?.message?.content?.trim();
         
         if (!aiOutputText) {
-            throw new Error("AI linked up correctly but returned a blank message content layout.");
+            throw new Error("AI linked up correctly but returned a blank message layout.");
         }
 
         res.status(200).json({ simulationResult: aiOutputText });
@@ -71,5 +67,5 @@ app.get('*', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`🚀 Simulator Engine live and fully operational on port ${PORT}`);
+    console.log(`🚀 Kid-Friendly Scientific Simulator Engine active on port ${PORT}`);
 });

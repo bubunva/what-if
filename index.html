@@ -3,370 +3,605 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantum Causality Matrix</title>
+    <title>Quantum Causality Matrix 3.0</title>
     <style>
         :root {
-            --bg-color: #0a0b10;
-            --panel-bg: rgba(20, 24, 45, 0.6);
-            --neon-blue: #00f0ff;
-            --neon-purple: #bd00ff;
+            --bg-base: #05060b;
+            --panel-glow: rgba(0, 240, 255, 0.03);
+            --border-neon: rgba(0, 240, 255, 0.25);
+            --neon-cyan: #00f0ff;
+            --neon-magenta: #bd00ff;
             --neon-green: #39ff14;
-            --text-main: #e2e8f0;
+            --text-glow: 0 0 12px rgba(0, 240, 255, 0.6);
+            --retina-gradient: radial-gradient(circle at 50% 50%, #121526 0%, #05060b 100%);
         }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Consolas', monospace, sans-serif;
-            margin: 0;
-            padding: 30px;
-            display: flex;
-            gap: 25px;
-            min-height: 90vh;
-            overflow-x: hidden;
+        * { box-sizing: border-box; }
+
+        body, html {
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+            background: var(--retina-gradient);
+            color: #e2e8f0;
+            font-family: 'Courier New', Courier, monospace;
+            overflow: hidden;
         }
 
-        /* Sci-Fi Ambient Glow Animation background elements */
-        body::before {
-            content: '';
+        /* Ambient animated matrix background sparks */
+        .sparkle-canvas {
             position: absolute;
-            top: -10%; left: -10%; width: 50%; height: 50%;
-            background: radial-gradient(circle, rgba(189,0,255,0.15) 0%, transparent 70%);
-            z-index: -1;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; pointer-events: none;
         }
 
-        /* High Fidelity Neon Panels */
-        .cyber-panel {
-            background: var(--panel-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 240, 255, 0.2);
-            border-radius: 16px;
-            padding: 25px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37),
-                        inset 0 0 15px rgba(0, 240, 255, 0.05);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .cyber-panel:hover {
-            border-color: rgba(0, 240, 255, 0.4);
-            box-shadow: 0 8px 32px 0 rgba(0, 240, 255, 0.1),
-                        inset 0 0 20px rgba(0, 240, 255, 0.1);
-        }
-
-        .sidebar {
-            width: 340px;
+        /* GATEWAY SCREEN: CUSTOMIZER DISPLAY CONTAINER */
+        #gateway-screen {
+            position: absolute;
+            width: 100%; height: 100%;
+            z-index: 10;
             display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .main-display {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        /* Online indicator styling */
-        .status-header {
-            display: flex;
+            justify-content: center;
             align-items: center;
-            gap: 12px;
-            font-size: 14px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 15px;
+            background: rgba(5, 6, 11, 0.95);
+            backdrop-filter: blur(20px);
+            transition: opacity 0.8s ease-in-out;
         }
 
-        .pulse-dot {
-            width: 10px;
-            height: 10px;
-            background-color: var(--neon-green);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(57, 255, 20, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
-        }
-
-        /* High Fidelity Inputs and Customizer Layouts */
-        h2, h3 {
-            margin-top: 0;
-            color: #fff;
-            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
-            letter-spacing: 1px;
-        }
-
-        .input-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            font-size: 12px;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.6);
-            margin-bottom: 5px;
-        }
-
-        input[type="text"] {
-            width: 90%;
-            padding: 12px;
-            background: rgba(10, 11, 16, 0.8);
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            border-radius: 8px;
-            color: #fff;
-            font-family: inherit;
-            transition: all 0.3s;
-        }
-
-        input[type="text"]:focus {
-            outline: none;
-            border-color: var(--neon-purple);
-            box-shadow: 0 0 10px rgba(189, 0, 255, 0.4);
-        }
-
-        /* Cyberpunk Button Core */
-        .cyber-btn {
-            padding: 12px 20px;
-            border: 1px solid var(--neon-blue);
-            background: rgba(0, 240, 255, 0.1);
-            color: #fff;
-            font-weight: bold;
-            font-family: inherit;
-            border-radius: 8px;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.2s;
-        }
-
-        .cyber-btn:hover {
-            background: var(--neon-blue);
-            color: #000;
-            box-shadow: 0 0 15px var(--neon-blue);
-        }
-
-        .shuffle-btn {
-            border-color: var(--neon-purple);
-            background: rgba(189, 0, 255, 0.1);
-        }
-
-        .shuffle-btn:hover {
-            background: var(--neon-purple);
-            color: #fff;
-            box-shadow: 0 0 15px var(--neon-purple);
-        }
-
-        /* Dynamic Main Monitoring Terminal Screen */
-        .main-terminal-screen {
-            flex: 1;
-            background: rgba(5, 6, 10, 0.9);
-            border: 1px solid rgba(189, 0, 255, 0.2);
-            border-radius: 12px;
-            padding: 30px;
-            font-size: 18px;
-            line-height: 1.7;
+        .customizer-frame {
+            width: 950px; height: 620px;
+            background: rgba(15, 18, 36, 0.7);
+            border: 2px solid var(--neon-cyan);
+            border-radius: 24px;
+            box-shadow: 0 0 40px rgba(0, 240, 255, 0.2), inset 0 0 30px rgba(0,240,255,0.05);
+            display: flex;
+            padding: 30px; gap: 30px;
             position: relative;
-            box-shadow: inset 0 0 30px rgba(0,0,0,0.9);
-            min-height: 250px;
         }
 
-        .main-terminal-screen::before {
-            content: "SYSTEM MONITOR // OUTPUT";
-            position: absolute;
-            top: 10px; left: 15px;
-            font-size: 10px;
-            color: rgba(255,255,255,0.3);
-            letter-spacing: 2px;
-        }
-
-        /* Temporal Index Logs UI Layout */
-        .log-list-wrapper {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .log-node-item {
-            background: rgba(255,255,255,0.03);
-            border-left: 3px solid var(--neon-blue);
-            padding: 12px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 13px;
-            transition: all 0.2s;
-        }
-
-        .log-node-item:hover {
-            background: rgba(0, 240, 255, 0.08);
-            transform: translateX(3px);
-        }
-
-        .input-bar-container {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .input-bar-container input[type="text"] {
+        .avatar-preview-box {
             flex: 1;
+            background: rgba(5, 6, 12, 0.8);
+            border: 1px solid var(--border-neon);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
         }
+
+        #avatarCanvas {
+            width: 320px; height: 320px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(189,0,255,0.1) 0%, transparent 75%);
+        }
+
+        .customizer-controls {
+            width: 450px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .control-shelf {
+            max-height: 420px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .custom-row {
+            margin-bottom: 20px;
+        }
+
+        .custom-row label {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--neon-cyan);
+            margin-bottom: 8px;
+            text-shadow: var(--text-glow);
+        }
+
+        .input-text-node {
+            width: 100%; padding: 12px;
+            background: rgba(5, 6, 10, 0.9);
+            border: 1px solid var(--border-neon);
+            border-radius: 8px;
+            color: #fff; font-family: inherit;
+        }
+
+        .input-text-node:focus {
+            outline: none; border-color: var(--neon-magenta);
+            box-shadow: 0 0 15px rgba(189, 0, 255, 0.4);
+        }
+
+        .selector-grid {
+            display: flex; gap: 10px; flex-wrap: wrap;
+        }
+
+        .option-tile {
+            padding: 8px 14px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 6px; cursor: pointer;
+            font-size: 12px; transition: all 0.2s;
+        }
+
+        .option-tile:hover, .option-tile.active {
+            border-color: var(--neon-cyan);
+            background: rgba(0, 240, 255, 0.1);
+            color: #fff; box-shadow: 0 0 8px rgba(0,240,255,0.3);
+        }
+
+        /* CORE ENGINE MAIN FRAME WORKSPACE */
+        #main-application-frame {
+            width: 100%; height: 100%;
+            padding: 30px; display: flex; gap: 25px;
+            position: relative; z-index: 2;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.6s ease-out;
+        }
+
+        .cyber-panel {
+            background: rgba(16, 20, 38, 0.55);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--border-neon);
+            border-radius: 20px; padding: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4), inset 0 0 20px rgba(0, 240, 255, 0.02);
+        }
+
+        .sidebar-panel { width: 360px; display: flex; flex-direction: column; gap: 20px; }
+        .center-matrix-panel { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+
+        .pulse-status {
+            display: flex; align-items: center; gap: 12px;
+            font-size: 13px; text-transform: uppercase; letter-spacing: 2px;
+            border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 15px;
+        }
+
+        .green-beacon {
+            width: 10px; height: 10px; background: var(--neon-green); border-radius: 50%;
+            box-shadow: 0 0 12px var(--neon-green); animation: pulseGlow 2s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.6; } 50% { opacity: 1; box-shadow: 0 0 18px var(--neon-green); }
+        }
+
+        .action-button {
+            padding: 14px 24px; border: 1px solid var(--neon-cyan);
+            background: rgba(0, 240, 255, 0.08); color: #fff;
+            border-radius: 10px; font-weight: bold; font-family: inherit;
+            cursor: pointer; text-transform: uppercase; letter-spacing: 1.5px;
+            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .action-button:hover {
+            background: var(--neon-cyan); color: #000;
+            box-shadow: 0 0 20px var(--neon-cyan); transform: translateY(-1px);
+        }
+
+        .shuffle-action { border-color: var(--neon-magenta); background: rgba(189,0,255,0.08); }
+        .shuffle-action:hover { background: var(--neon-magenta); color: #fff; box-shadow: 0 0 20px var(--neon-magenta); }
+
+        .terminal-display-screen {
+            flex: 1; background: rgba(4, 5, 9, 0.9);
+            border: 1px solid rgba(189,0,255,0.25); border-radius: 14px;
+            padding: 35px; font-size: 18px; line-height: 1.7;
+            box-shadow: inset 0 0 35px rgba(0,0,0,0.95);
+            position: relative; overflow-y: auto;
+        }
+
+        .log-node-row {
+            background: rgba(255,255,255,0.02); border-left: 3px solid var(--neon-cyan);
+            padding: 12px; margin-bottom: 10px; border-radius: 6px;
+            cursor: pointer; font-size: 13px; transition: all 0.2s;
+        }
+
+        .log-node-row:hover {
+            background: rgba(0, 240, 255, 0.08); transform: translateX(4px);
+        }
+
+        .input-bar-layout { display: flex; gap: 15px; }
+        .input-bar-layout input { flex: 1; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+        ::-webkit-scrollbar-thumb { background: var(--border-neon); border-radius: 3px; }
     </style>
 </head>
 <body>
 
-    <div class="sidebar">
-        <div class="cyber-panel status-header">
-            <div class="pulse-dot"></div>
-            <div id="status-alias-display">NODE - ONLINE</div>
-        </div>
+    <canvas class="sparkle-canvas" id="sparkleBg"></canvas>
 
-        <div class="cyber-panel">
-            <h3>Identity Matrix</h3>
-            <div class="input-group">
-                <label>User Identifier:</label>
-                <input type="text" id="username" placeholder="Enter identity tag...">
+    <div id="gateway-screen">
+        <div class="customizer-frame">
+            <div class="avatar-preview-box">
+                <h3 style="margin-bottom: 20px; color: #fff;">Quantum Identity Manifest</h3>
+                <canvas id="avatarCanvas" width="320" height="320"></canvas>
+                <div style="font-size: 11px; margin-top: 15px; color: rgba(255,255,255,0.4);" id="tracking-lbl">
+                    🟢 Eyes Locked // Tracking Active
+                </div>
             </div>
-            <div class="input-group">
-                <label>Outfit Profile Configuration:</label>
-                <input type="text" id="outfitModule" placeholder="e.g., Hazmat Suit, Exoskeleton...">
-            </div>
-            <button class="cyber-btn" onclick="commitProfileMatrix()">Save Avatar Profile</button>
-        </div>
 
-        <div class="cyber-panel" style="flex: 1;">
-            <h3>Temporal Log Index</h3>
-            <div class="log-list-wrapper" id="history-log-stack"></div>
+            <div class="customizer-controls">
+                <div>
+                    <h2>Character Initialization</h2>
+                    <p style="font-size: 12px; color: rgba(255,255,255,0.5);">Configure your matrix avatar construct prior to entry.</p>
+                    <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin: 20px 0;">
+                    
+                    <div class="control-shelf">
+                        <div class="custom-row">
+                            <label>Identity Handle (Name):</label>
+                            <input type="text" id="avatarNameInput" class="input-text-node" placeholder="Specify identifier tag..." value="Traveler">
+                        </div>
+
+                        <div class="custom-row">
+                            <label>Hair Matrix Architecture:</label>
+                            <div class="selector-grid" id="hair-grid">
+                                <div class="option-tile active" data-val="Neon Spikes">Neon Spikes</div>
+                                <div class="option-tile" data-val="Cyber Pigtails">Cyber Pigtails</div>
+                                <div class="option-tile" data-val="Quantum Waves">Quantum Waves</div>
+                                <div class="option-tile" data-val="Retro Buzz">Retro Buzz</div>
+                            </div>
+                        </div>
+
+                        <div class="custom-row">
+                            <label>Apparel Armor Configuration:</label>
+                            <div class="selector-grid" id="apparel-grid">
+                                <div class="option-tile active" data-val="Exo-Suit">Exo-Suit</div>
+                                <div class="option-tile" data-val="Tech-Hoodie">Tech-Hoodie</div>
+                                <div class="option-tile" data-val="Bio-Cloak">Bio-Cloak</div>
+                                <div class="option-tile" data-val="Space Armor">Space Armor</div>
+                            </div>
+                        </div>
+
+                        <div class="custom-row">
+                            <label>Ocular Hologram Color:</label>
+                            <div class="selector-grid" id="eye-grid">
+                                <div class="option-tile active" data-val="#00f0ff">Cyan Glow</div>
+                                <div class="option-tile" data-val="#bd00ff">Magenta Arc</div>
+                                <div class="option-tile" data-val="#39ff14">Bio Matrix</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="action-button" style="width:100%;" onclick="executeSystemBoot()">Enter Simulation Core</button>
+            </div>
         </div>
     </div>
 
-    <div class="main-display">
-        <div class="cyber-panel">
-            <h1 style="margin: 0; font-size: 32px; letter-spacing: 3px; display: inline-block;">WHAT IF?</h1>
-            <p style="margin: 5px 0 0 0; font-size: 12px; color: var(--neon-blue); text-transform: uppercase;">Hypothetical Scientific Sandbox</p>
+    <div id="main-application-frame">
+        <div class="sidebar-panel">
+            <div class="cyber-panel pulse-status">
+                <div class="green-beacon"></div>
+                <div id="active-user-hud-title">SYSTEM ONLINE</div>
+            </div>
+
+            <div class="cyber-panel" style="display:flex; justify-content:center; padding:15px;">
+                <canvas id="sidebarAvatarView" width="160" height="160" style="width:160px; height:160px; border-radius:50%; background:rgba(0,0,0,0.3); border:1px solid var(--border-neon);"></canvas>
+            </div>
+
+            <div class="cyber-panel" style="flex:1; display:flex; flex-direction:column; min-height:200px;">
+                <h3 style="font-size:14px;">Temporal Matrix Logs</h3>
+                <div style="flex:1; overflow-y:auto;" id="log-history-stack"></div>
+            </div>
         </div>
 
-        <div class="cyber-panel input-bar-container">
-            <button class="cyber-btn shuffle-btn" id="btn-shuffle-core" onclick="fetchAIShufflePrompt()">🎲 AI Shuffle</button>
-            <input type="text" id="prompt-query-box" placeholder="Input target hypothetical vector variable... (e.g., What if the atmosphere vanished?)">
-            <button class="cyber-btn" onclick="initializeSimulationEngine()">Simulate Vector</button>
-        </div>
+        <div class="center-matrix-panel">
+            <div class="cyber-panel">
+                <h1 style="margin:0; font-size:28px; letter-spacing:4px; text-shadow: var(--text-glow);">WHAT IF ENGINE 3.0</h1>
+            </div>
 
-        <div class="main-terminal-screen" id="master-terminal-view">
-            Awaiting prompt initiation variable execution inputs inside the navigation controller bar...
+            <div class="cyber-panel input-bar-layout">
+                <button class="action-button shuffle-action" id="shuffle-trigger-btn" onclick="triggerOmniAIShuffle()">🎲 AI Shuffle</button>
+                <input type="text" id="simulation-prompt-box" class="input-text-node" placeholder="Inject cross-reality prompt vector here...">
+                <button class="action-button" onclick="fireSimulationVector()">Simulate Vector</button>
+            </div>
+
+            <div class="terminal-display-screen" id="output-monitor-screen">
+                >> Awaiting target variable configuration. Input a concept prompt inside the telemetry field above...
+            </div>
         </div>
     </div>
 
     <script>
-        let quantumTimelineCache = [];
+        // System Config and State Variables Cache
+        let activeProfile = { username: "Traveler", hairStyle: "Neon Spikes", apparelStyle: "Exo-Suit", eyeColor: "#00f0ff" };
+        let historyCollection = [];
+        let mouseX = 0, mouseY = 0;
+        let blinkCycle = 0;
 
-        // 💾 PERSIST DATA MATRIX ON SYSTEM LOAD UP
-        window.onload = function() {
-            const cachedName = localStorage.getItem('matrix_username') || "Guest Traveler";
-            const cachedOutfit = localStorage.getItem('matrix_outfit') || "Standard Attire";
-            
-            document.getElementById('username').value = cachedName;
-            document.getElementById('outfitModule').value = cachedOutfit;
-            document.getElementById('status-alias-display').innerText = `${cachedName} - ONLINE`;
-        };
+        // Track global system mouse motion parameters across screens
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
 
-        function commitProfileMatrix() {
-            const user = document.getElementById('username').value.trim() || "Guest Traveler";
-            const outfit = document.getElementById('outfitModule').value.trim() || "Standard Attire";
+        // 🎨 CORE 2D AVATAR DRAWING ENGINE (Handles dynamic turns, eyes locking, blinking animations)
+        function renderAvatarFrame(canvasId, scaleFactor = 1) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
             
-            localStorage.setItem('matrix_username', user);
-            localStorage.setItem('matrix_outfit', outfit);
-            
-            document.getElementById('status-alias-display').innerText = `${user} - ONLINE`;
-            alert("Matrix character data safely locked to local memory core.");
+            ctx.clearRect(0, 0, w, h);
+
+            // Calculate directional delta offsets based on relative mouse positions
+            const rect = canvas.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const dx = (mouseX - centerX) / window.innerWidth;
+            const dy = (mouseY - centerY) / window.innerHeight;
+
+            // Apply slight rotational and directional lean shifts to simulate look movements
+            const lookX = dx * 22 * scaleFactor;
+            const lookY = dy * 15 * scaleFactor;
+
+            ctx.save();
+            ctx.translate(w/2, h/2);
+
+            // 1. Draw Base Head Structure Frame
+            ctx.fillStyle = "#161b33";
+            ctx.strokeStyle = varColor('--neon-cyan');
+            ctx.lineWidth = 3 * scaleFactor;
+            ctx.beginPath();
+            ctx.arc(0 + lookX * 0.4, 10 + lookY * 0.4, 55 * scaleFactor, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // 2. Draw Eye Outlines and Pupils with active blinking loops
+            blinkCycle += 0.015;
+            let isBlinking = (Math.sin(blinkCycle * 2.5) > 0.93);
+
+            ctx.fillStyle = activeProfile.eyeColor;
+            const eyeSpacing = 22 * scaleFactor;
+            const eyeElevation = 0 + lookY * 0.8;
+
+            // Left & Right Eye Positions
+            [-1, 1].forEach(dir => {
+                const currentEyeX = (dir * eyeSpacing) + lookX * 0.9;
+                if (isBlinking) {
+                    // Closed Eye line slot
+                    ctx.strokeStyle = activeProfile.eyeColor;
+                    ctx.lineWidth = 4 * scaleFactor;
+                    ctx.beginPath();
+                    ctx.moveTo(currentEyeX - 8*scaleFactor, eyeElevation);
+                    ctx.lineTo(currentEyeX + 8*scaleFactor, eyeElevation);
+                    ctx.stroke();
+                } else {
+                    // Open glowing eyeball dot
+                    ctx.beginPath();
+                    ctx.arc(currentEyeX, eyeElevation, 7 * scaleFactor, 0, Math.PI * 2);
+                    ctx.fill();
+                    // Catch reflection particle dot
+                    ctx.fillStyle = "#fff";
+                    ctx.beginPath();
+                    ctx.arc(currentEyeX + 2*scaleFactor, eyeElevation - 2*scaleFactor, 2 * scaleFactor, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = activeProfile.eyeColor;
+                }
+            });
+
+            // 3. Draw Selected Hair Variant Overlays (Scale and adapt layout shapes dynamically)
+            ctx.fillStyle = "#bd00ff"; // Secondary signature cyberpunk hair coloring tint
+            if (activeProfile.hairStyle === "Neon Spikes") {
+                ctx.beginPath();
+                ctx.moveTo(-60*scaleFactor + lookX, -30*scaleFactor + lookY);
+                ctx.lineTo(-40*scaleFactor + lookX, -75*scaleFactor + lookY);
+                ctx.lineTo(-10*scaleFactor + lookX, -50*scaleFactor + lookY);
+                ctx.lineTo(0*scaleFactor + lookX, -85*scaleFactor + lookY);
+                ctx.lineTo(25*scaleFactor + lookX, -45*scaleFactor + lookY);
+                ctx.lineTo(50*scaleFactor + lookX, -70*scaleFactor + lookY);
+                ctx.lineTo(60*scaleFactor + lookX, -25*scaleFactor + lookY);
+                ctx.closePath();
+                ctx.fill();
+            } else if (activeProfile.hairStyle === "Cyber Pigtails") {
+                ctx.beginPath(); // Left bundle tail
+                ctx.arc(-55*scaleFactor + lookX, -35*scaleFactor + lookY, 20*scaleFactor, 0, Math.PI*2);
+                // Right bundle tail
+                ctx.arc(55*scaleFactor + lookX, -35*scaleFactor + lookY, 20*scaleFactor, 0, Math.PI*2);
+                ctx.fill();
+            } else {
+                // Flowing round visor helmet/waves layout cap style
+                ctx.beginPath();
+                ctx.arc(0 + lookX, -20*scaleFactor + lookY, 50*scaleFactor, Math.PI, 0);
+                ctx.fill();
+            }
+
+            // 4. Draw Selected Outer Suit Base Layer Structure
+            ctx.fillStyle = "#0c0d14";
+            ctx.strokeStyle = "#bd00ff";
+            ctx.lineWidth = 2 * scaleFactor;
+            ctx.beginPath();
+            ctx.moveTo(-45 * scaleFactor, 65 * scaleFactor);
+            ctx.lineTo(-80 * scaleFactor, 140 * scaleFactor);
+            ctx.lineTo(80 * scaleFactor, 140 * scaleFactor);
+            ctx.lineTo(45 * scaleFactor, 65 * scaleFactor);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // Accent collar details
+            ctx.strokeStyle = varColor('--neon-cyan');
+            ctx.beginPath();
+            ctx.moveTo(-20*scaleFactor, 66*scaleFactor);
+            ctx.lineTo(0, 90*scaleFactor);
+            ctx.lineTo(20*scaleFactor, 66*scaleFactor);
+            ctx.stroke();
+
+            ctx.restore();
         }
 
-        // 🎲 REAL SHUFFLE ENGINE: Queries the new AI endpoint for an actual random question
-        async function fetchAIShufflePrompt() {
-            const btn = document.getElementById('btn-shuffle-core');
-            const queryBox = document.getElementById('prompt-query-box');
+        function varColor(name) {
+            return name === '--neon-cyan' ? '#00f0ff' : '#bd00ff';
+        }
+
+        // Setup Selection Grid Button Interaction Hooks
+        function setupGridListeners(containerId, stateProp) {
+            const tiles = document.querySelectorAll(`#${containerId} .option-tile`);
+            tiles.forEach(tile => {
+                tile.addEventListener('click', function() {
+                    document.querySelector(`#${containerId} .option-tile.active`).classList.remove('active');
+                    this.classList.add('active');
+                    activeProfile[stateProp] = this.getAttribute('data-val');
+                });
+            });
+        }
+
+        setupGridListeners('hair-grid', 'hairStyle');
+        setupGridListeners('apparel-grid', 'apparelStyle');
+        setupGridListeners('eye-grid', 'eyeColor');
+
+        // Master Frame Loop Updater Routine at solid 60FPS refresh metrics
+        function runMainGraphicsRefreshLoop() {
+            renderAvatarFrame('avatarCanvas', 1);
+            renderAvatarFrame('sidebarAvatarView', 0.5);
+            requestAnimationFrame(runMainGraphicsRefreshLoop);
+        }
+        requestAnimationFrame(runMainGraphicsRefreshLoop);
+
+        // Transition from Gateway setup panel screen into main workspace engine
+        function executeSystemBoot() {
+            const inputName = document.getElementById('avatarNameInput').value.trim();
+            if (inputName) activeProfile.username = inputName;
+
+            // Trigger sleek interface transition animations
+            document.getElementById('gateway-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('gateway-screen').style.display = 'none';
+                const mainFrame = document.getElementById('main-application-frame');
+                mainFrame.style.opacity = '1';
+                mainFrame.style.pointerEvents = 'auto';
+            }, 800);
+
+            document.getElementById('active-user-hud-title').innerText = `${activeProfile.username} - COMPATIBLE`;
+        }
+
+        // 🎲 AI DYNAMIC SHUFFLE FUNCTION
+        async function triggerOmniAIShuffle() {
+            const btn = document.getElementById('shuffle-trigger-btn');
+            const box = document.getElementById('simulation-prompt-box');
             
-            btn.innerText = "⚡ Thinking...";
+            btn.innerText = "🌀 Thinking...";
             btn.disabled = true;
-            queryBox.placeholder = "AI is conjuring up a crazy question...";
 
             try {
-                const response = await fetch('/api/shuffle');
-                const data = await response.json();
-                
-                if (data.question) {
-                    // Remove "What if " if the user prompt box already handles it, or pass the full string cleanly
-                    queryBox.value = data.question;
-                }
+                const res = await fetch('/api/shuffle');
+                const parsed = await res.json();
+                if (parsed.question) box.value = parsed.question;
             } catch (err) {
-                console.error("AI Shuffle Core Fault:", err);
-                queryBox.value = "What if gravity turned off for a minute?";
+                box.value = "What if gravity vanished for ten seconds?";
             } finally {
                 btn.innerText = "🎲 AI Shuffle";
                 btn.disabled = false;
             }
         }
 
-        async function initializeSimulationEngine() {
-            const prompt = document.getElementById('prompt-query-box').value.trim();
-            const username = document.getElementById('username').value || "Guest Traveler";
-            const outfitModule = document.getElementById('outfitModule').value || "Standard Attire";
-            const terminal = document.getElementById('master-terminal-view');
+        // FIRE MAIN SIMULATION PROCESSOR API REQUEST ROUTE CALLS
+        async function fireSimulationVector() {
+            const query = document.getElementById('simulation-prompt-box').value.trim();
+            const monitor = document.getElementById('output-monitor-screen');
 
-            if (!prompt) return alert("Please type an input query vector or click AI Shuffle first.");
+            if (!query) return alert("Input a target prompt vector hypothesis parameter branch first.");
 
-            terminal.innerText = ">> WARNING: ACCESSING DISTRIBUTED QUANTUM COMPUTING CORES...\n>> MODEL INTERACTION IN PROGRESS. RUNNING SCIENTIFIC MATRIX ANALYSIS...";
+            monitor.innerText = ">> CRITICAL MASS REACHED. INITIATING DATA INTERPOLATION CLUSTER ENGINES...\n>> PARSING FACTUAL LAWS OF PLANETARY METRICS FOR YOUTH AGENT INTERFACE FORMATS...";
 
             try {
-                const response = await fetch('/api/simulate', {
+                const res = await fetch('/api/simulate', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        prompt: prompt,
-                        profile: { username, outfitModule }
-                    })
+                    body: JSON.stringify({ prompt: query, profile: activeProfile })
                 });
 
-                const data = await response.json();
-                const processedOutput = data.simulationResult;
+                const data = await res.json();
+                const textOutput = data.simulationResult;
 
-                // Render strictly to the primary huge center window terminal matrix
-                terminal.innerText = processedOutput;
+                monitor.innerText = textOutput;
 
-                // Safely update the index queue cache stack
-                const nodeRecord = { topic: `Vector: ${prompt}`, payload: processedOutput };
-                quantumTimelineCache.push(nodeRecord);
-                
-                refreshLogIndexDOM();
+                // Push onto cache logging arrays safely
+                const historyObject = { title: `Query: ${query}`, dataBody: textOutput };
+                historyCollection.push(historyObject);
+                refreshHistorySidebarDOM();
 
-            } catch (err) {
-                terminal.innerText = `>> CRITICAL RUNTIME ERROR // LINK FAILURE: ${err.message}`;
+            } catch(e) {
+                monitor.innerText = `>> API COMPILATION FAULT DETECTED: ${e.message}`;
             }
         }
 
-        function refreshLogIndexDOM() {
-            const container = document.getElementById('history-log-stack');
+        function refreshHistorySidebarDOM() {
+            const container = document.getElementById('log-history-stack');
             container.innerHTML = "";
 
-            quantumTimelineCache.forEach((node) => {
+            historyCollection.forEach((node) => {
                 const row = document.createElement('div');
-                row.className = 'log-node-item';
-                row.innerText = node.topic; // Displays ONLY the title vector row
-                
-                // Clicking this row pipes the output to the main frame screen block window
+                row.className = 'log-node-row';
+                row.innerText = node.title;
+
                 row.onclick = function() {
-                    document.getElementById('master-terminal-view').innerText = node.payload;
+                    document.getElementById('output-monitor-screen').innerText = node.dataBody;
                 };
 
                 container.appendChild(row);
             });
         }
+
+        // 🎇 Background Particles Retina Canvas Animation matrix setup loop
+        const bgCanvas = document.getElementById('sparkleBg');
+        const bgCtx = bgCanvas.getContext('2d');
+        let sparksArray = [];
+
+        function resizeSparkleCanvas() {
+            bgCanvas.width = window.innerWidth;
+            bgCanvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeSparkleCanvas);
+        resizeSparkleCanvas();
+
+        class SparkParticle {
+            constructor() {
+                this.x = Math.random() * bgCanvas.width;
+                this.y = Math.random() * bgCanvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = Math.random() * 0.4 - 0.2;
+                this.speedY = Math.random() * 0.4 - 0.2;
+                this.alpha = Math.random() * 0.5 + 0.2;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > bgCanvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > bgCanvas.height) this.speedY *= -1;
+            }
+            draw() {
+                bgCtx.save();
+                bgCtx.globalAlpha = this.alpha;
+                bgCtx.fillStyle = '#00f0ff';
+                bgCtx.beginPath();
+                bgCtx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+                bgCtx.fill();
+                bgCtx.restore();
+            }
+        }
+
+        for (let i = 0; i < 65; i++) {
+            sparksArray.push(new SparkParticle());
+        }
+
+        function animateSparksLoop() {
+            bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+            sparksArray.forEach(spark => {
+                spark.update();
+                spark.draw();
+            });
+            requestAnimationFrame(animateSparksLoop);
+        }
+        animateSparksLoop();
     </script>
 </body>
 </html>

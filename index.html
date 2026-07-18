@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantum Reality Simulation Framework v6.6 Platinum</title>
+    <title>Quantum Reality Simulation Framework v6.7 Persistent Edition</title>
     <style>
         /* ==========================================================================
            CORE DESIGN SYSTEM VARIABLES & ADVANCED PLASMA AURORA PALETTES
@@ -60,7 +60,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* ⚔️ HIGH-FIDELITY LIGHTSABER SCROLLBAR ARCHITECTURE */
+        /* ⚔️ LIGHTSABER SCROLLBAR ARCHITECTURE */
         ::-webkit-scrollbar {
             width: 10px;
             height: 10px;
@@ -166,11 +166,6 @@
             cursor: pointer; box-shadow: var(--card-shadow);
         }
 
-        .theme-control-trigger:hover {
-            transform: translateY(-2px);
-            border-color: var(--panel-border-glow);
-        }
-
         #gateway-portal-frame {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -194,7 +189,6 @@
             background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
         }
 
-        /* Dynamic Visual Character Under-Labels */
         .avatar-identity-signature {
             margin-top: 15px;
             font-size: 18px;
@@ -389,7 +383,7 @@
     </div>
 
     <script>
-        // Core Config Matrix Initialization
+        // Profile Matrix Init
         let characterProfile = { username: "Traveler", hairStyle: "Neon Spikes", eyeColor: "#00f0ff" };
         let memoryLogCache = [];
         let mouseX = 0, mouseY = 0;
@@ -409,7 +403,7 @@
             }
         }
 
-        // Monitor Name Input Fields for real-time text label rendering
+        // Live Name Rendering Engine
         const nameField = document.getElementById('avatarNameField');
         nameField.addEventListener('input', function() {
             const currentVal = this.value.trim() || "Traveler";
@@ -423,6 +417,7 @@
             const rootNode = document.documentElement;
             const targetTheme = rootNode.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
             rootNode.setAttribute('data-theme', targetTheme);
+            localStorage.setItem('quantum_theme', targetTheme);
         }
 
         function drawVectorAvatarConstruct(canvasId, scaleFactor = 1) {
@@ -499,7 +494,7 @@
                     document.querySelector(`#${containerId} .custom-option-tile.active`).classList.remove('active');
                     this.classList.add('active');
                     characterProfile[dataFieldTarget] = this.getAttribute('data-val');
-                    saveSystemProfileToStorage(); // Save configurations immediately
+                    saveSystemProfileToStorage(); 
                 });
             });
         }
@@ -513,26 +508,43 @@
         }
         requestAnimationFrame(executionRenderClockLoop);
 
-        // PERSISTENCE STORAGE CONTROLLERS
+        // ==========================================================================
+        // LOCAL PERSISTENT STORAGE CONTROLLERS
+        // ==========================================================================
         function saveSystemProfileToStorage() {
             localStorage.setItem('quantum_profile', JSON.stringify(characterProfile));
+            localStorage.setItem('quantum_logs', JSON.stringify(memoryLogCache));
         }
 
         function loadSavedSystemProfile() {
+            // Restore System Theme Configurations
+            const savedTheme = localStorage.getItem('quantum_theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+            }
+
+            // Restore Profile Attributes
             const storedData = localStorage.getItem('quantum_profile');
             if (storedData) {
                 try {
                     characterProfile = JSON.parse(storedData);
                     
-                    // Sync inputs and visually updated label templates
                     document.getElementById('avatarNameField').value = characterProfile.username;
                     document.getElementById('portalAvatarLabel').innerText = characterProfile.username;
                     document.getElementById('sidebarAvatarLabel').innerText = characterProfile.username;
 
-                    // Restore Active Setup Options
                     syncUISelectionGraphic('hair-grid-rack', characterProfile.hairStyle);
                     syncUISelectionGraphic('eye-grid-rack', characterProfile.eyeColor);
-                } catch(e) { console.error("Cache compilation failure resets initialization", e); }
+                } catch(e) { console.error("Cache processing error reset", e); }
+            }
+
+            // Restore Cached Simulation Anomalies
+            const storedLogs = localStorage.getItem('quantum_logs');
+            if (storedLogs) {
+                try {
+                    memoryLogCache = JSON.parse(storedLogs);
+                    rebuildHistoryLogsDOM();
+                } catch(e) { console.error("Logs processing error reset", e); }
             }
         }
 
@@ -540,7 +552,8 @@
             const elements = document.querySelectorAll(`#${containerId} .custom-option-tile`);
             elements.forEach(tile => {
                 if(tile.getAttribute('data-val') === activeVal) {
-                    document.querySelector(`#${containerId} .custom-option-tile.active`).classList.remove('active');
+                    const activeNode = document.querySelector(`#${containerId} .custom-option-tile.active`);
+                    if (activeNode) activeNode.classList.remove('active');
                     tile.classList.add('active');
                 }
             });
@@ -550,7 +563,7 @@
             const rawInputName = document.getElementById('avatarNameField').value.trim();
             if (rawInputName) characterProfile.username = rawInputName;
             
-            saveSystemProfileToStorage(); // Keep profiles verified
+            saveSystemProfileToStorage(); 
 
             document.getElementById('hud-welcome-banner').innerText = `Quantum Universe Machine // Agent: ${characterProfile.username}`;
 
@@ -599,6 +612,9 @@
 
                 const nodeItem = { tabTitle: `Simulation: ${promptValue}`, detailedPayload: resultData.simulationResult };
                 memoryLogCache.push(nodeItem);
+                
+                // Immediately save newly updated simulation logs to storage
+                saveSystemProfileToStorage();
                 rebuildHistoryLogsDOM();
             } catch (ex) {
                 displayMonitor.innerText = `>> API Integration failure discovered: ${ex.message}`;
@@ -617,7 +633,7 @@
             });
         }
 
-        // Initialize Local Storage Profile parsing on component load lifecycle
+        // Initialize state configuration data on execution lifecycle bootup
         loadSavedSystemProfile();
     </script>
 </body>

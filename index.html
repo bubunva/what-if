@@ -60,6 +60,32 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        /* 🎛️ CUSTOM RETINA GLOW SCROLLBAR ENGINE */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 20px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--panel-border);
+            border-radius: 20px;
+        }
+
+        [data-theme="light"] ::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-primary);
+            box-shadow: 0 0 12px var(--neon-primary);
+        }
+
         /* 🌌 LIQUID PLASMA CSS ANIMATED AURORA BACKGROUND ENGINE */
         .aurora-sky-matrix {
             position: absolute;
@@ -178,6 +204,18 @@
             border: 1px solid var(--panel-border);
             border-radius: 16px; color: var(--text-main);
             font-size: 16px; outline: none;
+            line-height: 1.5;
+        }
+
+        /* Textarea optimizations for multi-line inputs */
+        textarea.premium-text-input {
+            resize: none;
+            min-height: 58px;
+            height: 58px;
+            font-family: inherit;
+            padding: 16px 20px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
 
         [data-theme="light"] .premium-text-input {
@@ -214,6 +252,7 @@
             background: linear-gradient(135deg, var(--neon-primary), var(--neon-secondary));
             color: #fff; box-shadow: 0 10px 30px rgba(142, 0, 199, 0.2);
             transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
+            display: flex; align-items: center; justify-content: center;
         }
 
         .action-submit-btn:hover {
@@ -239,6 +278,8 @@
             padding: 45px; font-size: 20px; line-height: 1.9;
             background: rgba(0, 0, 0, 0.05);
             overflow-y: auto; border: 1px solid rgba(255, 255, 255, 0.01);
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
 
         .log-history-node {
@@ -252,7 +293,7 @@
             transform: translateX(4px);
         }
 
-        .input-console-bar { display: flex; gap: 20px; }
+        .input-console-bar { display: flex; gap: 20px; align-items: center; }
     </style>
 </head>
 <body>
@@ -322,9 +363,9 @@
             </div>
 
             <div class="glass-card input-console-bar" style="padding: 20px 35px;">
-                <button class="action-submit-btn" style="width: auto; background: #4f46e5; padding: 0 30px;" onclick="fetchAIShufflePrompt()">🎲 AI Shuffle</button>
-                <input type="text" id="sandboxPromptField" class="premium-text-input" placeholder="Inject target conditional concept reality prompt vector matrix here...">
-                <button class="action-submit-btn" style="width: auto; padding: 0 40px;" onclick="fireRealitySimulation()">Simulate Branch</button>
+                <button class="action-submit-btn" style="width: auto; background: #4f46e5; padding: 0 30px; height: 58px;" onclick="fetchAIShufflePrompt()">🎲 AI Shuffle</button>
+                <textarea id="sandboxPromptField" class="premium-text-input" placeholder="Inject target conditional concept reality prompt vector matrix here..."></textarea>
+                <button class="action-submit-btn" style="width: auto; padding: 0 40px; height: 58px;" onclick="fireRealitySimulation()">Simulate Branch</button>
             </div>
 
             <div class="glass-card response-monitor-viewport" id="monitor-screen-text">
@@ -469,7 +510,7 @@
             const promptValue = document.getElementById('sandboxPromptField').value.trim();
             const displayMonitor = document.getElementById('monitor-screen-text');
 
-            if (!promptValue) return alert("Please specify or shuffle an query structure statement first.");
+            if (!promptValue) return alert("Please specify or shuffle a query structure statement first.");
 
             displayMonitor.innerText = ">> Query vector registered. Calculating physical variables against local atmospheric realities...";
 

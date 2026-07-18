@@ -1,5 +1,5 @@
 /* ==========================================================================
-   WHAT IF SIMULATOR - GROQ HIGH-SPEED ENGINE (server.js)
+   WHAT IF SIMULATOR - GROQ ENGINE STABLE CORE (server.js)
    ========================================================================== */
 
 const express = require('express');
@@ -21,12 +21,12 @@ app.post('/api/simulate', async (req, res) => {
 
     if (!process.env.GROQ_API_KEY) {
         return res.json({ 
-            simulationResult: "[CONFIG FAULT] Your GROQ_API_KEY is missing from Render environment variables." 
+            simulationResult: "[CONFIG FAULT] GROQ_API_KEY is missing from Render variables." 
         });
     }
 
     try {
-        // Ping Groq's high-speed engine layer using Llama 3.1
+        // Calling an ultra-stable model on Groq's fast layer
         const chatCompletion = await groq.chat.completions.create({
             messages: [
                 {
@@ -41,18 +41,24 @@ app.post('/api/simulate', async (req, res) => {
                     content: `What if ${prompt}`
                 }
             ],
-            model: 'llama-3.1-8b-instant',
+            model: 'openai/gpt-oss-20b',
             max_tokens: 150,
             temperature: 0.8
         });
 
-        const aiOutputText = chatCompletion.choices[0]?.message?.content?.trim() || "[System Anomaly] Empty timeline data.";
+        const aiOutputText = chatCompletion.choices[0]?.message?.content?.trim();
+        
+        if (!aiOutputText) {
+            throw new Error("Received an empty text stream from the backend layer.");
+        }
+
         res.status(200).json({ simulationResult: aiOutputText });
 
     } catch (error) {
-        console.error("Groq Core Pipeline Fault:", error);
+        console.error("Groq Pipeline Failure:", error);
+        // We print the real error directly to the user box instead of static placeholder text!
         res.status(200).json({ 
-            simulationResult: `[API ERROR] Groq failed to process request. Reason: ${error.message}` 
+            simulationResult: `[SERVER CORE FAULT] Connection to AI cluster dropped. Details: ${error.message}` 
         });
     }
 });
@@ -62,5 +68,5 @@ app.get('*', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`🚀 Simulator Engine active via Groq hardware core on port ${PORT}`);
+    console.log(`🚀 Simulator Core running`);
 });

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   WHAT IF SIMULATOR - ADVANCED MULTI-ROUTE BACKEND ENGINE (server.js)
+   WHAT IF SIMULATOR - OMNI-RANDOM MULTI-ROUTE CORE (server.js)
    ========================================================================== */
 
 const express = require('express');
@@ -15,13 +15,13 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '.')));
 
-// ROUTE 1: PRIMARY SIMULATION GENERATOR
+// 🧠 ROUTE 1: PRIMARY KID-FRIENDLY SCIENTIFIC ANALYSIS ENGINE
 app.post('/api/simulate', async (req, res) => {
     const { prompt, profile } = req.body;
 
     if (!process.env.GROQ_API_KEY) {
         return res.json({ 
-            simulationResult: "[CONFIG FAULT] Your GROQ_API_KEY variable is missing from Render." 
+            simulationResult: "[CONFIG FAULT] GROQ_API_KEY is unconfigured in Render." 
         });
     }
 
@@ -38,42 +38,42 @@ app.post('/api/simulate', async (req, res) => {
                 },
                 {
                     role: 'user',
-                    content: `What if ${prompt} (Context user identity: ${profile.username}, outfit: ${profile.outfitModule})`
+                    content: `What if ${prompt} (User details: Name is ${profile.username || 'Traveler'}, Hair Style is ${profile.hairStyle}, Clothing style is ${profile.apparelStyle})`
                 }
             ],
             model: 'llama-3.3-70b-versatile',
-            max_tokens: 250,
+            max_tokens: 300,
             temperature: 0.75 
         });
 
         const aiOutputText = chatCompletion.choices[0]?.message?.content?.trim();
-        res.status(200).json({ simulationResult: aiOutputText || "[Error generating simulation data stream]" });
+        res.status(200).json({ simulationResult: aiOutputText || "[Data transmission failure]" });
 
     } catch (error) {
-        res.status(200).json({ simulationResult: `[SERVER CORE FAULT] Connection lost: ${error.message}` });
+        res.status(200).json({ simulationResult: `[SERVER FAULT] AI Node inaccessible: ${error.message}` });
     }
 });
 
-// ROUTE 2: DYNAMIC DEDICATED AI SHUFFLE ENGINE
+// 🎲 ROUTE 2: UNRESTRICTED OMNI-RANDOM QUESTION ENGINE
 app.get('/api/shuffle', async (req, res) => {
     try {
         const shuffleCompletion = await groq.chat.completions.create({
             messages: [
                 {
                     role: 'system',
-                    content: `Generate a single, unique, incredibly fascinating "What if" science question suitable for kids. 
-                    The question should look at major physical shifts, astronomy, nature, or the human body.
-                    Example format: "What if gravity vanished for 5 seconds?" or "What if the sun turned blue?"
-                    Return ONLY the raw question text. Do not include quotes, intro text, or explanation.`
+                    content: `Generate a single, completely random, fascinating "What if" question for kids. 
+                    It must be completely unpredictable and can be about ANYTHING in the entire universe (nature, animals, history, space, technology, human behavior, everyday items, physics, or concepts).
+                    Ensure it varies wildly every time. Never repeat the same topic twice.
+                    Example formats: "What if cats could talk?", "What if all cars suddenly turned into giant jellybeans?", "What if gravity vanished for ten seconds?"
+                    Return ONLY the raw question text. Do not include quotes, numbering, or introductory chatter.`
                 }
             ],
             model: 'llama-3.3-70b-versatile',
-            max_tokens: 50,
-            temperature: 0.9 // Higher temperature for high randomness
+            max_tokens: 60,
+            temperature: 1.0 // Maximum randomness setting
         });
 
-        let randomQuestion = shuffleCompletion.choices[0]?.message?.content?.trim();
-        // Clean out any accidental wrapping quotes from the model response
+        let randomQuestion = shuffleCompletion.choices[0]?.message?.content?.trim() || "What if trees walked?";
         randomQuestion = randomQuestion.replace(/^["']|["']$/g, '');
         
         res.status(200).json({ question: randomQuestion });
@@ -87,5 +87,5 @@ app.get('*', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`🚀 Quantum Sci-Core running on port ${PORT}`);
+    console.log(`🚀 Quantum Core operational on port ${PORT}`);
 });

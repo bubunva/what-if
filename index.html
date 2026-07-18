@@ -1,433 +1,240 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark" class="no-js">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>What If | Enterprise-Grade Quantum AI Timeline Simulator & Matrix Engine</title>
-    
-    <meta name="render-engine" content="webkit">
-    <meta name="graphics-mode" content="gpu-accelerated">
-    
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="module.css">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@100;300;400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What-If Scientific Simulator</title>
+    <style>
+        /* Basic clean kid-friendly styling styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #121420;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        .sidebar {
+            width: 300px;
+            background: #1a1d36;
+            padding: 20px;
+            border-radius: 12px;
+        }
+        .main-content {
+            flex: 1;
+            background: #1a1d36;
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .status-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .green-dot {
+            width: 12px;
+            height: 12px;
+            background-color: #00ff66;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .input-box-container {
+            display: flex;
+            gap: 10px;
+            position: relative;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid #3b4272;
+            background: #0f111a;
+            color: white;
+            font-size: 16px;
+        }
+        button {
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            background: #4d61fc;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button.shuffle-btn {
+            background: #fca311;
+        }
+        .log-item {
+            background: #24294d;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .big-display {
+            background: #0f111a;
+            padding: 25px;
+            border-radius: 8px;
+            min-height: 200px;
+            font-size: 18px;
+            line-height: 1.6;
+            border-left: 5px solid #4d61fc;
+        }
+        .profile-section input {
+            width: 90%;
+            margin-bottom: 10px;
+            padding: 8px;
+            background: #0f111a;
+            color: white;
+            border: 1px solid #3b4272;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
 
-    <div class="matrix-particle-shield" id="gpu-particle-canvas">
-        <div class="liquid-orb-cluster">
-            <div class="quantum-orb orb-primary-deep" id="orb-alpha"></div>
-            <div class="quantum-orb orb-secondary-neon" id="orb-beta"></div>
-            <div class="quantum-orb orb-tertiary-fluid" id="orb-gamma"></div>
-            <div class="quantum-orb orb-quad-reflective" id="orb-delta"></div>
-            <div class="quantum-orb orb-penta-glowing" id="orb-epsilon"></div>
+    <div class="sidebar">
+        <div class="status-container">
+            <span class="green-dot"></span>
+            <span id="user-status-text">hi - Online</span>
         </div>
-        <div class="glass-grid-overlay"></div>
-        <div class="noise-grain-buffer"></div>
+
+        <h3>Your Character</h3>
+        <div class="profile-section">
+            <label>Name:</label>
+            <input type="text" id="username" placeholder="Enter name...">
+            <label>Outfit/Style:</label>
+            <input type="text" id="outfitModule" placeholder="e.g., Spacesuit, Hoodie...">
+            <button onclick="saveProfile()">Save Character</button>
+        </div>
+
+        <hr style="border: 1px solid #3b4272; margin: 20px 0;">
+
+        <h3>Temporal Log Index</h3>
+        <div id="log-index-container"></div>
     </div>
 
-    <div id="app-root" class="app-viewport-container shell-blur-active">
-
-        <header class="liquid-glass-header" id="system-header-node">
-            <div class="header-left-cluster">
-                <div class="system-power-cube" id="core-power-indicator">
-                    <div class="cube-face front"></div>
-                    <div class="cube-face back"></div>
-                    <div class="cube-face left"></div>
-                    <div class="cube-face right"></div>
-                    <div class="cube-face top"></div>
-                    <div class="cube-face bottom"></div>
-                </div>
-                <div class="brand-typography-wrapper">
-                    <h1 class="quantum-logo-text">WHAT IF</h1>
-                    <span class="sub-logo-engine-specs">Simulating Engine 2.0 // Active</span>
-                </div>
+    <div class="main-content">
+        <div style="text-align: center;">
+            <h1 style="margin: 0;">What If?</h1>
             </div>
 
-            <div class="header-telemetry-panel">
-                <div class="telemetry-node">
-                    <span class="telemetry-label">FPS</span>
-                    <span class="telemetry-value text-glow-cyan" id="telemetry-fps">60.0</span>
-                </div>
-                <div class="telemetry-node-divider"></div>
-                <div class="telemetry-node">
-                    <span class="telemetry-label">LATENCY</span>
-                    <span class="telemetry-value" id="telemetry-ping">0.02ms</span>
-                </div>
-                <div class="telemetry-node-divider"></div>
-                <div class="telemetry-node">
-                    <span class="telemetry-label">ENGINE MODE</span>
-                    <span class="telemetry-value token-engine-state" id="telemetry-state">SECURE_GPU</span>
-                </div>
-            </div>
+        <div class="input-box-container">
+            <button class="shuffle-btn" onclick="triggerShuffle()">🎲 Shuffle</button>
+            <input type="text" id="prompt-input" placeholder="Ask a science question... e.g., What if the moon vanished?">
+            <button onclick="sendSimulation()">Simulate</button>
+        </div>
 
-            <div class="header-right-cluster">
-                <div class="theme-switch-matrix-wrapper">
-                    <button id="theme-toggle-btn" class="glass-liquid-action-button" aria-label="Toggle Core Interface Matrix Style">
-                        <div class="theme-icon-container">
-                            <svg class="theme-svg sun-vector" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="5"></circle>
-                                <line x1="12" y1="1" x2="12" y2="3"></line>
-                                <line x1="12" y1="21" x2="12" y2="23"></line>
-                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                                <line x1="1" y1="12" x2="3" y2="12"></line>
-                                <line x1="21" y1="12" x2="23" y2="12"></line>
-                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                            </svg>
-                            <svg class="theme-svg moon-vector" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                            </svg>
-                        </div>
-                        <span class="button-internal-glow"></span>
-                    </button>
-                </div>
-                
-                <div class="user-status-avatar-badge" id="header-profile-shortcut">
-                    <div class="mini-avatar-ring">
-                        <div class="mini-avatar-fill" id="mini-avatar-preview-target"></div>
-                    </div>
-                    <span class="user-profile-string" id="header-username-string">Guest Traveler</span>
-                </div>
-            </div>
-        </header>
+        <h3>Simulation Outcome</h3>
+        <div class="big-display" id="main-result-screen">
+            The scientific simulation results will render here inside the primary monitor view...
+        </div>
+    </div>
 
-        <main class="primary-application-workspace" id="main-view-viewport">
+    <script>
+        // Array of fun kid-friendly science questions for the shuffle pool
+        const randomQuestions = [
+            "the world was flat",
+            "the moon vanished tomorrow",
+            "humans could fly like birds",
+            "gravity was twice as strong",
+            "the oceans turned into fresh water",
+            "dosaurs never went extinct",
+            "it rained candy instead of water"
+        ];
 
-            <section id="stage-customizer" class="liquid-glass-mega-panel panel-active">
-                
-                <div class="glass-reflection-spline-top"></div>
-                
-                <div class="panel-section-title-block">
-                    <div class="title-accent-bar"></div>
-                    <div class="text-group">
-                        <h2 class="section-main-heading">Configure Alternate-Identity Protocol</h2>
-                        <p class="section-sub-heading">Construct your multi-dimensional vessel. Every aesthetic modifier alters your data profile trace inside the simulation pipeline.</p>
-                    </div>
-                </div>
+        // Temporal history local cache array array
+        let simulationHistory = [];
 
-                <div class="avatar-designer-workspace-layout-grid">
-                    
-                    <div class="avatar-preview-viewport-card">
-                        <div class="card-inner-bevel">
-                            <div class="ambient-glow-pod" id="avatar-ambient-pod"></div>
-                            
-                            <div class="master-avatar-render-frame" id="avatar-render-target">
-                                <svg id="live-avatar-vector-canvas" class="vector-canvas-core-node" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
-                                    <defs>
-                                        <linearGradient id="skin-light-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" stop-color="#fff5f8" />
-                                            <stop offset="100%" stop-color="#ffd0e1" />
-                                        </linearGradient>
-                                        <linearGradient id="skin-dark-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" stop-color="#8d5524" />
-                                            <stop offset="100%" stop-color="#5c3412" />
-                                        </linearGradient>
-                                        <linearGradient id="glass-reflection-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" stop-color="rgba(255,255,255,0.4)" stop-opacity="1"/>
-                                            <stop offset="50%" stop-color="rgba(255,255,255,0.05)" stop-opacity="0.5"/>
-                                            <stop offset="100%" stop-color="rgba(255,255,255,0)" stop-opacity="0"/>
-                                        </linearGradient>
-                                        <filter id="liquid-glow-filter" x="-20%" y="-20%" width="140%" height="140%">
-                                            <feGaussianBlur stdDeviation="8" result="blur" />
-                                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                                        </filter>
-                                    </defs>
+        // 💾 LOAD USER PROFILE AND CACHE DATA IMMEDIATELY ON LOAD
+        window.onload = function() {
+            if (localStorage.getItem('username')) {
+                document.getElementById('username').value = localStorage.getItem('username');
+                document.getElementById('user-status-text').innerText = localStorage.getItem('username') + " - Online";
+            }
+            if (localStorage.getItem('outfitModule')) {
+                document.getElementById('outfitModule').value = localStorage.getItem('outfitModule');
+            }
+        };
 
-                                    <g class="svg-group-bg-ring" id="svg-node-bg-ring">
-                                        <circle cx="200" cy="250" r="140" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="2" stroke-dasharray="10, 5" />
-                                        <circle cx="200" cy="250" r="145" fill="none" stroke="var(--accent-glow)" stroke-width="1" stroke-opacity="0.2" class="spinning-svg-ring" />
-                                    </g>
-
-                                    <g class="svg-group-character-body" id="svg-node-body-root">
-                                        <path id="svg-element-outfit-base" d="M 110,430 C 110,360 140,340 200,340 C 260,340 290,360 290,430 Z" fill="#1e1e38" stroke="rgba(255,255,255,0.1)" stroke-width="2" />
-                                        <path id="svg-element-outfit-accent" d="M 180,340 L 200,380 L 220,340 Z" fill="#ff007f" opacity="0.8" />
-                                        
-                                        <rect id="svg-element-neck" x="185" y="290" width="30" height="60" rx="5" fill="#ffdbac" />
-                                        
-                                        <ellipse id="svg-element-head" cx="200" cy="220" rx="65" ry="80" fill="#ffdbac" stroke="rgba(0,0,0,0.05)" stroke-width="2" />
-                                    </g>
-
-                                    <g class="svg-group-face-features" id="svg-node-face-root">
-                                        <circle id="svg-element-eye-l" cx="175" cy="210" r="8" fill="#111111" />
-                                        <circle id="svg-element-eye-r" cx="225" cy="210" r="8" fill="#111111" />
-                                        <circle cx="177" cy="208" r="2.5" fill="#ffffff" />
-                                        <circle cx="227" cy="208" r="2.5" fill="#ffffff" />
-                                        
-                                        <path d="M 160,195 Q 175,190 190,198" fill="none" stroke="#222222" stroke-width="3" stroke-linecap="round"/>
-                                        <path d="M 240,195 Q 225,190 210,198" fill="none" stroke="#222222" stroke-width="3" stroke-linecap="round"/>
-
-                                        <path id="svg-element-mouth" d="M 180,260 Q 200,285 220,260" fill="none" stroke="#222222" stroke-width="3" stroke-linecap="round" />
-                                    </g>
-
-                                    <g class="svg-group-hair-geometries" id="svg-node-hair-root">
-                                        <path id="svg-element-hair-mesh" d="M 130,200 Q 200,110 270,200 Q 285,160 260,130 Q 200,100 140,130 Q 115,160 130,200 Z" fill="#2d1a04" />
-                                    </g>
-
-                                    <g class="svg-group-glass-sheen" pointer-events="none">
-                                        <path d="M 50,50 L 350,50 C 370,50 370,80 350,150 L 50,300 C 30,120 30,50 50,50 Z" fill="url(#glass-reflection-grad)" />
-                                        <circle cx="340" cy="80" r="40" fill="rgba(255,255,255,0.03)" filter="url(#liquid-glow-filter)" />
-                                    </g>
-                                </svg>
-                            </div>
-
-                            <div class="identity-glass-tag">
-                                <div class="pulse-indicator-node"></div>
-                                <span class="tag-label-string" id="badge-display-name">DESIGNATION: UNKNOWN</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="customizer-parameter-control-panel-column">
-                        
-                        <div class="glass-input-card-group field-focus-glow">
-                            <label for="input-user-name" class="control-matrix-label-heading">Traveler Identity Signature</label>
-                            <div class="input-container-with-embedded-icon">
-                                <div class="input-embedded-icon">👤</div>
-                                <input type="text" id="input-user-name" class="premium-matrix-text-input" placeholder="Type name to serialize identity matrix..." maxlength="20" autocomplete="off" />
-                                <div class="input-underline-laser-effect"></div>
-                            </div>
-                        </div>
-
-                        <div class="parameter-selection-card-block">
-                            <div class="block-header-meta">
-                                <span class="block-step-index">01</span>
-                                <h3 class="block-title-text">Dermal Pigmentation Tone</h3>
-                            </div>
-                            <p class="block-desc-text">Adjust the chromatic composition parameters of your avatar's core epidermal grid layer.</p>
-                            
-                            <div class="palette-matrix-swatch-flex-row">
-                                <button class="matrix-swatch-btn skin-swatch active" data-skin-val="#ffdbac" style="--swatch-color: #ffdbac;" aria-label="Melanin Tone 1"></button>
-                                <button class="matrix-swatch-btn skin-swatch" data-skin-val="#f1c27d" style="--swatch-color: #f1c27d;" aria-label="Melanin Tone 2"></button>
-                                <button class="matrix-swatch-btn skin-swatch" data-skin-val="#e0ac69" style="--swatch-color: #e0ac69;" aria-label="Melanin Tone 3"></button>
-                                <button class="matrix-swatch-btn skin-swatch" data-skin-val="#c68642" style="--swatch-color: #c68642;" aria-label="Melanin Tone 4"></button>
-                                <button class="matrix-swatch-btn skin-swatch" data-skin-val="#8d5524" style="--swatch-color: #8d5524;" aria-label="Melanin Tone 5"></button>
-                                <button class="matrix-swatch-btn skin-swatch" data-skin-val="#5c3412" style="--swatch-color: #5c3412;" aria-label="Melanin Tone 6"></button>
-                            </div>
-                        </div>
-
-                        <div class="parameter-selection-card-block">
-                            <div class="block-header-meta">
-                                <span class="block-step-index">02</span>
-                                <h3 class="block-title-text">Hairstyle & Filament Synthesis</h3>
-                            </div>
-                            <p class="block-desc-text">Synthesize alternative hair structures. Changes vector projection parameters instantly inside the render canvas window viewport.</p>
-                            
-                            <div class="chip-options-selection-matrix-grid">
-                                <button class="matrix-chip-option-btn hair-option active" data-hair-id="classic">
-                                    <span class="chip-inner-text">Classic Crown</span>
-                                    <span class="active-dot"></span>
-                                </button>
-                                <button class="matrix-chip-option-btn hair-option" data-hair-id="neon-fringe">
-                                    <span class="chip-inner-text">Cyberpunk Fringe</span>
-                                    <span class="active-dot"></span>
-                                </button>
-                                <button class="matrix-chip-option-btn hair-option" data-hair-id="cyber-locs">
-                                    <span class="chip-inner-text">Matrix Locs</span>
-                                    <span class="active-dot"></span>
-                                </button>
-                                <button class="matrix-chip-option-btn hair-option" data-hair-id="retro-wave">
-                                    <span class="chip-inner-text">Synthwave Pompadour</span>
-                                    <span class="active-dot"></span>
-                                </button>
-                                <button class="matrix-chip-option-btn hair-option" data-hair-id="slick-back">
-                                    <span class="chip-inner-text">Executive Sleek</span>
-                                    <span class="active-dot"></span>
-                                </button>
-                                <button class="matrix-chip-option-btn hair-option" data-hair-id="bald">
-                                    <span class="chip-inner-text">Minimalist Clean</span>
-                                    <span class="active-dot"></span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="parameter-selection-card-block">
-                            <div class="block-header-meta">
-                                <span class="block-step-index">03</span>
-                                <h3 class="block-title-text">Apparel Modules & Exosuits</h3>
-                            </div>
-                            <p class="block-desc-text">Inject specialized protective layers or cybernetic mesh textures directly over your baseline shoulder paths nodes.</p>
-                            
-                            <div class="chip-options-selection-matrix-grid">
-                                <button class="matrix-chip-option-btn outfit-option active" data-outfit-id="minimalist">
-                                    <span class="chip-inner-text">Neo-Tokyo Casual</span>
-                                    <span class="active-dot"></span>
-                                </button>
-                                <button class="matrix-chip-option-btn outfit-option" data-outfit-id="exosuit">
-                                    <span class="chip-inner-text">Titanium Exosuit v4</span>
-                                    <span class="active-dot"></span>
-                                </button>
-                                <button class="matrix-chip-option-btn outfit-option" data-outfit-id="hologram-cloak">
-                                    <span class="chip-inner-text">Quantum Holo Cloak</span>
-                                    <span class="active-dot"></span>
-                                </button>
-                                <button class="matrix-chip-option-btn outfit-option" data-outfit-id="stealth-mesh">
-                                    <span class="chip-inner-text">Dark Infiltration Shell</span>
-                                    <span class="active-dot"></span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="gate-submission-control-block-wrapper">
-                            <button id="btn-initialize-system" class="super-glow-action-submission-button">
-                                <span class="btn-text-content-layer">Initialize Quantum Reality Core</span>
-                                <span class="btn-liquid-gloss-sheen-layer"></span>
-                                <span class="btn-laser-edge-glow"></span>
-                            </button>
-                            <div class="system-validation-warning-row" id="customizer-error-feedback-node">
-                                <span class="warning-icon">ℹ️</span>
-                                <span class="warning-text-string">Pressing button locks data configuration matrix profiles permanently for the active session.</span>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </section>
-
-            <section id="stage-simulator" class="liquid-glass-mega-panel panel-hidden">
-                
-                <div class="glass-reflection-spline-top"></div>
-                
-                <div class="quantum-simulator-view-split-layout">
-                    
-                    <aside class="simulator-control-sidebar-rail-component">
-                        
-                        <div class="profile-card-embedded-glass-node">
-                            <div class="glossy-avatar-mirror-frame-outer">
-                                <div id="sidebar-avatar-mirror" class="avatar-mirror-render-target-container">
-                                    </div>
-                            </div>
-                            <div class="profile-text-identity-meta-cluster">
-                                <h3 id="sidebar-user-name" class="profile-username-header-text">Synchronizing...</h3>
-                                <div class="profile-status-pill-badge">
-                                    <span class="pulsing-green-node-dot"></span>
-                                    <span class="pill-status-string">CORE_MATRIX_CONNECTED</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="timeline-logs-index-navigation-container">
-                            <div class="logs-header-bar-meta">
-                                <h4 class="logs-panel-heading-text">Temporal Log Index</h4>
-                                <span class="logs-count-counter-badge" id="log-counter-node">0</span>
-                            </div>
-                            <div class="logs-scroller-viewport">
-                                <ul id="simulation-history-list" class="dynamic-historical-log-unordered-list">
-                                    <li class="empty-state-log-placeholder" id="history-empty-placeholder">No alternate timelines mapped in current session.</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="diagnostics-dashboard-container-card">
-                            <h5 class="diagnostics-heading">Quantum Diagnostics</h5>
-                            <div class="diagnostic-metric-grid-matrix">
-                                <div class="metric-block">
-                                    <span class="m-lbl">Entropy Flux</span>
-                                    <span class="m-val" id="metric-entropy">1.024</span>
-                                </div>
-                                <div class="metric-block">
-                                    <span class="m-lbl">Dimensional Divergence</span>
-                                    <span class="m-val text-glow-pink" id="metric-diverge">0.00%</span>
-                                </div>
-                            </div>
-                        </div>
-
-                    </aside>
-
-                    <div class="simulator-main-operational-feed-engine-component">
-                        
-                        <div class="prompt-entry-zone-glow-container">
-                            <div class="input-glow-wrapper-glass-component-shield">
-                                <div class="prompt-fixed-prefix-label-tag">
-                                    <span class="prefix-primary-text">WHAT IF</span>
-                                    <div class="prefix-vertical-divider-bar"></div>
-                                </div>
-                                <input type="text" id="ai-simulator-input" class="glass-prompt-input-field-node" placeholder="dinosaurs never went extinct?" aria-label="Alternate reality inquiry prompt query entry field" />
-                                <button id="btn-fire-simulation" class="execution-fire-action-glowing-trigger-button" aria-label="Execute prompt query timeline rupture">
-                                    <span class="trigger-btn-icon-symbol">⚡</span>
-                                    <span class="trigger-btn-hover-glow-effect-layer"></span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="simulation-output-presentation-canvas-wrapper-container">
-                            
-                            <div id="simulation-loader" class="simulation-loader-state-container component-layer-hidden">
-                                <div class="liquid-spinner-animation-ring">
-                                    <div class="spinner-internal-core-dot"></div>
-                                    <div class="spinner-wave-pulse-layer-1"></div>
-                                    <div class="spinner-wave-pulse-layer-2"></div>
-                                </div>
-                                <div class="loading-status-text-messages-cluster">
-                                    <p class="loading-main-status-string">Recalibrating Alternate Causality Paradox Indices...</p>
-                                    <p class="loading-sub-status-string" id="loading-sub-ticker">Rupturing baseline temporal reality streams...</p>
-                                </div>
-                            </div>
-
-                            <article id="simulation-result-display" class="simulation-result-article-canvas timeline-canvas-empty-state">
-                                <div class="placeholder-empty-view-message-layout-cluster" id="output-view-placeholder-node">
-                                    <div class="placeholder-graphic-wireframe-node">
-                                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-compass-spinning">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
-                                        </svg>
-                                    </div>
-                                    <h4 class="placeholder-heading-text-string">Timeline Engine Ready for Prompt Input</h4>
-                                    <p class="placeholder-body-text-string">Inject an alternate inquiry schema above to rupture the primary continuity axis and analyze the cascading environmental results.</p>
-                                    <div class="sample-suggested-prompts-flex-row">
-                                        <button class="sample-suggestion-pill-tag" data-sample-prompt="the internet was invented in the year 1850?">What if the internet was invented in 1850?</button>
-                                        <button class="sample-suggestion-pill-tag" data-sample-prompt="humans lived underground entirely?">What if humans lived underground?</button>
-                                        <button class="sample-suggestion-pill-tag" data-sample-prompt="gravity instantly decreased by fifty percent?">What if gravity decreased by 50%?</button>
-                                    </div>
-                                </div>
-                                </article>
-                        </div>
-
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <footer class="liquid-glass-footer-status-bar" id="system-footer-node">
-            <div class="footer-left-status-node-cluster">
-                <div class="real-time-online-status-pulse-node">
-                    <span class="status-green-dot-pulse active" id="server-status-dot"></span>
-                    <span class="status-string-label" id="server-status-string-label">SYSTEM CORE COMPONENT NODE: ONLINE</span>
-                </div>
-            </div>
+        function saveProfile() {
+            const user = document.getElementById('username').value || "hi";
+            const outfit = document.getElementById('outfitModule').value || "Default Attire";
             
-            <div class="footer-center-message-ticker">
-                <span class="scrolling-ticker-text-node" id="footer-system-ticker-stream">SYSTEM DIAGNOSTIC BROADCAST CACHE: READY FOR INITIAL PROMPT SCHEMA INJECTION...</span>
-            </div>
+            localStorage.setItem('username', user);
+            localStorage.setItem('outfitModule', outfit);
+            
+            document.getElementById('user-status-text').innerText = user + " - Online";
+            alert("Character setup saved into system memories!");
+        }
 
-            <div class="footer-right-copyright-cluster">
-                <span class="copyright-string-text">© 2026 WHAT IF QUANTUM SIMULATOR ARCHITECTURE. ALL TIMELINES CALCULATED AT HIGH PERFORMANCE SPECIFICATIONS.</span>
-            </div>
-        </footer>
+        // 🎲 Random Question Shuffle Engine Handler
+        function triggerShuffle() {
+            const randomIndex = Math.floor(Math.random() * randomQuestions.length);
+            document.getElementById('prompt-input').value = randomQuestions[randomIndex];
+        }
 
-    </div>
+        async function sendSimulation() {
+            const prompt = document.getElementById('prompt-input').value;
+            const username = document.getElementById('username').value || "hi";
+            const outfitModule = document.getElementById('outfitModule').value || "Standard clothes";
+            const screen = document.getElementById('main-result-screen');
 
-    <div id="global-system-modal-layer" class="system-modal-backdrop-shield component-layer-hidden">
-        <div class="liquid-glass-modal-window-card">
-            <div class="modal-header-bar">
-                <h3 class="modal-title" id="modal-title-target">Timeline Engine System Alert</h3>
-                <button class="modal-close-action-trigger" id="btn-close-modal">✕</button>
-            </div>
-            <div class="modal-body-scroller-content" id="modal-body-target">
-                <p>Default core application overlay content layer.</p>
-            </div>
-            <div class="modal-footer-action-row-bar" id="modal-footer-target">
-                <button class="modal-action-btn-dismiss" id="btn-modal-dismiss">Acknowledge</button>
-            </div>
-        </div>
-    </div>
+            if (!prompt) return alert("Please type or shuffle a question first!");
 
-    <script src="config.js"></script>
-    <script src="app.js"></script>
+            screen.innerText = "Analyzing cosmic variables... Please stand by...";
+
+            try {
+                const response = await fetch('/api/simulate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        prompt: prompt,
+                        profile: { username, outfitModule }
+                    })
+                });
+
+                const data = await response.json();
+                const resultText = data.simulationResult;
+
+                // Render result strictly into the main giant frame layout container
+                screen.innerText = resultText;
+
+                // Push onto internal list timeline tracker arrays safely
+                const historyItem = { topic: `What if ${prompt}`, answer: resultText };
+                simulationHistory.push(historyItem);
+                
+                renderLogIndex();
+
+            } catch (err) {
+                screen.innerText = "[ERROR] Could not gather stream data connection: " + err.message;
+            }
+        }
+
+        // Draw the log list without showing answers underneath the topics
+        function renderLogIndex() {
+            const container = document.getElementById('log-index-container');
+            container.innerHTML = "";
+
+            simulationHistory.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'log-item';
+                div.innerText = item.topic;
+                
+                // 🛑 Click interaction targets and commands text straight onto the primary main view display
+                div.onclick = function() {
+                    document.getElementById('main-result-screen').innerText = item.answer;
+                };
+
+                container.appendChild(div);
+            });
+        }
+    </script>
 </body>
 </html>

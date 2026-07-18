@@ -3,192 +3,325 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>What-If Scientific Simulator</title>
+    <title>Quantum Causality Matrix</title>
     <style>
-        /* Basic clean kid-friendly styling styling */
+        :root {
+            --bg-color: #0a0b10;
+            --panel-bg: rgba(20, 24, 45, 0.6);
+            --neon-blue: #00f0ff;
+            --neon-purple: #bd00ff;
+            --neon-green: #39ff14;
+            --text-main: #e2e8f0;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #121420;
-            color: #fff;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Consolas', monospace, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 30px;
             display: flex;
-            gap: 20px;
+            gap: 25px;
+            min-height: 90vh;
+            overflow-x: hidden;
         }
+
+        /* Sci-Fi Ambient Glow Animation background elements */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -10%; left: -10%; width: 50%; height: 50%;
+            background: radial-gradient(circle, rgba(189,0,255,0.15) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        /* High Fidelity Neon Panels */
+        .cyber-panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37),
+                        inset 0 0 15px rgba(0, 240, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .cyber-panel:hover {
+            border-color: rgba(0, 240, 255, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(0, 240, 255, 0.1),
+                        inset 0 0 20px rgba(0, 240, 255, 0.1);
+        }
+
         .sidebar {
-            width: 300px;
-            background: #1a1d36;
-            padding: 20px;
-            border-radius: 12px;
-        }
-        .main-content {
-            flex: 1;
-            background: #1a1d36;
-            padding: 20px;
-            border-radius: 12px;
+            width: 340px;
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
-        .status-container {
+
+        .main-display {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Online indicator styling */
+        .status-header {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-weight: bold;
+            gap: 12px;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 15px;
+        }
+
+        .pulse-dot {
+            width: 10px;
+            height: 10px;
+            background-color: var(--neon-green);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(57, 255, 20, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
+        }
+
+        /* High Fidelity Inputs and Customizer Layouts */
+        h2, h3 {
+            margin-top: 0;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .input-group {
             margin-bottom: 15px;
         }
-        .green-dot {
-            width: 12px;
-            height: 12px;
-            background-color: #00ff66;
-            border-radius: 50%;
-            display: inline-block;
+
+        label {
+            display: block;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 5px;
         }
-        .input-box-container {
-            display: flex;
-            gap: 10px;
-            position: relative;
-        }
+
         input[type="text"] {
-            flex: 1;
-            padding: 12px;
-            border-radius: 8px;
-            border: 2px solid #3b4272;
-            background: #0f111a;
-            color: white;
-            font-size: 16px;
-        }
-        button {
-            padding: 12px 20px;
-            border-radius: 8px;
-            border: none;
-            background: #4d61fc;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        button.shuffle-btn {
-            background: #fca311;
-        }
-        .log-item {
-            background: #24294d;
-            padding: 10px;
-            margin-bottom: 8px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-        .big-display {
-            background: #0f111a;
-            padding: 25px;
-            border-radius: 8px;
-            min-height: 200px;
-            font-size: 18px;
-            line-height: 1.6;
-            border-left: 5px solid #4d61fc;
-        }
-        .profile-section input {
             width: 90%;
+            padding: 12px;
+            background: rgba(10, 11, 16, 0.8);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--neon-purple);
+            box-shadow: 0 0 10px rgba(189, 0, 255, 0.4);
+        }
+
+        /* Cyberpunk Button Core */
+        .cyber-btn {
+            padding: 12px 20px;
+            border: 1px solid var(--neon-blue);
+            background: rgba(0, 240, 255, 0.1);
+            color: #fff;
+            font-weight: bold;
+            font-family: inherit;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+        }
+
+        .cyber-btn:hover {
+            background: var(--neon-blue);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+
+        .shuffle-btn {
+            border-color: var(--neon-purple);
+            background: rgba(189, 0, 255, 0.1);
+        }
+
+        .shuffle-btn:hover {
+            background: var(--neon-purple);
+            color: #fff;
+            box-shadow: 0 0 15px var(--neon-purple);
+        }
+
+        /* Dynamic Main Monitoring Terminal Screen */
+        .main-terminal-screen {
+            flex: 1;
+            background: rgba(5, 6, 10, 0.9);
+            border: 1px solid rgba(189, 0, 255, 0.2);
+            border-radius: 12px;
+            padding: 30px;
+            font-size: 18px;
+            line-height: 1.7;
+            position: relative;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.9);
+            min-height: 250px;
+        }
+
+        .main-terminal-screen::before {
+            content: "SYSTEM MONITOR // OUTPUT";
+            position: absolute;
+            top: 10px; left: 15px;
+            font-size: 10px;
+            color: rgba(255,255,255,0.3);
+            letter-spacing: 2px;
+        }
+
+        /* Temporal Index Logs UI Layout */
+        .log-list-wrapper {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .log-node-item {
+            background: rgba(255,255,255,0.03);
+            border-left: 3px solid var(--neon-blue);
+            padding: 12px;
             margin-bottom: 10px;
-            padding: 8px;
-            background: #0f111a;
-            color: white;
-            border: 1px solid #3b4272;
             border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .log-node-item:hover {
+            background: rgba(0, 240, 255, 0.08);
+            transform: translateX(3px);
+        }
+
+        .input-bar-container {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .input-bar-container input[type="text"] {
+            flex: 1;
         }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <div class="status-container">
-            <span class="green-dot"></span>
-            <span id="user-status-text">hi - Online</span>
+        <div class="cyber-panel status-header">
+            <div class="pulse-dot"></div>
+            <div id="status-alias-display">NODE - ONLINE</div>
         </div>
 
-        <h3>Your Character</h3>
-        <div class="profile-section">
-            <label>Name:</label>
-            <input type="text" id="username" placeholder="Enter name...">
-            <label>Outfit/Style:</label>
-            <input type="text" id="outfitModule" placeholder="e.g., Spacesuit, Hoodie...">
-            <button onclick="saveProfile()">Save Character</button>
+        <div class="cyber-panel">
+            <h3>Identity Matrix</h3>
+            <div class="input-group">
+                <label>User Identifier:</label>
+                <input type="text" id="username" placeholder="Enter identity tag...">
+            </div>
+            <div class="input-group">
+                <label>Outfit Profile Configuration:</label>
+                <input type="text" id="outfitModule" placeholder="e.g., Hazmat Suit, Exoskeleton...">
+            </div>
+            <button class="cyber-btn" onclick="commitProfileMatrix()">Save Avatar Profile</button>
         </div>
 
-        <hr style="border: 1px solid #3b4272; margin: 20px 0;">
-
-        <h3>Temporal Log Index</h3>
-        <div id="log-index-container"></div>
+        <div class="cyber-panel" style="flex: 1;">
+            <h3>Temporal Log Index</h3>
+            <div class="log-list-wrapper" id="history-log-stack"></div>
+        </div>
     </div>
 
-    <div class="main-content">
-        <div style="text-align: center;">
-            <h1 style="margin: 0;">What If?</h1>
-            </div>
-
-        <div class="input-box-container">
-            <button class="shuffle-btn" onclick="triggerShuffle()">🎲 Shuffle</button>
-            <input type="text" id="prompt-input" placeholder="Ask a science question... e.g., What if the moon vanished?">
-            <button onclick="sendSimulation()">Simulate</button>
+    <div class="main-display">
+        <div class="cyber-panel">
+            <h1 style="margin: 0; font-size: 32px; letter-spacing: 3px; display: inline-block;">WHAT IF?</h1>
+            <p style="margin: 5px 0 0 0; font-size: 12px; color: var(--neon-blue); text-transform: uppercase;">Hypothetical Scientific Sandbox</p>
         </div>
 
-        <h3>Simulation Outcome</h3>
-        <div class="big-display" id="main-result-screen">
-            The scientific simulation results will render here inside the primary monitor view...
+        <div class="cyber-panel input-bar-container">
+            <button class="cyber-btn shuffle-btn" id="btn-shuffle-core" onclick="fetchAIShufflePrompt()">🎲 AI Shuffle</button>
+            <input type="text" id="prompt-query-box" placeholder="Input target hypothetical vector variable... (e.g., What if the atmosphere vanished?)">
+            <button class="cyber-btn" onclick="initializeSimulationEngine()">Simulate Vector</button>
+        </div>
+
+        <div class="main-terminal-screen" id="master-terminal-view">
+            Awaiting prompt initiation variable execution inputs inside the navigation controller bar...
         </div>
     </div>
 
     <script>
-        // Array of fun kid-friendly science questions for the shuffle pool
-        const randomQuestions = [
-            "the world was flat",
-            "the moon vanished tomorrow",
-            "humans could fly like birds",
-            "gravity was twice as strong",
-            "the oceans turned into fresh water",
-            "dosaurs never went extinct",
-            "it rained candy instead of water"
-        ];
+        let quantumTimelineCache = [];
 
-        // Temporal history local cache array array
-        let simulationHistory = [];
-
-        // 💾 LOAD USER PROFILE AND CACHE DATA IMMEDIATELY ON LOAD
+        // 💾 PERSIST DATA MATRIX ON SYSTEM LOAD UP
         window.onload = function() {
-            if (localStorage.getItem('username')) {
-                document.getElementById('username').value = localStorage.getItem('username');
-                document.getElementById('user-status-text').innerText = localStorage.getItem('username') + " - Online";
-            }
-            if (localStorage.getItem('outfitModule')) {
-                document.getElementById('outfitModule').value = localStorage.getItem('outfitModule');
-            }
+            const cachedName = localStorage.getItem('matrix_username') || "Guest Traveler";
+            const cachedOutfit = localStorage.getItem('matrix_outfit') || "Standard Attire";
+            
+            document.getElementById('username').value = cachedName;
+            document.getElementById('outfitModule').value = cachedOutfit;
+            document.getElementById('status-alias-display').innerText = `${cachedName} - ONLINE`;
         };
 
-        function saveProfile() {
-            const user = document.getElementById('username').value || "hi";
-            const outfit = document.getElementById('outfitModule').value || "Default Attire";
+        function commitProfileMatrix() {
+            const user = document.getElementById('username').value.trim() || "Guest Traveler";
+            const outfit = document.getElementById('outfitModule').value.trim() || "Standard Attire";
             
-            localStorage.setItem('username', user);
-            localStorage.setItem('outfitModule', outfit);
+            localStorage.setItem('matrix_username', user);
+            localStorage.setItem('matrix_outfit', outfit);
             
-            document.getElementById('user-status-text').innerText = user + " - Online";
-            alert("Character setup saved into system memories!");
+            document.getElementById('status-alias-display').innerText = `${user} - ONLINE`;
+            alert("Matrix character data safely locked to local memory core.");
         }
 
-        // 🎲 Random Question Shuffle Engine Handler
-        function triggerShuffle() {
-            const randomIndex = Math.floor(Math.random() * randomQuestions.length);
-            document.getElementById('prompt-input').value = randomQuestions[randomIndex];
+        // 🎲 REAL SHUFFLE ENGINE: Queries the new AI endpoint for an actual random question
+        async function fetchAIShufflePrompt() {
+            const btn = document.getElementById('btn-shuffle-core');
+            const queryBox = document.getElementById('prompt-query-box');
+            
+            btn.innerText = "⚡ Thinking...";
+            btn.disabled = true;
+            queryBox.placeholder = "AI is conjuring up a crazy question...";
+
+            try {
+                const response = await fetch('/api/shuffle');
+                const data = await response.json();
+                
+                if (data.question) {
+                    // Remove "What if " if the user prompt box already handles it, or pass the full string cleanly
+                    queryBox.value = data.question;
+                }
+            } catch (err) {
+                console.error("AI Shuffle Core Fault:", err);
+                queryBox.value = "What if gravity turned off for a minute?";
+            } finally {
+                btn.innerText = "🎲 AI Shuffle";
+                btn.disabled = false;
+            }
         }
 
-        async function sendSimulation() {
-            const prompt = document.getElementById('prompt-input').value;
-            const username = document.getElementById('username').value || "hi";
-            const outfitModule = document.getElementById('outfitModule').value || "Standard clothes";
-            const screen = document.getElementById('main-result-screen');
+        async function initializeSimulationEngine() {
+            const prompt = document.getElementById('prompt-query-box').value.trim();
+            const username = document.getElementById('username').value || "Guest Traveler";
+            const outfitModule = document.getElementById('outfitModule').value || "Standard Attire";
+            const terminal = document.getElementById('master-terminal-view');
 
-            if (!prompt) return alert("Please type or shuffle a question first!");
+            if (!prompt) return alert("Please type an input query vector or click AI Shuffle first.");
 
-            screen.innerText = "Analyzing cosmic variables... Please stand by...";
+            terminal.innerText = ">> WARNING: ACCESSING DISTRIBUTED QUANTUM COMPUTING CORES...\n>> MODEL INTERACTION IN PROGRESS. RUNNING SCIENTIFIC MATRIX ANALYSIS...";
 
             try {
                 const response = await fetch('/api/simulate', {
@@ -201,38 +334,37 @@
                 });
 
                 const data = await response.json();
-                const resultText = data.simulationResult;
+                const processedOutput = data.simulationResult;
 
-                // Render result strictly into the main giant frame layout container
-                screen.innerText = resultText;
+                // Render strictly to the primary huge center window terminal matrix
+                terminal.innerText = processedOutput;
 
-                // Push onto internal list timeline tracker arrays safely
-                const historyItem = { topic: `What if ${prompt}`, answer: resultText };
-                simulationHistory.push(historyItem);
+                // Safely update the index queue cache stack
+                const nodeRecord = { topic: `Vector: ${prompt}`, payload: processedOutput };
+                quantumTimelineCache.push(nodeRecord);
                 
-                renderLogIndex();
+                refreshLogIndexDOM();
 
             } catch (err) {
-                screen.innerText = "[ERROR] Could not gather stream data connection: " + err.message;
+                terminal.innerText = `>> CRITICAL RUNTIME ERROR // LINK FAILURE: ${err.message}`;
             }
         }
 
-        // Draw the log list without showing answers underneath the topics
-        function renderLogIndex() {
-            const container = document.getElementById('log-index-container');
+        function refreshLogIndexDOM() {
+            const container = document.getElementById('history-log-stack');
             container.innerHTML = "";
 
-            simulationHistory.forEach((item, index) => {
-                const div = document.createElement('div');
-                div.className = 'log-item';
-                div.innerText = item.topic;
+            quantumTimelineCache.forEach((node) => {
+                const row = document.createElement('div');
+                row.className = 'log-node-item';
+                row.innerText = node.topic; // Displays ONLY the title vector row
                 
-                // 🛑 Click interaction targets and commands text straight onto the primary main view display
-                div.onclick = function() {
-                    document.getElementById('main-result-screen').innerText = item.answer;
+                // Clicking this row pipes the output to the main frame screen block window
+                row.onclick = function() {
+                    document.getElementById('master-terminal-view').innerText = node.payload;
                 };
 
-                container.appendChild(div);
+                container.appendChild(row);
             });
         }
     </script>

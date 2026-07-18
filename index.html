@@ -301,6 +301,14 @@
             display: flex; gap: 20px; align-items: flex-end;
             transition: padding 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
+        const promptInputField = document.getElementById('sandboxPromptField');
+
+promptInputField.addEventListener('input', function() {
+    // Reset height to compute fresh scroll bounds
+    this.style.height = 'auto'; 
+    // Set the height directly to its content scroll height
+    this.style.height = this.scrollHeight + 'px'; 
+});
     </style>
 </head>
 <body>

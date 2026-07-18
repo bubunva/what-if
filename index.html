@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantum Reality Simulation Framework v6.0 Platinum</title>
+    <title>Quantum Reality Simulation Framework v6.5 Lightsaber Edition</title>
     <style>
         /* ==========================================================================
            CORE DESIGN SYSTEM VARIABLES & ADVANCED PLASMA AURORA PALETTES
@@ -60,30 +60,30 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* 🎛️ CUSTOM RETINA GLOW SCROLLBAR ENGINE */
+        /* ⚔️ HIGH-FIDELITY LIGHTSABER SCROLLBAR ARCHITECTURE */
         ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
         }
         
         ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.05);
+            background: linear-gradient(90deg, rgba(0,0,0,0.3) 0%, rgba(255,255,255,0.02) 50%, rgba(0,0,0,0.3) 100%);
+            border-left: 1px solid rgba(255, 255, 255, 0.03);
+            border-right: 1px solid rgba(255, 255, 255, 0.03);
             border-radius: 20px;
         }
         
         ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid var(--panel-border);
+            /* Pure White Core with Powerful Outer Neon Glow Matrices */
+            background: #ffffff;
             border-radius: 20px;
+            box-shadow: 0 0 8px 2px var(--neon-primary), inset 0 0 4px rgba(255, 255, 255, 0.8);
+            border: 2px solid transparent;
+            background-clip: padding-box;
         }
 
-        [data-theme="light"] ::-webkit-scrollbar-thumb {
-            background: rgba(0, 0, 0, 0.1);
-        }
-        
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--neon-primary);
-            box-shadow: 0 0 12px var(--neon-primary);
+            box-shadow: 0 0 14px 4px var(--neon-secondary), inset 0 0 4px rgba(255, 255, 255, 0.9);
         }
 
         /* 🌌 LIQUID PLASMA CSS ANIMATED AURORA BACKGROUND ENGINE */
@@ -207,7 +207,7 @@
             line-height: 1.5;
         }
 
-        /* Textarea optimizations for multi-line inputs */
+        /* Textarea optimizations for multi-line inputs with auto-expansion overrides */
         textarea.premium-text-input {
             resize: none;
             min-height: 58px;
@@ -216,6 +216,8 @@
             padding: 16px 20px;
             white-space: pre-wrap;
             word-wrap: break-word;
+            overflow-y: hidden; /* Prevent text box native scrollbars */
+            transition: height 0.1s cubic-bezier(0.16, 1, 0.3, 1), background 0.6s, border-color 0.4s, box-shadow 0.4s;
         }
 
         [data-theme="light"] .premium-text-input {
@@ -251,7 +253,7 @@
             text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer;
             background: linear-gradient(135deg, var(--neon-primary), var(--neon-secondary));
             color: #fff; box-shadow: 0 10px 30px rgba(142, 0, 199, 0.2);
-            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
+            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s, background 0.6s;
             display: flex; align-items: center; justify-content: center;
         }
 
@@ -293,7 +295,10 @@
             transform: translateX(4px);
         }
 
-        .input-console-bar { display: flex; gap: 20px; align-items: center; }
+        .input-console-bar { 
+            display: flex; gap: 20px; align-items: flex-end; /* Align items to bottom as box expands */
+            transition: padding 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
     </style>
 </head>
 <body>
@@ -364,7 +369,7 @@
 
             <div class="glass-card input-console-bar" style="padding: 20px 35px;">
                 <button class="action-submit-btn" style="width: auto; background: #4f46e5; padding: 0 30px; height: 58px;" onclick="fetchAIShufflePrompt()">🎲 AI Shuffle</button>
-                <textarea id="sandboxPromptField" class="premium-text-input" placeholder="Inject target conditional concept reality prompt vector matrix here..."></textarea>
+                <textarea id="sandboxPromptField" class="premium-text-input" placeholder="Inject target conditional concept reality prompt vector matrix here..." rows="1"></textarea>
                 <button class="action-submit-btn" style="width: auto; padding: 0 40px; height: 58px;" onclick="fireRealitySimulation()">Simulate Branch</button>
             </div>
 
@@ -381,6 +386,19 @@
         let runningTimelineTicker = 0;
 
         window.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
+
+        // Auto-Expanding Text Input Mechanics
+        const txBox = document.getElementById('sandboxPromptField');
+        txBox.addEventListener('input', autoExpandPromptInputBox);
+
+        function autoExpandPromptInputBox() {
+            this.style.height = '58px'; // Reset base bounds
+            const customScrollHeight = this.scrollHeight;
+            // Cap expansion at max natural comfort height
+            if(customScrollHeight > 58) {
+                this.style.height = customScrollHeight + 'px';
+            }
+        }
 
         function switchSystemTheme() {
             const rootNode = document.documentElement;
@@ -500,9 +518,13 @@
             try {
                 const response = await fetch('/api/shuffle');
                 const data = await response.json();
-                if (data.question) inputField.value = data.question;
+                if (data.question) {
+                    inputField.value = data.question;
+                    autoExpandPromptInputBox.call(inputField);
+                }
             } catch (err) {
                 inputField.value = "What if oceans were filled with dynamic clean liquid neon?";
+                autoExpandPromptInputBox.call(inputField);
             }
         }
 

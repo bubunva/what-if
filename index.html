@@ -3,328 +3,597 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantum Causality Matrix 3.0</title>
+    <title>Quantum Reality Simulation Framework v5.0 Pro</title>
     <style>
+        /* ==========================================================================
+           CORE DESIGN SYSTEM VARIABLES & HYPER-FIDELITY MATRIX ARCHITECTURE
+           ========================================================================== */
         :root {
-            --bg-base: #05060b;
-            --panel-glow: rgba(0, 240, 255, 0.03);
-            --border-neon: rgba(0, 240, 255, 0.25);
+            --bg-base: #030408;
+            --panel-bg: rgba(10, 12, 22, 0.45);
+            --panel-border: rgba(0, 240, 255, 0.15);
+            --panel-border-heavy: rgba(0, 240, 255, 0.35);
             --neon-cyan: #00f0ff;
             --neon-magenta: #bd00ff;
-            --neon-green: #39ff14;
-            --text-glow: 0 0 12px rgba(0, 240, 255, 0.6);
-            --retina-gradient: radial-gradient(circle at 50% 50%, #121526 0%, #05060b 100%);
+            --neon-amber: #fca311;
+            --neon-emerald: #39ff14;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --glass-blur: blur(25px);
+            --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(0, 240, 255, 0.02);
+            --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            --font-mono: 'SF Mono', Monaco, Consolas, 'Fira Code', monospace;
         }
 
-        * { box-sizing: border-box; }
+        [data-theme="light"] {
+            --bg-base: #f0f4f8;
+            --panel-bg: rgba(255, 255, 255, 0.7);
+            --panel-border: rgba(0, 136, 204, 0.12);
+            --panel-border-heavy: rgba(0, 136, 204, 0.4);
+            --neon-cyan: #0077b6;
+            --neon-magenta: #9d00e0;
+            --neon-amber: #d97706;
+            --neon-emerald: #059669;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --glass-blur: blur(20px);
+            --card-shadow: 0 15px 35px rgba(0, 100, 200, 0.06), inset 0 0 20px rgba(255, 255, 255, 0.8);
+        }
+
+        /* ==========================================================================
+           RESET ENGINE & APPLICATION CANVAS WRAPPERS
+           ========================================================================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background var(--transition-smooth), border-color var(--transition-smooth), box-shadow var(--transition-smooth);
+        }
 
         body, html {
-            margin: 0; padding: 0;
-            width: 100%; height: 100%;
-            background: var(--retina-gradient);
-            color: #e2e8f0;
-            font-family: 'Courier New', Courier, monospace;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden;
+            letter-spacing: -0.01em;
+        }
+
+        /* High-Performance Canvas Layers for Complex Atmospheric Mathematics */
+        .master-sky-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ==========================================================================
+           THEME INTERACTION & INTERACTION COMPONENTS
+           ========================================================================== */
+        .theme-deck-trigger {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            z-index: 100;
+            background: var(--panel-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--panel-border);
+            padding: 12px 24px;
+            border-radius: 40px;
+            color: var(--text-main);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .theme-deck-trigger:hover {
+            border-color: var(--panel-border-heavy);
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+        }
+
+        .theme-deck-trigger:active {
+            transform: translateY(0);
+        }
+
+        /* ==========================================================================
+           PHASE 1: ENTER THE GATEWAY INTERACTIVE IDENTITY PANEL
+           ========================================================================== */
+        #gateway-system-portal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 50;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--bg-base);
+            transition: opacity 0.8s cubic-bezier(0.76, 0, 0.24, 1), transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+        }
+
+        .portal-wrapper {
+            width: 1100px;
+            height: 700px;
+            display: flex;
+            gap: 40px;
+            z-index: 20;
+        }
+
+        .glass-mainframe {
+            background: var(--panel-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--panel-border);
+            border-radius: 32px;
+            box-shadow: var(--card-shadow);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
             overflow: hidden;
         }
 
-        /* Ambient animated matrix background sparks */
-        .sparkle-canvas {
+        .glass-mainframe::before {
+            content: '';
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; pointer-events: none;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta), var(--neon-amber));
         }
 
-        /* GATEWAY SCREEN: CUSTOMIZER DISPLAY CONTAINER */
-        #gateway-screen {
-            position: absolute;
-            width: 100%; height: 100%;
-            z-index: 10;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: rgba(5, 6, 11, 0.95);
-            backdrop-filter: blur(20px);
-            transition: opacity 0.8s ease-in-out;
-        }
-
-        .customizer-frame {
-            width: 950px; height: 620px;
-            background: rgba(15, 18, 36, 0.7);
-            border: 2px solid var(--neon-cyan);
-            border-radius: 24px;
-            box-shadow: 0 0 40px rgba(0, 240, 255, 0.2), inset 0 0 30px rgba(0,240,255,0.05);
-            display: flex;
-            padding: 30px; gap: 30px;
-            position: relative;
-        }
-
-        .avatar-preview-box {
+        .preview-column {
             flex: 1;
-            background: rgba(5, 6, 12, 0.8);
-            border: 1px solid var(--border-neon);
-            border-radius: 16px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
             position: relative;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
         }
 
-        #avatarCanvas {
-            width: 320px; height: 320px;
+        .avatar-render-target {
+            width: 340px;
+            height: 340px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(189,0,255,0.1) 0%, transparent 75%);
+            background: radial-gradient(circle, rgba(0, 240, 255, 0.05) 0%, transparent 70%);
+            position: relative;
         }
 
-        .customizer-controls {
-            width: 450px;
+        .avatar-telemetry-overlay {
+            margin-top: 25px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            color: var(--neon-cyan);
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .telemetry-pulse {
+            width: 8px; height: 8px;
+            background: var(--neon-emerald);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--neon-emerald);
+            animation: pulseState 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseState {
+            0%, 100% { opacity: 0.4; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.1); box-shadow: 0 0 15px var(--neon-emerald); }
+        }
+
+        .control-column {
+            flex: 1.3;
             justify-content: space-between;
         }
 
-        .control-shelf {
-            max-height: 420px;
+        .scrolling-parameter-deck {
+            flex: 1;
             overflow-y: auto;
-            padding-right: 10px;
+            padding-right: 15px;
+            margin: 25px 0;
         }
 
-        .custom-row {
-            margin-bottom: 20px;
+        .parameter-block {
+            margin-bottom: 25px;
         }
 
-        .custom-row label {
+        .parameter-block label {
             display: block;
+            font-family: var(--font-mono);
             font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--neon-cyan);
-            margin-bottom: 8px;
-            text-shadow: var(--text-glow);
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            margin-bottom: 10px;
         }
 
-        .input-text-node {
-            width: 100%; padding: 12px;
-            background: rgba(5, 6, 10, 0.9);
-            border: 1px solid var(--border-neon);
-            border-radius: 8px;
-            color: #fff; font-family: inherit;
+        .premium-text-input {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--panel-border);
+            border-radius: 14px;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            transition: var(--transition-smooth);
         }
 
-        .input-text-node:focus {
-            outline: none; border-color: var(--neon-magenta);
-            box-shadow: 0 0 15px rgba(189, 0, 255, 0.4);
-        }
-
-        .selector-grid {
-            display: flex; gap: 10px; flex-wrap: wrap;
-        }
-
-        .option-tile {
-            padding: 8px 14px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 6px; cursor: pointer;
-            font-size: 12px; transition: all 0.2s;
-        }
-
-        .option-tile:hover, .option-tile.active {
+        .premium-text-input:focus {
             border-color: var(--neon-cyan);
-            background: rgba(0, 240, 255, 0.1);
-            color: #fff; box-shadow: 0 0 8px rgba(0,240,255,0.3);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.15), inset 0 0 10px rgba(0, 240, 255, 0.05);
         }
 
-        /* CORE ENGINE MAIN FRAME WORKSPACE */
-        #main-application-frame {
-            width: 100%; height: 100%;
-            padding: 30px; display: flex; gap: 25px;
-            position: relative; z-index: 2;
-            opacity: 0; pointer-events: none;
-            transition: opacity 0.6s ease-out;
+        .custom-selection-grid {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
-        .cyber-panel {
-            background: rgba(16, 20, 38, 0.55);
-            backdrop-filter: blur(25px);
-            border: 1px solid var(--border-neon);
-            border-radius: 20px; padding: 25px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.4), inset 0 0 20px rgba(0, 240, 255, 0.02);
+        .custom-selection-tile {
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--panel-border);
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            color: var(--text-muted);
         }
 
-        .sidebar-panel { width: 360px; display: flex; flex-direction: column; gap: 20px; }
-        .center-matrix-panel { flex: 1; display: flex; flex-direction: column; gap: 20px; }
-
-        .pulse-status {
-            display: flex; align-items: center; gap: 12px;
-            font-size: 13px; text-transform: uppercase; letter-spacing: 2px;
-            border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 15px;
+        .custom-selection-tile:hover {
+            border-color: var(--panel-border-heavy);
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.04);
         }
 
-        .green-beacon {
-            width: 10px; height: 10px; background: var(--neon-green); border-radius: 50%;
-            box-shadow: 0 0 12px var(--neon-green); animation: pulseGlow 2s infinite;
+        .custom-selection-tile.active {
+            border-color: var(--neon-cyan);
+            background: rgba(0, 240, 255, 0.06);
+            color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
         }
 
-        @keyframes pulseGlow {
-            0%, 100% { opacity: 0.6; } 50% { opacity: 1; box-shadow: 0 0 18px var(--neon-green); }
+        .master-submit-btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 16px;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta));
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.25);
+            transition: var(--transition-smooth);
         }
 
-        .action-button {
-            padding: 14px 24px; border: 1px solid var(--neon-cyan);
-            background: rgba(0, 240, 255, 0.08); color: #fff;
-            border-radius: 10px; font-weight: bold; font-family: inherit;
-            cursor: pointer; text-transform: uppercase; letter-spacing: 1.5px;
-            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+        .master-submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(0, 240, 255, 0.4);
         }
 
-        .action-button:hover {
-            background: var(--neon-cyan); color: #000;
-            box-shadow: 0 0 20px var(--neon-cyan); transform: translateY(-1px);
+        /* ==========================================================================
+           PHASE 2: THE MAIN HIGH-FIDELITY CORE MATRIX HUD WORKSPACE
+           ========================================================================== */
+        #main-matrix-workspace {
+            width: 100%;
+            height: 100%;
+            padding: 40px;
+            display: flex;
+            gap: 35px;
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            transform: scale(1.02);
+            pointer-events: none;
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .shuffle-action { border-color: var(--neon-magenta); background: rgba(189,0,255,0.08); }
-        .shuffle-action:hover { background: var(--neon-magenta); color: #fff; box-shadow: 0 0 20px var(--neon-magenta); }
-
-        .terminal-display-screen {
-            flex: 1; background: rgba(4, 5, 9, 0.9);
-            border: 1px solid rgba(189,0,255,0.25); border-radius: 14px;
-            padding: 35px; font-size: 18px; line-height: 1.7;
-            box-shadow: inset 0 0 35px rgba(0,0,0,0.95);
-            position: relative; overflow-y: auto;
+        .workspace-sidebar {
+            width: 380px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
         }
 
-        .log-node-row {
-            background: rgba(255,255,255,0.02); border-left: 3px solid var(--neon-cyan);
-            padding: 12px; margin-bottom: 10px; border-radius: 6px;
-            cursor: pointer; font-size: 13px; transition: all 0.2s;
+        .workspace-center-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
         }
 
-        .log-node-row:hover {
-            background: rgba(0, 240, 255, 0.08); transform: translateX(4px);
+        .sidebar-avatar-pod {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
         }
 
-        .input-bar-layout { display: flex; gap: 15px; }
-        .input-bar-layout input { flex: 1; }
+        .clone-canvas-target {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--panel-border);
+        }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
-        ::-webkit-scrollbar-thumb { background: var(--border-neon); border-radius: 3px; }
+        .history-terminal-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .history-terminal-box h3 {
+            font-size: 14px;
+            font-family: var(--font-mono);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--panel-border);
+            padding-bottom: 12px;
+        }
+
+        .log-index-scrollway {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .log-matrix-node {
+            background: rgba(255, 255, 255, 0.01);
+            border-left: 4px solid var(--neon-cyan);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            border-top: 1px solid transparent;
+            border-right: 1px solid transparent;
+            border-bottom: 1px solid transparent;
+            transition: var(--transition-smooth);
+        }
+
+        .log-matrix-node:hover {
+            background: rgba(0, 240, 255, 0.03);
+            border-color: var(--panel-border);
+            transform: translateX(5px);
+        }
+
+        /* CONFIGURATION BAR CONTROLLER ROW */
+        .telemetry-input-row {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .telemetry-input-row input {
+            flex: 1;
+        }
+
+        .shuffle-matrix-btn {
+            background: rgba(189, 0, 255, 0.06);
+            border: 1px solid var(--neon-magenta);
+            color: #fff;
+            padding: 16px 24px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .shuffle-matrix-btn:hover {
+            background: var(--neon-magenta);
+            box-shadow: 0 0 25px rgba(189, 0, 255, 0.4);
+            transform: scale(1.02);
+        }
+
+        .simulate-matrix-btn {
+            background: linear-gradient(135deg, var(--neon-cyan), #0077b6);
+            border: none;
+            color: #fff;
+            padding: 16px 32px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 240, 255, 0.2);
+            transition: var(--transition-smooth);
+        }
+
+        .simulate-matrix-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 240, 255, 0.35);
+        }
+
+        /* PRIMARY VIEW MONITOR FRAME SCREEN */
+        .primary-monitor-viewport {
+            flex: 1;
+            border-radius: 28px;
+            padding: 45px;
+            font-size: 20px;
+            line-height: 1.85;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            background: rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .primary-monitor-viewport::before {
+            content: 'CORE SIMULATOR RESPONSE MONITOR LAYER //';
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            color: var(--text-muted);
+            opacity: 0.4;
+        }
+
+        .hud-header-block h2 {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
     </style>
 </head>
 <body>
 
-    <canvas class="sparkle-canvas" id="sparkleBg"></canvas>
+    <button class="theme-deck-trigger" onclick="switchSystemTheme()">
+        <span>🌓</span> Core Theme Channel
+    </button>
 
-    <div id="gateway-screen">
-        <div class="customizer-frame">
-            <div class="avatar-preview-box">
-                <h3 style="margin-bottom: 20px; color: #fff;">Quantum Identity Manifest</h3>
-                <canvas id="avatarCanvas" width="320" height="320"></canvas>
-                <div style="font-size: 11px; margin-top: 15px; color: rgba(255,255,255,0.4);" id="tracking-lbl">
-                    🟢 Eyes Locked // Tracking Active
+    <canvas class="master-sky-canvas" id="auroraMathEngineCanvas"></canvas>
+
+    <div id="gateway-system-portal">
+        <div class="portal-wrapper">
+            <div class="glass-mainframe preview-column">
+                <canvas id="gatewayAvatarView" width="340" height="340" class="avatar-render-target"></canvas>
+                <div class="avatar-telemetry-overlay">
+                    <div class="telemetry-pulse"></div>
+                    <span id="telemetry-status-string">Ocular Lock // Active</span>
                 </div>
             </div>
 
-            <div class="customizer-controls">
+            <div class="glass-mainframe control-column">
                 <div>
-                    <h2>Character Initialization</h2>
-                    <p style="font-size: 12px; color: rgba(255,255,255,0.5);">Configure your matrix avatar construct prior to entry.</p>
-                    <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin: 20px 0;">
+                    <h2 style="font-size: 28px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px;">Quantum Identity Core</h2>
+                    <p style="color: var(--text-muted); font-size: 14px; line-height: 1.5;">Customize vector matrices and parameters before accessing the simulator.</p>
                     
-                    <div class="control-shelf">
-                        <div class="custom-row">
-                            <label>Identity Handle (Name):</label>
-                            <input type="text" id="avatarNameInput" class="input-text-node" placeholder="Specify identifier tag..." value="Traveler">
+                    <div class="scrolling-parameter-deck">
+                        <div class="parameter-block">
+                            <label>Identity Handle (Username):</label>
+                            <input type="text" id="matrixHandleBox" class="premium-text-input" value="Traveler Explorer" placeholder="Specify moniker...">
                         </div>
 
-                        <div class="custom-row">
-                            <label>Hair Matrix Architecture:</label>
-                            <div class="selector-grid" id="hair-grid">
-                                <div class="option-tile active" data-val="Neon Spikes">Neon Spikes</div>
-                                <div class="option-tile" data-val="Cyber Pigtails">Cyber Pigtails</div>
-                                <div class="option-tile" data-val="Quantum Waves">Quantum Waves</div>
-                                <div class="option-tile" data-val="Retro Buzz">Retro Buzz</div>
+                        <div class="parameter-block">
+                            <label>Hair Geometries Configuration:</label>
+                            <div class="custom-selection-grid" id="hairSelectionGrid">
+                                <div class="custom-selection-tile active" data-val="Neon Spikes">Neon Spikes</div>
+                                <div class="custom-selection-tile" data-val="Cyber Pigtails">Cyber Pigtails</div>
+                                <div class="custom-selection-tile" data-val="Quantum Waves">Quantum Waves</div>
+                                <div class="custom-selection-tile" data-val="Zero-G Cascade">Zero-G Cascade</div>
                             </div>
                         </div>
 
-                        <div class="custom-row">
-                            <label>Apparel Armor Configuration:</label>
-                            <div class="selector-grid" id="apparel-grid">
-                                <div class="option-tile active" data-val="Exo-Suit">Exo-Suit</div>
-                                <div class="option-tile" data-val="Tech-Hoodie">Tech-Hoodie</div>
-                                <div class="option-tile" data-val="Bio-Cloak">Bio-Cloak</div>
-                                <div class="option-tile" data-val="Space Armor">Space Armor</div>
-                            </div>
-                        </div>
-
-                        <div class="custom-row">
-                            <label>Ocular Hologram Color:</label>
-                            <div class="selector-grid" id="eye-grid">
-                                <div class="option-tile active" data-val="#00f0ff">Cyan Glow</div>
-                                <div class="option-tile" data-val="#bd00ff">Magenta Arc</div>
-                                <div class="option-tile" data-val="#39ff14">Bio Matrix</div>
+                        <div class="parameter-block">
+                            <label>Ocular Emission Spectrum Color:</label>
+                            <div class="custom-selection-grid" id="eyeSelectionGrid">
+                                <div class="custom-selection-tile active" data-val="#00f0ff">Cyan Photon</div>
+                                <div class="custom-selection-tile" data-val="#bd00ff">Magenta Arc</div>
+                                <div class="custom-selection-tile" data-val="#39ff14">Bio Matrix</div>
+                                <div class="custom-selection-tile" data-val="#fca311">Amber Core</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <button class="action-button" style="width:100%;" onclick="executeSystemBoot()">Enter Simulation Core</button>
+                <button class="master-submit-btn" onclick="initializeSystemPhaseShift()">Initialize Matrix System</button>
             </div>
         </div>
     </div>
 
-    <div id="main-application-frame">
-        <div class="sidebar-panel">
-            <div class="cyber-panel pulse-status">
-                <div class="green-beacon"></div>
-                <div id="active-user-hud-title">SYSTEM ONLINE</div>
+    <div id="main-matrix-workspace">
+        <div class="workspace-sidebar">
+            <div class="glass-mainframe sidebar-avatar-pod">
+                <canvas id="sidebarAvatarViewClone" width="180" height="180" class="clone-canvas-target"></canvas>
             </div>
-
-            <div class="cyber-panel" style="display:flex; justify-content:center; padding:15px;">
-                <canvas id="sidebarAvatarView" width="160" height="160" style="width:160px; height:160px; border-radius:50%; background:rgba(0,0,0,0.3); border:1px solid var(--border-neon);"></canvas>
-            </div>
-
-            <div class="cyber-panel" style="flex:1; display:flex; flex-direction:column; min-height:200px;">
-                <h3 style="font-size:14px;">Temporal Matrix Logs</h3>
-                <div style="flex:1; overflow-y:auto;" id="log-history-stack"></div>
+            
+            <div class="glass-mainframe history-terminal-box">
+                <h3>Temporal Logs Cache</h3>
+                <div class="log-index-scrollway" id="log-history-viewport-stack">
+                    </div>
             </div>
         </div>
 
-        <div class="center-matrix-panel">
-            <div class="cyber-panel">
-                <h1 style="margin:0; font-size:28px; letter-spacing:4px; text-shadow: var(--text-glow);">WHAT IF ENGINE 3.0</h1>
+        <div class="workspace-center-panel">
+            <div class="glass-mainframe hud-header-block" style="padding: 20px 40px;">
+                <h2 id="hud-title-handle">System Live // Explorer Active</h2>
             </div>
 
-            <div class="cyber-panel input-bar-layout">
-                <button class="action-button shuffle-action" id="shuffle-trigger-btn" onclick="triggerOmniAIShuffle()">🎲 AI Shuffle</button>
-                <input type="text" id="simulation-prompt-box" class="input-text-node" placeholder="Inject cross-reality prompt vector here...">
-                <button class="action-button" onclick="fireSimulationVector()">Simulate Vector</button>
+            <div class="glass-mainframe telemetry-input-row" style="padding: 20px 30px;">
+                <button class="shuffle-matrix-btn" id="shufflerBtn" onclick="triggerOmniAIShuffle()">🎲 AI Shuffle</button>
+                <input type="text" id="telemetryPromptBox" class="premium-text-input" placeholder="Inject cross-reality prompt vector configuration parameter here...">
+                <button class="simulate-matrix-btn" onclick="executeRealitySimulation()">Simulate</button>
             </div>
 
-            <div class="terminal-display-screen" id="output-monitor-screen">
-                >> Awaiting target variable configuration. Input a concept prompt inside the telemetry field above...
+            <div class="glass-mainframe primary-monitor-viewport" id="primary-monitor-text-target">
+                >> Telemetry engine loaded successfully. Enter or shuffle an omni-universe query vector inside the control bar deck module interface row above...
             </div>
         </div>
     </div>
 
     <script>
-        // System Config and State Variables Cache
-        let activeProfile = { username: "Traveler", hairStyle: "Neon Spikes", apparelStyle: "Exo-Suit", eyeColor: "#00f0ff" };
-        let historyCollection = [];
-        let mouseX = 0, mouseY = 0;
-        let blinkCycle = 0;
+        // System State Data Registries
+        let systemProfile = { username: "Explorer", hairStyle: "Neon Spikes", eyeColor: "#00f0ff" };
+        let operationalHistoryCache = [];
+        let mouseCoordinateX = 0, mouseCoordinateY = 0;
+        let continuousTimeTicker = 0;
 
-        // Track global system mouse motion parameters across screens
-        window.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
+        // Trace and frame mouse coordinate mappings continuously
+        window.addEventListener('mousemove', (event) => {
+            mouseCoordinateX = event.clientX;
+            mouseCoordinateY = event.clientY;
         });
 
-        // 🎨 CORE 2D AVATAR DRAWING ENGINE (Handles dynamic turns, eyes locking, blinking animations)
-        function renderAvatarFrame(canvasId, scaleFactor = 1) {
-            const canvas = document.getElementById(canvasId);
+        // 🌗 CORE THEME CONSOLE TOGGLE PIPELINE MANAGER
+        function switchSystemTheme() {
+            const documentTag = document.documentElement;
+            const contextTheme = documentTag.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            documentTag.setAttribute('data-theme', contextTheme);
+        }
+
+        // 🛠️ SYSTEM GRID INTERACTION BINDERS LAYOUT ENGINE
+        function wireSelectionGridTriggers(domContainerId, profileFieldKey) {
+            const elements = document.querySelectorAll(`#${domContainerId} .custom-selection-tile`);
+            elements.forEach(tile => {
+                tile.addEventListener('click', function() {
+                    document.querySelector(`#${domContainerId} .custom-selection-tile.active`).classList.remove('active');
+                    this.classList.add('active');
+                    systemProfile[profileFieldKey] = this.getAttribute('data-val');
+                });
+            });
+        }
+        wireSelectionGridTriggers('hairSelectionGrid', 'hairStyle');
+        wireSelectionGridTriggers('eyeSelectionGrid', 'eyeColor');
+
+        // 🎨 MATHEMATICAL AVATAR ENGINE MATRIX (Trigonometric tracking, active blinking loops, custom paths)
+        function renderKinematicAvatar(canvasElementId, scaleMultiplier = 1) {
+            const canvas = document.getElementById(canvasElementId);
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
             const w = canvas.width;
@@ -332,276 +601,272 @@
             
             ctx.clearRect(0, 0, w, h);
 
-            // Calculate directional delta offsets based on relative mouse positions
-            const rect = canvas.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            const dx = (mouseX - centerX) / window.innerWidth;
-            const dy = (mouseY - centerY) / window.innerHeight;
+            // Compute delta offsets to isolate bounding vectors relative to global screen space coordinates
+            const boxRect = canvas.getBoundingClientRect();
+            const headSpaceCenterX = boxRect.left + boxRect.width / 2;
+            const headSpaceCenterY = boxRect.top + boxRect.height / 2;
+            
+            const linearDeltaX = (mouseCoordinateX - headSpaceCenterX) / window.innerWidth;
+            const linearDeltaY = (mouseCoordinateY - headSpaceCenterY) / window.innerHeight;
 
-            // Apply slight rotational and directional lean shifts to simulate look movements
-            const lookX = dx * 22 * scaleFactor;
-            const lookY = dy * 15 * scaleFactor;
+            // Generate dampening coefficients for natural head turns
+            const lookVectorX = linearDeltaX * 24 * scaleMultiplier;
+            const lookVectorY = linearDeltaY * 18 * scaleMultiplier;
 
             ctx.save();
-            ctx.translate(w/2, h/2);
+            ctx.translate(w / 2, h / 2);
 
-            // 1. Draw Base Head Structure Frame
-            ctx.fillStyle = "#161b33";
-            ctx.strokeStyle = varColor('--neon-cyan');
-            ctx.lineWidth = 3 * scaleFactor;
+            // Layer 1: Draw Neck Base Element
+            ctx.fillStyle = document.documentElement.getAttribute('data-theme') === 'light' ? '#cbd5e1' : '#0f172a';
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
             ctx.beginPath();
-            ctx.arc(0 + lookX * 0.4, 10 + lookY * 0.4, 55 * scaleFactor, 0, Math.PI * 2);
+            ctx.moveTo(-15 * scaleMultiplier + lookVectorX * 0.2, 50 * scaleMultiplier);
+            ctx.lineTo(-15 * scaleMultiplier + lookVectorX * 0.2, 90 * scaleMultiplier);
+            ctx.lineTo(15 * scaleMultiplier + lookVectorX * 0.2, 90 * scaleMultiplier);
+            ctx.lineTo(15 * scaleMultiplier + lookVectorX * 0.2, 50 * scaleMultiplier);
+            ctx.fill();
+
+            // Layer 2: Head Face Container Sphere
+            ctx.fillStyle = document.documentElement.getAttribute('data-theme') === 'light' ? '#ffffff' : '#1e293b';
+            ctx.strokeStyle = systemProfile.eyeColor;
+            ctx.lineWidth = 3.5 * scaleMultiplier;
+            ctx.beginPath();
+            ctx.arc(0 + lookVectorX * 0.5, 10 + lookVectorY * 0.5, 60 * scaleMultiplier, 0, Math.PI * 2);
             ctx.fill();
             ctx.stroke();
 
-            // 2. Draw Eye Outlines and Pupils with active blinking loops
-            blinkCycle += 0.015;
-            let isBlinking = (Math.sin(blinkCycle * 2.5) > 0.93);
+            // Layer 3: Ocular Matrix Systems (Active blinking loop algorithm logic)
+            let isCurrentlyBlinking = (Math.sin(continuousTimeTicker * 3.5) > 0.95);
+            ctx.fillStyle = systemProfile.eyeColor;
+            const eyeSpacingDelta = 24 * scaleMultiplier;
+            const verticalEyeLevelY = 4 + lookVectorY * 0.9;
 
-            ctx.fillStyle = activeProfile.eyeColor;
-            const eyeSpacing = 22 * scaleFactor;
-            const eyeElevation = 0 + lookY * 0.8;
-
-            // Left & Right Eye Positions
-            [-1, 1].forEach(dir => {
-                const currentEyeX = (dir * eyeSpacing) + lookX * 0.9;
-                if (isBlinking) {
-                    // Closed Eye line slot
-                    ctx.strokeStyle = activeProfile.eyeColor;
-                    ctx.lineWidth = 4 * scaleFactor;
+            [-1, 1].forEach(directionSign => {
+                const preciseEyeCenterX = (directionSign * eyeSpacingDelta) + lookVectorX * 0.95;
+                
+                if (isCurrentlyBlinking) {
+                    ctx.strokeStyle = systemProfile.eyeColor;
+                    ctx.lineWidth = 4 * scaleMultiplier;
                     ctx.beginPath();
-                    ctx.moveTo(currentEyeX - 8*scaleFactor, eyeElevation);
-                    ctx.lineTo(currentEyeX + 8*scaleFactor, eyeElevation);
+                    ctx.moveTo(preciseEyeCenterX - 8 * scaleMultiplier, verticalEyeLevelY);
+                    ctx.lineTo(preciseEyeCenterX + 8 * scaleMultiplier, verticalEyeLevelY);
                     ctx.stroke();
                 } else {
-                    // Open glowing eyeball dot
                     ctx.beginPath();
-                    ctx.arc(currentEyeX, eyeElevation, 7 * scaleFactor, 0, Math.PI * 2);
+                    ctx.arc(preciseEyeCenterX, verticalEyeLevelY, 7.5 * scaleMultiplier, 0, Math.PI * 2);
                     ctx.fill();
-                    // Catch reflection particle dot
-                    ctx.fillStyle = "#fff";
+                    // Catch reflection particle accents
+                    ctx.fillStyle = "#ffffff";
                     ctx.beginPath();
-                    ctx.arc(currentEyeX + 2*scaleFactor, eyeElevation - 2*scaleFactor, 2 * scaleFactor, 0, Math.PI * 2);
+                    ctx.arc(preciseEyeCenterX + 2.5 * scaleMultiplier, verticalEyeLevelY - 2.5 * scaleMultiplier, 2 * scaleMultiplier, 0, Math.PI * 2);
                     ctx.fill();
-                    ctx.fillStyle = activeProfile.eyeColor;
+                    ctx.fillStyle = systemProfile.eyeColor;
                 }
             });
 
-            // 3. Draw Selected Hair Variant Overlays (Scale and adapt layout shapes dynamically)
-            ctx.fillStyle = "#bd00ff"; // Secondary signature cyberpunk hair coloring tint
-            if (activeProfile.hairStyle === "Neon Spikes") {
+            // Layer 4: Hair Configurations Vector Sets
+            ctx.fillStyle = document.documentElement.getAttribute('data-theme') === 'light' ? '#475569' : '#f8fafc';
+            if (systemProfile.hairStyle === "Neon Spikes") {
                 ctx.beginPath();
-                ctx.moveTo(-60*scaleFactor + lookX, -30*scaleFactor + lookY);
-                ctx.lineTo(-40*scaleFactor + lookX, -75*scaleFactor + lookY);
-                ctx.lineTo(-10*scaleFactor + lookX, -50*scaleFactor + lookY);
-                ctx.lineTo(0*scaleFactor + lookX, -85*scaleFactor + lookY);
-                ctx.lineTo(25*scaleFactor + lookX, -45*scaleFactor + lookY);
-                ctx.lineTo(50*scaleFactor + lookX, -70*scaleFactor + lookY);
-                ctx.lineTo(60*scaleFactor + lookX, -25*scaleFactor + lookY);
+                ctx.moveTo(-60 * scaleMultiplier + lookVectorX, -25 * scaleMultiplier + lookVectorY);
+                ctx.lineTo(-45 * scaleMultiplier + lookVectorX, -75 * scaleMultiplier + lookVectorY);
+                ctx.lineTo(-15 * scaleMultiplier + lookVectorX, -50 * scaleMultiplier + lookVectorY);
+                ctx.lineTo(0 * scaleMultiplier + lookVectorX, -90 * scaleMultiplier + lookVectorY);
+                ctx.lineTo(20 * scaleMultiplier + lookVectorX, -55 * scaleMultiplier + lookVectorY);
+                ctx.lineTo(45 * scaleMultiplier + lookVectorX, -75 * scaleMultiplier + lookVectorY);
+                ctx.lineTo(60 * scaleMultiplier + lookVectorX, -20 * scaleMultiplier + lookVectorY);
                 ctx.closePath();
                 ctx.fill();
-            } else if (activeProfile.hairStyle === "Cyber Pigtails") {
-                ctx.beginPath(); // Left bundle tail
-                ctx.arc(-55*scaleFactor + lookX, -35*scaleFactor + lookY, 20*scaleFactor, 0, Math.PI*2);
-                // Right bundle tail
-                ctx.arc(55*scaleFactor + lookX, -35*scaleFactor + lookY, 20*scaleFactor, 0, Math.PI*2);
+            } else if (systemProfile.hairStyle === "Cyber Pigtails") {
+                ctx.beginPath();
+                ctx.arc(-55 * scaleMultiplier + lookVectorX, -30 * scaleMultiplier + lookVectorY, 22 * scaleMultiplier, 0, Math.PI * 2);
+                ctx.arc(55 * scaleMultiplier + lookVectorX, -30 * scaleMultiplier + lookVectorY, 22 * scaleMultiplier, 0, Math.PI * 2);
+                ctx.fill();
+            } else if (systemProfile.hairStyle === "Quantum Waves") {
+                ctx.beginPath();
+                ctx.arc(0 + lookVectorX, -25 * scaleMultiplier + lookVectorY, 52 * scaleMultiplier, Math.PI, 0);
                 ctx.fill();
             } else {
-                // Flowing round visor helmet/waves layout cap style
+                // Zero-G Cascade long pathing array logic styles
                 ctx.beginPath();
-                ctx.arc(0 + lookX, -20*scaleFactor + lookY, 50*scaleFactor, Math.PI, 0);
+                ctx.moveTo(-50 * scaleMultiplier + lookVectorX, -20 * scaleMultiplier + lookVectorY);
+                ctx.bezierCurveTo(-90 * scaleMultiplier + lookVectorX, 20 * scaleMultiplier + lookVectorY, -70 * scaleMultiplier + lookVectorX, 100 * scaleMultiplier + lookVectorY, -50 * scaleMultiplier + lookVectorX, 120 * scaleMultiplier);
+                ctx.lineTo(50 * scaleMultiplier + lookVectorX, 120 * scaleMultiplier);
+                ctx.bezierCurveTo(70 * scaleMultiplier + lookVectorX, 100 * scaleMultiplier + lookVectorY, 90 * scaleMultiplier + lookVectorX, 20 * scaleMultiplier + lookVectorY, 50 * scaleMultiplier + lookVectorX, -20 * scaleMultiplier + lookVectorY);
+                ctx.closePath();
                 ctx.fill();
             }
 
-            // 4. Draw Selected Outer Suit Base Layer Structure
-            ctx.fillStyle = "#0c0d14";
-            ctx.strokeStyle = "#bd00ff";
-            ctx.lineWidth = 2 * scaleFactor;
+            // Layer 5: Base Torso Attire
+            ctx.fillStyle = document.documentElement.getAttribute('data-theme') === 'light' ? '#cbd5e1' : '#0f172a';
+            ctx.strokeStyle = systemProfile.eyeColor;
+            ctx.lineWidth = 1.5 * scaleMultiplier;
             ctx.beginPath();
-            ctx.moveTo(-45 * scaleFactor, 65 * scaleFactor);
-            ctx.lineTo(-80 * scaleFactor, 140 * scaleFactor);
-            ctx.lineTo(80 * scaleFactor, 140 * scaleFactor);
-            ctx.lineTo(45 * scaleFactor, 65 * scaleFactor);
+            ctx.moveTo(-40 * scaleMultiplier, 85 * scaleMultiplier);
+            ctx.lineTo(-90 * scaleMultiplier, 170 * scaleMultiplier);
+            ctx.lineTo(90 * scaleMultiplier, 170 * scaleMultiplier);
+            ctx.lineTo(40 * scaleMultiplier, 85 * scaleMultiplier);
             ctx.closePath();
             ctx.fill();
-            ctx.stroke();
-
-            // Accent collar details
-            ctx.strokeStyle = varColor('--neon-cyan');
-            ctx.beginPath();
-            ctx.moveTo(-20*scaleFactor, 66*scaleFactor);
-            ctx.lineTo(0, 90*scaleFactor);
-            ctx.lineTo(20*scaleFactor, 66*scaleFactor);
             ctx.stroke();
 
             ctx.restore();
         }
 
-        function varColor(name) {
-            return name === '--neon-cyan' ? '#00f0ff' : '#bd00ff';
+        // Global Graphical Frame Orchestrator Loop (60FPS Metrics Core Clock)
+        function masterApplicationAnimationLoop() {
+            continuousTimeTicker += 0.012;
+            renderKinematicAvatar('gatewayAvatarView', 1);
+            renderKinematicAvatar('sidebarAvatarViewClone', 0.52);
+            requestAnimationFrame(masterApplicationAnimationLoop);
         }
+        requestAnimationFrame(masterApplicationAnimationLoop);
 
-        // Setup Selection Grid Button Interaction Hooks
-        function setupGridListeners(containerId, stateProp) {
-            const tiles = document.querySelectorAll(`#${containerId} .option-tile`);
-            tiles.forEach(tile => {
-                tile.addEventListener('click', function() {
-                    document.querySelector(`#${containerId} .option-tile.active`).classList.remove('active');
-                    this.classList.add('active');
-                    activeProfile[stateProp] = this.getAttribute('data-val');
-                });
-            });
-        }
+        // Transition logic from customization landing deck over to primary execution workspace
+        function initializeSystemPhaseShift() {
+            const parsedName = document.getElementById('matrixHandleBox').value.trim();
+            if (parsedName) systemProfile.username = parsedName;
 
-        setupGridListeners('hair-grid', 'hairStyle');
-        setupGridListeners('apparel-grid', 'apparelStyle');
-        setupGridListeners('eye-grid', 'eyeColor');
+            document.getElementById('hud-title-handle').innerText = `System Live // Identity Construct: ${systemProfile.username}`;
 
-        // Master Frame Loop Updater Routine at solid 60FPS refresh metrics
-        function runMainGraphicsRefreshLoop() {
-            renderAvatarFrame('avatarCanvas', 1);
-            renderAvatarFrame('sidebarAvatarView', 0.5);
-            requestAnimationFrame(runMainGraphicsRefreshLoop);
-        }
-        requestAnimationFrame(runMainGraphicsRefreshLoop);
-
-        // Transition from Gateway setup panel screen into main workspace engine
-        function executeSystemBoot() {
-            const inputName = document.getElementById('avatarNameInput').value.trim();
-            if (inputName) activeProfile.username = inputName;
-
-            // Trigger sleek interface transition animations
-            document.getElementById('gateway-screen').style.opacity = '0';
+            const gateScreen = document.getElementById('gateway-system-portal');
+            gateScreen.style.opacity = '0';
+            gateScreen.style.transform = 'scale(0.96)';
+            
             setTimeout(() => {
-                document.getElementById('gateway-screen').style.display = 'none';
-                const mainFrame = document.getElementById('main-application-frame');
-                mainFrame.style.opacity = '1';
-                mainFrame.style.pointerEvents = 'auto';
+                gateScreen.style.display = 'none';
+                const mainAppWorkspace = document.getElementById('main-matrix-workspace');
+                mainAppWorkspace.style.opacity = '1';
+                mainAppWorkspace.style.pointerEvents = 'auto';
+                mainAppWorkspace.style.transform = 'scale(1)';
             }, 800);
-
-            document.getElementById('active-user-hud-title').innerText = `${activeProfile.username} - COMPATIBLE`;
         }
 
-        // 🎲 AI DYNAMIC SHUFFLE FUNCTION
+        // 🎲 ASYNC UNRESTRICTED AI SHUFFLE ENGINE
         async function triggerOmniAIShuffle() {
-            const btn = document.getElementById('shuffle-trigger-btn');
-            const box = document.getElementById('simulation-prompt-box');
+            const btn = document.getElementById('shufflerBtn');
+            const promptInput = document.getElementById('telemetryPromptBox');
             
             btn.innerText = "🌀 Thinking...";
             btn.disabled = true;
 
             try {
-                const res = await fetch('/api/shuffle');
-                const parsed = await res.json();
-                if (parsed.question) box.value = parsed.question;
-            } catch (err) {
-                box.value = "What if gravity vanished for ten seconds?";
+                const networkResponse = await fetch('/api/shuffle');
+                const parsedObject = await networkResponse.json();
+                if (parsedObject.question) {
+                    promptInput.value = parsedObject.question;
+                }
+            } catch (error) {
+                console.error("Shuffle processing link matrix broken:", error);
+                promptInput.value = "What if gravity dropped to zero for ten seconds?";
             } finally {
                 btn.innerText = "🎲 AI Shuffle";
                 btn.disabled = false;
             }
         }
 
-        // FIRE MAIN SIMULATION PROCESSOR API REQUEST ROUTE CALLS
-        async function fireSimulationVector() {
-            const query = document.getElementById('simulation-prompt-box').value.trim();
-            const monitor = document.getElementById('output-monitor-screen');
+        // FIRE COMPILATION ROUTE API CONNECTORS
+        async function executeRealitySimulation() {
+            const activeVectorPrompt = document.getElementById('telemetryPromptBox').value.trim();
+            const outputWindowMonitor = document.getElementById('primary-monitor-text-target');
 
-            if (!query) return alert("Input a target prompt vector hypothesis parameter branch first.");
+            if (!activeVectorPrompt) return alert("Specify or shuffle an input prompt configuration variable vector parameter branch node first.");
 
-            monitor.innerText = ">> CRITICAL MASS REACHED. INITIATING DATA INTERPOLATION CLUSTER ENGINES...\n>> PARSING FACTUAL LAWS OF PLANETARY METRICS FOR YOUTH AGENT INTERFACE FORMATS...";
+            outputWindowMonitor.innerText = ">> CONNECTING TO CLUSTER ENGINES...\n>> PARSING HARD PHYSICAL SCIENCES LOGIC MATRICES... INJECTING KID-FRIENDLY TRANSLATION NODES...";
 
             try {
-                const res = await fetch('/api/simulate', {
+                const response = await fetch('/api/simulate', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt: query, profile: activeProfile })
+                    body: JSON.stringify({ prompt: activeVectorPrompt, profile: systemProfile })
                 });
 
-                const data = await res.json();
-                const textOutput = data.simulationResult;
+                const dataPayload = await response.json();
+                const cleanResultText = dataPayload.simulationResult;
 
-                monitor.innerText = textOutput;
+                outputWindowMonitor.innerText = cleanResultText;
 
-                // Push onto cache logging arrays safely
-                const historyObject = { title: `Query: ${query}`, dataBody: textOutput };
-                historyCollection.push(historyObject);
-                refreshHistorySidebarDOM();
+                // Lock tracking record metrics into temporal log cache decks
+                const cacheElement = { summaryHeader: `Vector: ${activeVectorPrompt}`, exactPayload: cleanResultText };
+                operationalHistoryCache.push(cacheElement);
+                rebuildHistoricalLogsDOM();
 
-            } catch(e) {
-                monitor.innerText = `>> API COMPILATION FAULT DETECTED: ${e.message}`;
+            } catch (err) {
+                outputWindowMonitor.innerText = `>> SYSTEM ERROR // DATA TIMELINE GENERATION FAULT DETECTED: ${err.message}`;
             }
         }
 
-        function refreshHistorySidebarDOM() {
-            const container = document.getElementById('log-history-stack');
-            container.innerHTML = "";
+        function rebuildHistoricalLogsDOM() {
+            const targetStack = document.getElementById('log-history-viewport-stack');
+            targetStack.innerHTML = "";
 
-            historyCollection.forEach((node) => {
-                const row = document.createElement('div');
-                row.className = 'log-node-row';
-                row.innerText = node.title;
-
-                row.onclick = function() {
-                    document.getElementById('output-monitor-screen').innerText = node.dataBody;
+            operationalHistoryCache.forEach(nodeItem => {
+                const logCard = document.createElement('div');
+                logCard.className = 'log-matrix-node';
+                logCard.innerText = nodeItem.summaryHeader;
+                
+                logCard.onclick = function() {
+                    document.getElementById('primary-monitor-text-target').innerText = nodeItem.exactPayload;
                 };
 
-                container.appendChild(row);
+                targetStack.appendChild(logCard);
             });
         }
 
-        // 🎇 Background Particles Retina Canvas Animation matrix setup loop
-        const bgCanvas = document.getElementById('sparkleBg');
-        const bgCtx = bgCanvas.getContext('2d');
-        let sparksArray = [];
-
-        function resizeSparkleCanvas() {
-            bgCanvas.width = window.innerWidth;
-            bgCanvas.height = window.innerHeight;
+        // 🌌 REAL-TIME WAVE EQUATION AURORA CANVASES COMPILATION SYSTEMS
+        const skyCanvas = document.getElementById('auroraMathEngineCanvas');
+        const skyCtx = skyCanvas.getContext('2d');
+        
+        function scaleSkyCanvasMetrics() {
+            skyCanvas.width = window.innerWidth;
+            skyCanvas.height = window.innerHeight;
         }
-        window.addEventListener('resize', resizeSparkleCanvas);
-        resizeSparkleCanvas();
+        window.addEventListener('resize', scaleSkyCanvasMetrics);
+        scaleSkyCanvasMetrics();
 
-        class SparkParticle {
-            constructor() {
-                this.x = Math.random() * bgCanvas.width;
-                this.y = Math.random() * bgCanvas.height;
-                this.size = Math.random() * 2 + 1;
-                this.speedX = Math.random() * 0.4 - 0.2;
-                this.speedY = Math.random() * 0.4 - 0.2;
-                this.alpha = Math.random() * 0.5 + 0.2;
+        // High Performance Sine/Cosine Composite Atmospheric Aurora Loop
+        function executeAuroraAtmosphereRefreshEngine() {
+            const w = skyCanvas.width;
+            const h = skyCanvas.height;
+            skyCtx.clearRect(0, 0, w, h);
+
+            let activeSystemTheme = document.documentElement.getAttribute('data-theme');
+            skyCtx.save();
+            
+            // Map color compositions dynamically based on theme registers
+            let primaryWaveGlow = activeSystemTheme === 'light' ? 'rgba(0, 119, 182, 0.08)' : 'rgba(0, 240, 255, 0.12)';
+            let secondaryWaveGlow = activeSystemTheme === 'light' ? 'rgba(157, 0, 224, 0.06)' : 'rgba(189, 0, 255, 0.09)';
+
+            // Wave Function A (Sine Matrix Modulation Loop)
+            skyCtx.fillStyle = primaryWaveGlow;
+            skyCtx.beginPath();
+            skyCtx.moveTo(0, h);
+            for (let horizontalX = 0; horizontalX <= w; horizontalX += 15) {
+                let dynamicSineHeightY = Math.sin(horizontalX * 0.003 + continuousTimeTicker * 0.4) * 90 + Math.cos(horizontalX * 0.001 + continuousTimeTicker * 0.2) * 40 + (h * 0.25);
+                skyCtx.lineTo(horizontalX, dynamicSineHeightY);
             }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x < 0 || this.x > bgCanvas.width) this.speedX *= -1;
-                if (this.y < 0 || this.y > bgCanvas.height) this.speedY *= -1;
-            }
-            draw() {
-                bgCtx.save();
-                bgCtx.globalAlpha = this.alpha;
-                bgCtx.fillStyle = '#00f0ff';
-                bgCtx.beginPath();
-                bgCtx.arc(this.x, this.y, this.size, 0, Math.PI*2);
-                bgCtx.fill();
-                bgCtx.restore();
-            }
-        }
+            skyCtx.lineTo(w, h);
+            skyCtx.closePath();
+            skyCtx.filter = 'blur(90px)';
+            skyCtx.fill();
 
-        for (let i = 0; i < 65; i++) {
-            sparksArray.push(new SparkParticle());
-        }
+            // Wave Function B (Cosine Multi-Frequency Interference Array Layer)
+            skyCtx.fillStyle = secondaryWaveGlow;
+            skyCtx.beginPath();
+            skyCtx.moveTo(0, h);
+            for (let horizontalX = 0; horizontalX <= w; horizontalX += 15) {
+                let dynamicCosineHeightY = Math.cos(horizontalX * 0.002 + continuousTimeTicker * 0.3) * 110 + Math.sin(horizontalX * 0.004 + continuousTimeTicker * 0.5) * 50 + (h * 0.35);
+                skyCtx.lineTo(horizontalX, dynamicCosineHeightY);
+            }
+            skyCtx.lineTo(w, h);
+            skyCtx.closePath();
+            skyCtx.filter = 'blur(100px)';
+            skyCtx.fill();
 
-        function animateSparksLoop() {
-            bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
-            sparksArray.forEach(spark => {
-                spark.update();
-                spark.draw();
-            });
-            requestAnimationFrame(animateSparksLoop);
+            skyCtx.restore();
+            requestAnimationFrame(executeAuroraAtmosphereRefreshEngine);
         }
-        animateSparksLoop();
+        requestAnimationFrame(executeAuroraAtmosphereRefreshEngine);
     </script>
 </body>
 </html>
